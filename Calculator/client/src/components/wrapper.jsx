@@ -16,7 +16,7 @@ class Wrapper extends Component {
       this.reset();
     } else {
       this.setState({
-        result: this.state.disp + button
+        disp: this.state.disp + button
       });
     }
   };
