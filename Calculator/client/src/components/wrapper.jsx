@@ -4,6 +4,8 @@ import Title from "./title";
 import Display from "./display";
 import Buttons from "./buttons";
 
+import axios from "axios";
+
 class Wrapper extends Component {
   state = {
     disp: ""
@@ -23,13 +25,25 @@ class Wrapper extends Component {
 
   calculate = () => {
     try {
-      this.setState({
-        // eslint-disable-next-line
-        disp: (eval(this.state.disp) || "") + ""
-      });
+      let expr = this.state.disp;
+      return axios
+        .post("http://localhost:3001/calculate", { expr })
+        .then(response => {
+          if (response.status === 200) {
+            this.setState({
+              // eslint-disable-next-line
+              disp: response.data
+            });
+          } else {
+            return "ERROR";
+          }
+        })
+        .catch(error => {
+          return "ERROR";
+        });
     } catch (e) {
       this.setState({
-        disp: "error"
+        disp: "Error in React"
       });
     }
   };
