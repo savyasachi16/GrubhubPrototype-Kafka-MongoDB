@@ -44,11 +44,11 @@ class Login extends Component {
                       <input
                         type="checkbox"
                         className="custom-control-input"
-                        id="customCheck1"
+                        id="checkRemember"
                       />
                       <label
                         className="custom-control-label"
-                        htmlFor="customCheck1"
+                        htmlFor="checkRemember"
                       >
                         Keep me signed in
                       </label>
