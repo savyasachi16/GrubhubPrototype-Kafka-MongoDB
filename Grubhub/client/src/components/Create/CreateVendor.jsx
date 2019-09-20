@@ -13,7 +13,7 @@ class CreateVendor extends Component {
           <div className="row">
             <div className="col-sm-9 col-md-7 col-lg-5 mx-auto">
               <div className="card card-signin my-5">
-                <div className="card-body">
+                <div className="card-body bg-light">
                   <h5 className="card-title text-center">
                     <b>Create your vendor account</b>
                   </h5>
