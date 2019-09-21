@@ -1,7 +1,5 @@
-import jwtSecret from './jwtConfig/';
+import jwtSecret from './jwtConfig';
 import bcrypt from 'bcrypt';
-
-const BCRYPT_SALT_ROUNDS = 12;
 
 const passport = require('passport'),
     localStrategy = require('passport-local').Strategy,
@@ -9,19 +7,22 @@ const passport = require('passport'),
     JWTstrategy = require('passport-jwt').Strategy,
     ExtractJWT = require('passport-jwt').ExtractJwt;
 
+const BCRYPT_SALT_ROUNDS = 10;
+
+
 passport.use('register', new localStrategy({
         usernameField: 'email',
         passwordField: 'password',
         session: false,
     },
-    (email, password, done) => {
+    (username, password, done) => {
         try {
             User.findOne({
                 where: {
-                    email: email,
+                    email: username,
                 },
-            }).then(email => {
-                if (email !== null) {
+            }).then(user => {
+                if (user !== null) {
                     console.log('Email already registered!');
                     return done(null, false, {
                         message: 'Email already registered!'
@@ -29,9 +30,9 @@ passport.use('register', new localStrategy({
                 } else {
                     bcrypt.hash(password, BCRYPT_SALT_ROUNDS).then(hashedPassword => {
                         User.create({
-                            email,
+                            email: username,
                             password: hashedPassword
-                        }).then(email => {
+                        }).then(user => {
                             console.log('User created.');
                             return done(null, email);
                         });
@@ -44,25 +45,25 @@ passport.use('register', new localStrategy({
     },
 ), );
 
-password.use('login', new localStrategy({
+passport.use('login', new localStrategy({
         usernameField: 'email',
         passwordField: 'password',
         session: false,
     },
-    (email, password, done) => {
+    (username, password, done) => {
         try {
             User.findOne({
                 where: {
-                    email: email,
+                    email: username,
                 },
-            }).then(email => {
-                if (email === null) {
+            }).then(user => {
+                if (!user) {
                     return done(null, false, {
                         message: 'bad email'
                     });
                 } else {
-                    bcrypt.compare(password, email.password).then(response => {
-                        if (response === true) {
+                    bcrypt.compare(password, user.password).then(response => {
+                        if (!response) {
                             console.log('passwords do not match');
                             return done(null, false, {
                                 message: 'passwords do not match'
@@ -90,12 +91,12 @@ passport.use(
         try {
             User.findOne({
                 where: {
-                    email: jwt_payload.id,
+                    id: jwt_payload.id,
                 },
-            }).then(email => {
-                if (email) {
+            }).then(user => {
+                if (user) {
                     console.log('user found in db in passport');
-                    done(null, email);
+                    done(null, user);
                 } else {
                     console.log('email not found in db');
                     done(null, false);

@@ -16,6 +16,7 @@ module.exports = app => {
                         first_name: req.body.firstName,
                         last_name: req.body.lastName,
                         email: req.body.email,
+                        account_type: req.body.accountType,
                     };
                     User.findOne({
                         where: {
@@ -26,6 +27,8 @@ module.exports = app => {
                             first_name: data.firstName,
                             last_name: data.lastName,
                             email: data.email,
+                            account_type: req.body.accountType,
+
                         }).then(() => {
                             console.log('User created in DB');
                             res.status(200).send({
