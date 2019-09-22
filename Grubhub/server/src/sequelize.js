@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize';
-import UserModel from './models/user';
+import UserModel from '../models/user';
 //import RestaurantModel from ...
 
 const sequelize = new Sequelize('grubhubDB', 'root', 'root1234', {

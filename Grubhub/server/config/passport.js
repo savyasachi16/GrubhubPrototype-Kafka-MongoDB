@@ -78,24 +78,24 @@ passport.use("login", new localStrategy({
 }));
 
 const options = {
-    jwtFormRequest: ExtractJWT.fromAuthHeaderWithScheme('JWT'),
+    jwtFromRequest: ExtractJWT.fromAuthHeaderWithScheme('JWT'),
     secretOrKey: jwtSecret.secret
 };
 
-passport.use('jwt', new JWTStrategy(options, (jwt_payload, done)=>{
-    try{
+passport.use('jwt', new JWTStrategy(options, (jwt_payload, done) => {
+    try {
         Users.findOne({
-            where:{
+            where: {
                 id: jwt_payload.id
             }
-        }).then(user =>{
-            if(user){
+        }).then(user => {
+            if (user) {
                 done(null, true);
             } else {
                 done(null, false);
             }
         });
-    } catch(err){
+    } catch (err) {
         done(err);
     }
 }));
