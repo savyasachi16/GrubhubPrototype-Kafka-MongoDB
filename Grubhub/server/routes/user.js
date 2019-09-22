@@ -4,8 +4,13 @@ import * as userHandler from '../handlers/user'
 
 const userRouter = express.Router();
 
+userRouter.get('/', (req, res) => {
+    res.send("Grubhub Server Home");
+})
+
 userRouter.post('/register', passport.authenticate('register'), (req, res) => {
     const userDetails = req.body;
+
     return userHandler.registerUser(userDetails).then(result => {
         res.cookie('grubhubCookie', result.token, {
             maxAge: 900000,
@@ -19,6 +24,7 @@ userRouter.post('/register', passport.authenticate('register'), (req, res) => {
 
 userRouter.post('/login', passport.authenticate('login'), (req, res) => {
     const userCredentials = req.body;
+
     return userHandler.loginUser(userCredentials).then(result => {
         console.log(result);
         res.cookie('grubhubCookie', result.token, {

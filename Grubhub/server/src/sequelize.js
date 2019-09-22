@@ -9,9 +9,12 @@ const sequelize = new Sequelize('grubhubDB', 'root', 'root1234', {
 
 const Users = UserModel(sequelize, Sequelize);
 
-sequelize.sync().then(() => {
-    console.log("Users db and tables created!")
-});
+sequelize.sync()
+    .then(() => {
+        console.log('Tables created successfully');
+    }).catch(err => {
+        console.log('Error while table creation', err.message);
+    })
 
 export {
     Users

@@ -17,7 +17,6 @@ const userModel = (sequelize, type) => {
         },
         account_type: {
             type: type.STRING,
-            allowNull: false
         }
     })
 };

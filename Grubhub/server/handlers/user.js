@@ -17,12 +17,12 @@ const registerUser = userDetails => {
         const {
             first_name,
             last_name,
-            type
+            account_type
         } = userDetails;
         return user.update({
             first_name,
             last_name,
-            type
+            account_type
         }).then(() => {
             return Users.findOne({
                 where: {
@@ -37,14 +37,14 @@ const registerUser = userDetails => {
                     first_name,
                     last_name,
                     email,
-                    type
+                    account_type
                 } = updatedUser;
                 return {
                     id,
                     first_name,
                     last_name,
                     email,
-                    type,
+                    account_type,
                     token
                 };
             });
@@ -69,14 +69,14 @@ const loginUser = userCredentials => {
             first_name,
             last_name,
             email,
-            type
+            account_type
         } = user;
         return {
             id,
             first_name,
             last_name,
             email,
-            type,
+            account_type,
             token
         };
     });
