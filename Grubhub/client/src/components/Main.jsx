@@ -8,7 +8,6 @@ import CreateVendor from "./Create/CreateVendor";
 import CreateRestaurant from "./Create/CreateRestaurant";
 
 class Main extends Component {
-  state = {};
   render() {
     return (
       <div>
@@ -17,7 +16,7 @@ class Main extends Component {
         <Route path="/login-vendor" component={LoginVendor} />
         <Route path="/create-user" component={CreateUser} />
         <Route path="/create-vendor" component={CreateVendor} />
-        <Route path="/create-restaurant" component={CreateRestaurant}/>
+        <Route path="/create-restaurant" component={CreateRestaurant} />
       </div>
     );
   }
