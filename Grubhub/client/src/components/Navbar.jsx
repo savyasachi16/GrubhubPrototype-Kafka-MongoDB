@@ -9,8 +9,8 @@ class Navbar extends Component {
           <a className="navbar-brand" href="/">
             <img
               src="http://seekvectorlogo.com/wp-content/uploads/2018/01/grubhub-vector-logo.png"
-              width="100"
-              height="50"
+              width="182.5"
+              height="75"
               alt="logo"
             />
           </a>

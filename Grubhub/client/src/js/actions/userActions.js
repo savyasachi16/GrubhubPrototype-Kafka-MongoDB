@@ -10,7 +10,7 @@ const registerUser = (payload, ownProps) => {
                     type: actionTypes.SET_USER,
                     payload: userData
                 });
-                if (userData.type === "Vendor") {
+                if (userData.account_type === "Vendor") {
                     ownProps.history.push(`/login-vendor`);
                 } else {
                     ownProps.history.push(`/login-user`);
@@ -29,10 +29,11 @@ const loginUser = (payload, ownProps) => {
                     type: actionTypes.SET_USER,
                     payload: userData
                 });
-                if (userData.type === "Vendor") {
-                    ownProps.history.push(`/${userData.id}/account`);
+                if (userData.account_type === "Vendor") {
+                    ownProps.history.push(`/vendor-dash`);
                 } else {
-                    ownProps.history.push(`/${userData.id}/account`);
+                    //this needs to be changed
+                    ownProps.history.push(`/user-dash`);
                 }
             }
         })

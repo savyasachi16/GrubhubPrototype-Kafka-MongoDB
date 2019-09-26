@@ -78,7 +78,7 @@ class CreateVendor extends Component {
                           id="email"
                           maxLength="80"
                           required
-                          pattern="[A-Za-z]{,80}"
+                          //pattern="[A-Za-z]{,80}"
                           onChange={this.handleChange}
                         />
                       </div>
@@ -92,16 +92,16 @@ class CreateVendor extends Component {
                           type="password"
                           className="form-control"
                           id="password"
-                          minLength="8"
+                          //minLength="8"
                           maxLength="80"
                           required
-                          pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                          //pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                           onChange={this.handleChange}
                         />
                       </div>
                     </div>
                     <button type="submit" className="btn btn-primary btn-block">
-                      <b>Proceed to restaurant information</b>
+                      <b>Create your account</b>
                     </button>
                   </form>
                   <br></br>

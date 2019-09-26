@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import Navbar from "../Navbar";
 import { userActions } from "../../js/actions/index";
 import { connect } from "react-redux";
 
@@ -31,7 +30,6 @@ class LoginVendor extends Component {
   render() {
     return (
       <div>
-        <Navbar />
         <div className="container">
           <div className="row">
             <div className="col-sm-9 col-md-7 col-lg-5 mx-auto">
