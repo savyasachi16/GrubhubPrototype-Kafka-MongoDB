@@ -1,14 +1,36 @@
 import React, { Component } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import Navbar from "../Navbar";
+import { userActions } from "../../js/actions";
+import { connect } from "react-redux";
 
 class CreateUser extends Component {
-  state = {};
+  constructor() {
+    super();
+    this.state = {
+      first_name: "",
+      last_name: "",
+      email: "",
+      password: "",
+      account_type: "User"
+    };
+  }
+  handleChange = e => {
+    this.setState({
+      [e.target.id]: e.target.value
+    });
+  };
+
+  handleCreate = e => {
+    e.preventDefault();
+    const payload = this.state;
+    console.log(payload);
+    this.props.registerUser(payload);
+  };
+
   render() {
     return (
       <div>
-        <Navbar />
         <div className="container">
           <div className="row">
             <div className="col-sm-9 col-md-7 col-lg-5 mx-auto">
@@ -17,7 +39,7 @@ class CreateUser extends Component {
                   <h5 className="card-title text-center">
                     <b>Create your user account</b>
                   </h5>
-                  <form>
+                  <form onSubmit={e => this.handleCreate(e)}>
                     <div className="form-row">
                       <div className="form-group col-md-6">
                         <label htmlFor="firstName">First Name</label>
@@ -25,11 +47,12 @@ class CreateUser extends Component {
                           type="text"
                           className="form-control"
                           name="firstName"
-                          id="firstName"
+                          id="first_name"
                           maxLength="30"
                           required
                           autoFocus
                           pattern="[A-Za-z]{1,30}"
+                          onChange={this.handleChange}
                         />
                       </div>
                       <div className="form-group col-md-6">
@@ -38,10 +61,11 @@ class CreateUser extends Component {
                           type="text"
                           className="form-control"
                           name="lastName"
-                          id="lastName"
+                          id="last_name"
                           maxLength="30"
                           required
                           pattern="[A-Za-z]{1,30}"
+                          onChange={this.handleChange}
                         />
                       </div>
                     </div>
@@ -54,7 +78,7 @@ class CreateUser extends Component {
                           id="email"
                           maxLength="80"
                           required
-                          pattern="[A-Za-z]{,80}"
+                          onChange={this.handleChange}
                         />
                       </div>
                     </div>
@@ -67,29 +91,15 @@ class CreateUser extends Component {
                           type="password"
                           className="form-control"
                           id="password"
-                          minLength="8"
+                          //minLength="8"
                           maxLength="80"
                           required
-                          pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                          //pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                          onChange={this.handleChange}
                         />
                       </div>
                     </div>
                     <div className="form-row"></div>
-                    <div className="form-group">
-                      <div className="form-check">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          id="checkRemember"
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="checkRemember"
-                        >
-                          Keep me signed in
-                        </label>
-                      </div>
-                    </div>
                     <button type="submit" className="btn btn-primary btn-block">
                       <b>Create your account</b>
                     </button>
@@ -108,4 +118,11 @@ class CreateUser extends Component {
   }
 }
 
-export default CreateUser;
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  registerUser: payload => dispatch(userActions.registerUser(payload, ownProps))
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(CreateUser);

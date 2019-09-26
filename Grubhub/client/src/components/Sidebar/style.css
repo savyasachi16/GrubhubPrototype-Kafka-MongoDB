@@ -1,0 +1,36 @@
+.sidebar {
+    background: rgb(248, 249, 251);
+    position: fixed;
+    height: 100vh;
+    width: 200px;
+    overflow-x: hidden;
+}
+
+.sidebar a:hover {
+    color: rgb(248, 249, 251);
+    text-decoration: none;
+}
+
+.sidebar a {
+    color: white;
+}
+
+.sidebar .navbar-brand a {
+    color: white;
+}
+
+.sidebar .list-group button {
+    background-color: rgb(248, 249, 251);
+}
+
+.sidebar .list-group button:hover a {
+    color: rgb(248, 249, 251);
+}
+
+.sidebar .list-group div {
+    background: rgb(248, 249, 251);
+}
+
+.sidebar .list-group-item-light.list-group-item-action:focus a {
+    color: rgb(248, 249, 251);
+}

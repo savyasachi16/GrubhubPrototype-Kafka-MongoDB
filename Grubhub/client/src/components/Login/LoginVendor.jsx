@@ -1,15 +1,35 @@
 import React, { Component } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
+import { userActions } from "../../js/actions/index";
+import { connect } from "react-redux";
 
-import Navbar from "../Navbar";
+class LoginVendor extends Component {
+  constructor() {
+    super();
+    this.state = {
+      email: "",
+      password: "",
+      valid: false
+    };
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.user.valid) {
+    }
+  }
+  handleChange = e => {
+    this.setState({
+      [e.target.id]: e.target.value
+    });
+  };
+  handleVendorLogin = e => {
+    e.preventDefault();
+    const payload = this.state;
+    this.props.loginUser(payload);
+  };
 
-class Login extends Component {
-  state = {};
   render() {
     return (
       <div>
-        <Navbar />
         <div className="container">
           <div className="row">
             <div className="col-sm-9 col-md-7 col-lg-5 mx-auto">
@@ -18,15 +38,19 @@ class Login extends Component {
                   <h5 className="card-title text-center">
                     <b>Sign in with your Grubhub vendor account</b>
                   </h5>
-                  <form className="form-signin">
+                  <form
+                    className="form-signin"
+                    onSubmit={e => this.handleVendorLogin(e)}
+                  >
                     <div className="form-label-group">
                       <label htmlFor="inputEmail">Email</label>
                       <input
                         type="email"
-                        id="inputEmail"
+                        id="email"
                         className="form-control"
                         required
                         autoFocus
+                        onChange={this.handleChange}
                       />
                     </div>
 
@@ -34,24 +58,11 @@ class Login extends Component {
                       <label htmlFor="inputPassword">Password</label>
                       <input
                         type="password"
-                        id="inputPassword"
+                        id="password"
                         className="form-control"
                         required
+                        onChange={this.handleChange}
                       />
-                    </div>
-
-                    <div className="custom-control custom-checkbox mb-3">
-                      <input
-                        type="checkbox"
-                        className="custom-control-input"
-                        id="checkRemember"
-                      />
-                      <label
-                        className="custom-control-label"
-                        htmlFor="checkRemember"
-                      >
-                        Keep me signed in
-                      </label>
                     </div>
                     <button className="btn btn-danger btn-block" type="submit">
                       <b>Sign in</b>
@@ -71,4 +82,15 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapStateToProps = state => ({
+  history: state.history,
+  user: state.user
+});
+const mapDispathToProps = (dispath, ownProps) => ({
+  loginUser: payload => dispath(userActions.loginUser(payload, ownProps))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispathToProps
+)(LoginVendor);
