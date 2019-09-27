@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Main from "./components/Main";
-import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./js/store/index"
 
@@ -10,11 +9,9 @@ class App extends Component {
     return (
       //Use Browser Router to route to different pages
       <Provider store={store}>
-        <BrowserRouter>
           <div>
             <Main />
           </div>
-        </BrowserRouter>
       </Provider>
     );
   }

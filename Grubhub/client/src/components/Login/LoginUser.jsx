@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { userActions } from "../../js/actions/index";
-import Navbar from "../Navbar";
 
 class LoginUser extends Component {
   constructor() {

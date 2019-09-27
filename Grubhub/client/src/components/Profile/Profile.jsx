@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { userActions } from "../../js/actions/index";
-import Sidebar from "../Sidebar/Sidebar";
 
 class Profile extends Component {
   constructor() {
@@ -24,18 +23,92 @@ class Profile extends Component {
       valid: ""
     };
   }
+  componentDidMount() {
+    const {
+      id,
+      first_name,
+      last_name,
+      email,
+      phone,
+      account_type,
+      address,
+      image
+    } = this.props.user;
+    if (account_type === "Vendor") {
+      this.props.getRestaurant({ user_id: id });
+    }
+    const restaurant = this.props.restaurant;
+    this.setState({
+      id,
+      first_name,
+      last_name,
+      email,
+      phone,
+      account_type,
+      address,
+      image,
+      restaurant_id: restaurant.id,
+      restaurant_name: restaurant.name,
+      restaurant_address: restaurant.address,
+      restaurant_zipcode: restaurant.zipcode,
+      restaurant_image: restaurant.image,
+      cuisine: restaurant.cuisine
+    });
+  }
+  componentWillReceiveProps(nextProps) {
+    const {
+      id,
+      first_name,
+      last_name,
+      email,
+      phone,
+      account_type,
+      address,
+      image
+    } = this.props.user;
+    const restaurant = nextProps.restaurant;
+    this.setState({
+      id,
+      first_name,
+      last_name,
+      email,
+      phone,
+      account_type,
+      address,
+      image,
+      restaurant_id: restaurant.id,
+      restaurant_name: restaurant.name,
+      restaurant_address: restaurant.address,
+      restaurant_zipcode: restaurant.zipcode,
+      restaurant_image: restaurant.image,
+      cuisine: restaurant.cuisine,
+      valid: nextProps.valid
+    });
+  }
+
+  handleChange = e => {
+    this.setState({
+      [e.target.id]: e.target.value
+    });
+  };
+  handleUpdate = e => {
+    e.preventDefault();
+    const payload = this.state;
+    this.props.updateUser(payload);
+  };
+
   render() {
     const displayValid = this.state.valid ? (
       <div>
         <br />
-        <span>Profile updated successfully</span>
+        <span>Profile updated successfully!</span>
       </div>
     ) : null;
     return (
       <div>
         <div className="form-row">
           <div className="container shadow p-4 col-sm-9 col-md-7 col-lg-5 mx-auto">
-            <form>
+            <form onSubmit={e => this.handleUpdate(e)}>
               <div className="form-row">
                 <div className="form-group col-md-6">
                   <label htmlFor="firstName">First Name</label>
@@ -44,6 +117,7 @@ class Profile extends Component {
                     className="form-control"
                     id="first_name"
                     value={this.state.first_name}
+                    onChange={this.handleChange}
                   />
                 </div>
                 <div className="form-group col-md-6">
@@ -53,6 +127,7 @@ class Profile extends Component {
                     className="form-control"
                     id="last_name"
                     value={this.state.last_name}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>
@@ -73,6 +148,7 @@ class Profile extends Component {
                   className="form-control"
                   id="phone"
                   value={this.state.phone}
+                  onChange={this.handleChange}
                 />
               </div>
               <div className="form-group">
@@ -82,7 +158,7 @@ class Profile extends Component {
                   id="address"
                   placeholder="Address"
                   value={this.state.address}
-                  onInput={this.handleChange}
+                  onChange={this.handleChange}
                 />
               </div>
               {this.state.account_type === "Vendor" ? (
@@ -95,7 +171,7 @@ class Profile extends Component {
                       id="restaurant_name"
                       placeholder="Name of your restaurant"
                       value={this.state.restaurant_name}
-                      onInput={this.handleChange}
+                      onChange={this.handleChange}
                     />
                   </div>
                   <div className="form-group">
@@ -106,7 +182,7 @@ class Profile extends Component {
                       id="cuisine"
                       placeholder="Cusine"
                       value={this.state.cuisine}
-                      onInput={this.handleChange}
+                      onChange={this.handleChange}
                     />
                   </div>
                   <div className="form-group">
@@ -117,7 +193,7 @@ class Profile extends Component {
                       id="restaurant_address"
                       placeholder="Restaurant Address"
                       value={this.state.restaurant_address}
-                      onInput={this.handleChange}
+                      onChange={this.handleChange}
                     />
                   </div>
                   <div className="form-group">
@@ -128,7 +204,7 @@ class Profile extends Component {
                       id="restaurant_zipcode"
                       placeholder="Restaurant Zipcode"
                       value={this.state.restaurant_zipcode}
-                      onInput={this.handleChange}
+                      onChange={this.handleChange}
                     />
                   </div>
                 </div>
@@ -149,4 +225,19 @@ class Profile extends Component {
   }
 }
 
-export default Profile;
+const mapStateToProps = state => {
+  return {
+    user: state.user,
+    restaurant: state.restaurant,
+    valid: state.user.valid
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  updateUser: payload => dispatch(userActions.updateUser(payload))
+  //getRestaurant: payload => dispatch(vendorActions.getRestaurant(payload))
+});
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Profile);
