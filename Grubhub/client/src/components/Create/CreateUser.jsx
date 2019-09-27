@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import Navbar from "../Navbar";
 import { userActions } from "../../js/actions";
 import { connect } from "react-redux";
 
@@ -24,7 +23,6 @@ class CreateUser extends Component {
   handleCreate = e => {
     e.preventDefault();
     const payload = this.state;
-    console.log(payload);
     this.props.registerUser(payload);
   };
 

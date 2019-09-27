@@ -42,6 +42,7 @@ class LoginVendor extends Component {
                     className="form-signin"
                     onSubmit={e => this.handleVendorLogin(e)}
                   >
+                    <div className="form-row"></div>
                     <div className="form-label-group">
                       <label htmlFor="inputEmail">Email</label>
                       <input
@@ -53,7 +54,6 @@ class LoginVendor extends Component {
                         onChange={this.handleChange}
                       />
                     </div>
-
                     <div className="form-label-group">
                       <label htmlFor="inputPassword">Password</label>
                       <input
@@ -64,9 +64,16 @@ class LoginVendor extends Component {
                         onChange={this.handleChange}
                       />
                     </div>
-                    <button className="btn btn-danger btn-block" type="submit">
-                      <b>Sign in</b>
-                    </button>
+                    <br></br>
+
+                    <div className="form-label-group">
+                      <button
+                        className="btn btn-danger btn-block"
+                        type="submit"
+                      >
+                        <b>Sign in</b>
+                      </button>
+                    </div>
                   </form>
                   <br></br>
                   <Link to="/create-vendor">

@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import { ListGroup } from "react-bootstrap";
 import { connect } from "react-redux";
 import "./style.css";
-import NavLink from "react-bootstrap/NavLink";
+import { NavLink } from "react-router-dom";
 
 const sidebarRoutes = {
   vendor: [
     {
-      url: "/account",
+      url: "/profile",
       name: "Account Details"
     },
     {
@@ -25,7 +25,7 @@ const sidebarRoutes = {
       name: "Search"
     },
     {
-      url: "/account",
+      url: "/profile",
       name: "Account Details"
     },
     {

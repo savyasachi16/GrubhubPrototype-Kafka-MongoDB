@@ -15,10 +15,11 @@ const userModel = (sequelize, type) => {
             type: type.STRING,
             allowNull: false
         },
-        account_type: {
-            type: type.STRING,
-        }
-    })
+        account_type: type.STRING,
+        phone: type.STRING,
+        address: type.STRING,
+        image: type.STRING
+    });
 };
 
 export default userModel;

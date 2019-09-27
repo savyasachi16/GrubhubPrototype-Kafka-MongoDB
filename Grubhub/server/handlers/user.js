@@ -1,8 +1,9 @@
 import {
-    Users
+    Users,
 } from '../src/sequelize';
 import jwtScecret from '../config/jwtConfig'
 import jwt from 'jsonwebtoken';
+import restaurantHandler from "./restaurant";
 
 const registerUser = userDetails => {
     return Users.findOne({
@@ -82,7 +83,71 @@ const loginUser = userCredentials => {
     });
 };
 
+const updateUser = userDetails => {
+    return Users.findOne({
+        where: {
+            id: userDetails.user_id
+        }
+    }).then(user => {
+        if (!user) {
+            throw new Error("User not found in DB!")
+        }
+        const {
+            first_name,
+            last_name,
+            phone,
+            address,
+            image
+        } = userDetails;
+        return user.update({
+            first_name,
+            last_name,
+            phone,
+            address,
+            image
+        }).then(() => {
+            return Users.findOne({
+                where: {
+                    id: userDetails.id
+                }
+            }).then(updatedUser => {
+                if (updatedUser.account_type === "Vendor") {
+                    const restaurantDetails = {
+                        id: userDetails.restaurant_id || '',
+                        restaurant_name: userDetails.restaurant_name,
+                        cuisine: userDetails.cuisine,
+                        restaurant_image: userDetails.restaurant_image,
+                        address: userDetails.restaurant_address,
+                        zipcode: userDetails.restaurant_zipcode,
+                        user_id: userDetails.user_id
+                    }
+                    if (!userDetails.restaurant_id) {
+                        return restaurantHandler.createRestaurant(restaurantDetails).then(restaurant => {
+                            return {
+                                user: updatedUser,
+                                restaurant
+                            }
+                        })
+                    } else {
+                        return restaurantHandler.updateRestaurant(restaurantDetails).then(restaurant => {
+                            return {
+                                user: updatedUser,
+                                restaurant
+                            }
+                        })
+                    }
+                } else {
+                    return {
+                        user: updatedUser
+                    }
+                }
+            })
+        })
+    })
+}
+
 export {
     registerUser,
-    loginUser
+    loginUser,
+    updateUser
 };

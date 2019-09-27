@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { userActions } from "../../js/actions/index";
-import Navbar from "../Navbar";
 
 class LoginUser extends Component {
   constructor() {
@@ -66,6 +65,7 @@ class LoginUser extends Component {
                         onChange={this.handleChange}
                       />
                     </div>
+                    <br></br>
                     <button className="btn btn-danger btn-block" type="submit">
                       <b>Sign in</b>
                     </button>

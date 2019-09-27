@@ -5,7 +5,7 @@ const initialState = {
     last_name: "",
     email: "",
     password: "",
-    type: "",
+    account_type: "",
     token: "",
     valid: false
 };
