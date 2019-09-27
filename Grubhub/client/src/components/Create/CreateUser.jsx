@@ -23,7 +23,6 @@ class CreateUser extends Component {
   handleCreate = e => {
     e.preventDefault();
     const payload = this.state;
-    console.log(payload);
     this.props.registerUser(payload);
   };
 

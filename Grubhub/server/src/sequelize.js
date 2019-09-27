@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize';
 import UserModel from '../models/user';
-//import RestaurantModel from ...
+import RestaurantModel from '../models/restaurant'
 
 const sequelize = new Sequelize('grubhubDB', 'root', 'root1234', {
     host: 'localhost',
@@ -8,14 +8,16 @@ const sequelize = new Sequelize('grubhubDB', 'root', 'root1234', {
 });
 
 const Users = UserModel(sequelize, Sequelize);
+const Restaurants = RestaurantModel(sequelize, Sequelize);
 
 sequelize.sync()
     .then(() => {
-        console.log('Tables created successfully');
+        console.log('DB Created Successfully...');
     }).catch(err => {
-        console.log('Error while table creation', err.message);
+        console.log('DB Creation Error: ', err.message);
     })
 
 export {
-    Users
+    Users,
+    Restaurants
 };

@@ -4,7 +4,8 @@ import session from 'express-session';
 import cookieParse from 'cookie-parser';
 import cors from 'cors';
 import passport from 'passport';
-import routes from '../routes/user'
+import userRoutes from '../routes/user'
+import restaurantRoutes from '../routes/restaurant'
 
 const app = express();
 
@@ -28,7 +29,9 @@ app.use(bodyParser.urlencoded({
 //     next();
 // });
 
-app.use('/', routes);
+app.use('/', userRoutes);
+app.use('/', restaurantRoutes);
+
 app.listen(3001);
 console.log("Grubhub Server listening on port 3001");
 module.exports = app;

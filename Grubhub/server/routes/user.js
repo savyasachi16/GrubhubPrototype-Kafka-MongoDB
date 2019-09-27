@@ -10,7 +10,6 @@ userRouter.get('/', (req, res) => {
 
 userRouter.post('/register', passport.authenticate('register'), (req, res) => {
     const userDetails = req.body;
-    console.log(userDetails);
     return userHandler.registerUser(userDetails).then(result => {
         res.cookie('grubhubCookie', result.token, {
             maxAge: 900000,
@@ -26,7 +25,6 @@ userRouter.post('/login', passport.authenticate('login'), (req, res) => {
     const userCredentials = req.body;
 
     return userHandler.loginUser(userCredentials).then(result => {
-        console.log(result);
         res.cookie('grubhubCookie', result.token, {
             maxAge: 900000,
             httpOnly: false
@@ -36,5 +34,15 @@ userRouter.post('/login', passport.authenticate('login'), (req, res) => {
         return res.status(500).json(err);
     });
 });
+
+userRouter.put("/userUpdate/:user_id", (req, res) => {
+    const userDetails = req.body;
+    userDetails.user_id = req.params.user_id;
+    return userHandler.updateUser(userDetails).then(result => {
+        res.status(200).json(result);
+    }).catch(err => {
+        res.status(500).json(err);
+    })
+})
 
 export default userRouter;

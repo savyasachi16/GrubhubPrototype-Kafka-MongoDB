@@ -65,6 +65,7 @@ class LoginUser extends Component {
                         onChange={this.handleChange}
                       />
                     </div>
+                    <br></br>
                     <button className="btn btn-danger btn-block" type="submit">
                       <b>Sign in</b>
                     </button>

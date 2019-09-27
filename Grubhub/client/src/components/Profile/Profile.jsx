@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { userActions } from "../../js/actions/index";
+import { userActions, vendorActions } from "../../js/actions/index";
 
 class Profile extends Component {
   constructor() {
@@ -20,7 +20,7 @@ class Profile extends Component {
       restaurant_zipcode: "",
       restaurant_image: "",
       cuisine: "",
-      valid: ""
+      update_success: ""
     };
   }
   componentDidMount() {
@@ -82,7 +82,7 @@ class Profile extends Component {
       restaurant_zipcode: restaurant.zipcode,
       restaurant_image: restaurant.image,
       cuisine: restaurant.cuisine,
-      valid: nextProps.valid
+      update_success: nextProps.update_success
     });
   }
 
@@ -98,7 +98,7 @@ class Profile extends Component {
   };
 
   render() {
-    const displayValid = this.state.valid ? (
+    const displayValid = this.state.update_success ? (
       <div>
         <br />
         <span>Profile updated successfully!</span>
@@ -131,81 +131,95 @@ class Profile extends Component {
                   />
                 </div>
               </div>
-              <div className="form-group">
-                <label htmlFor="email">Email Address</label>
-                <input
-                  type="email"
-                  className="form-control"
-                  id="email"
-                  defaultValue={this.state.email}
-                  readOnly
-                ></input>
+              <div className="form-row">
+                <div className="form-group col-md-8">
+                  <label htmlFor="email">Email Address</label>
+                  <input
+                    type="email"
+                    className="form-control"
+                    id="email"
+                    defaultValue={this.state.email}
+                    readOnly
+                  ></input>
+                </div>
               </div>
-              <div className="form-group">
-                <label htmlFor="phone">Phone</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="phone"
-                  value={this.state.phone}
-                  onChange={this.handleChange}
-                />
+              <div className="form-row">
+                <div className="form-group col-md-8">
+                  <label htmlFor="phone">Phone</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="phone"
+                    value={this.state.phone}
+                    onChange={this.handleChange}
+                  />
+                </div>
               </div>
-              <div className="form-group">
-                <label htmlFor="address">Address</label>
-                <textarea
-                  className="form-control"
-                  id="address"
-                  placeholder="Address"
-                  value={this.state.address}
-                  onChange={this.handleChange}
-                />
+              <div className="form-row">
+                <div className="form-group col-md-12">
+                  <label htmlFor="address">Address</label>
+                  <textarea
+                    className="form-control"
+                    id="address"
+                    value={this.state.address}
+                    onChange={this.handleChange}
+                  />
+                </div>
               </div>
+
               {this.state.account_type === "Vendor" ? (
                 <div>
-                  <div className="form-group">
-                    <label htmlFor="restaurant_name">Restaurant Name</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="restaurant_name"
-                      placeholder="Name of your restaurant"
-                      value={this.state.restaurant_name}
-                      onChange={this.handleChange}
-                    />
+                  <div className="form-row">
+                    <div className="form-group col-md-12">
+                      <label htmlFor="restaurant_name">Restaurant Name</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="restaurant_name"
+                        value={this.state.restaurant_name}
+                        onChange={this.handleChange}
+                      />
+                    </div>
                   </div>
-                  <div className="form-group">
-                    <label htmlFor="cuisine">Cusine</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="cuisine"
-                      placeholder="Cusine"
-                      value={this.state.cuisine}
-                      onChange={this.handleChange}
-                    />
+                  <div className="form-row">
+                    <div className="form-group col-md-6">
+                      <label htmlFor="cuisine">Cuisine</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="cuisine"
+                        value={this.state.cuisine}
+                        onChange={this.handleChange}
+                      />
+                    </div>
                   </div>
-                  <div className="form-group">
-                    <label htmlFor="cuisine">Restaurant Address</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="restaurant_address"
-                      placeholder="Restaurant Address"
-                      value={this.state.restaurant_address}
-                      onChange={this.handleChange}
-                    />
+                  <div className="form-row">
+                    <div className="form-group col-md-12">
+                      <label htmlFor="restaurant_address">
+                        Restaurant Address
+                      </label>
+                      <textarea
+                        type="text"
+                        className="form-control"
+                        id="restaurant_address"
+                        value={this.state.restaurant_address}
+                        onChange={this.handleChange}
+                      />
+                    </div>
                   </div>
-                  <div className="form-group">
-                    <label htmlFor="cuisine">Restaurant Zipcode</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="restaurant_zipcode"
-                      placeholder="Restaurant Zipcode"
-                      value={this.state.restaurant_zipcode}
-                      onChange={this.handleChange}
-                    />
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label htmlFor="restaurant_zipcode">
+                        Restaurant Zipcode
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="restaurant_zipcode"
+                        value={this.state.restaurant_zipcode}
+                        onChange={this.handleChange}
+                      />
+                    </div>
                   </div>
                 </div>
               ) : null}
@@ -229,13 +243,13 @@ const mapStateToProps = state => {
   return {
     user: state.user,
     restaurant: state.restaurant,
-    valid: state.user.valid
+    update_success: state.user.update_success
   };
 };
 
 const mapDispatchToProps = dispatch => ({
-  updateUser: payload => dispatch(userActions.updateUser(payload))
-  //getRestaurant: payload => dispatch(vendorActions.getRestaurant(payload))
+  updateUser: payload => dispatch(userActions.updateUser(payload)),
+  getRestaurant: payload => dispatch(vendorActions.getRestaurant(payload))
 });
 export default connect(
   mapStateToProps,

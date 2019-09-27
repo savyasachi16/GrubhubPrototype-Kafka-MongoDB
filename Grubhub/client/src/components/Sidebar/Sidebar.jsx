@@ -59,7 +59,6 @@ class Sidebar extends Component {
     }
   }
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
     if (
       nextProps.location.pathname === "/" ||
       nextProps.location.pathname === "/login-user" ||
