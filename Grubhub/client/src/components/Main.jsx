@@ -7,7 +7,7 @@ import CreateUser from "./Create/CreateUser";
 import CreateVendor from "./Create/CreateVendor";
 import CreateRestaurant from "./Create/CreateRestaurant";
 import Profile from "./Profile/Profile";
-import Navbar from "./Navbar";
+import Navbar from "./Navbar/Navbar";
 import Sidebar from "./Sidebar/Sidebar";
 
 class Main extends Component {
