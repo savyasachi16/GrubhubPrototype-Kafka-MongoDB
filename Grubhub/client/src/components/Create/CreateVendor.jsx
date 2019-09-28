@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import Navbar from "../Navbar";
 import { userActions } from "../../js/actions/index";
 import { connect } from "react-redux";
 
