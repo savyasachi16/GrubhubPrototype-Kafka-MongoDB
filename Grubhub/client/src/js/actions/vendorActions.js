@@ -15,6 +15,22 @@ const getRestaurant = payload => {
     }
 }
 
+const getMenu = payload => {
+    return dispatch => {
+        return axios.get(`http://localhost:3001/restaurant/menu/${payload.restaurant_id}`).then(response => {
+            if (response.status === 200) {
+                dispatch({
+                    type: actionTypes.SET_MENU,
+                    payload: {
+                        menu: response.data
+                    }
+                })
+            }
+        })
+    }
+}
+
 export {
-    getRestaurant
+    getRestaurant,
+    getMenu
 };
