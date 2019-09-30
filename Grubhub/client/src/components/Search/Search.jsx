@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-//import buyerActions from "../../js/actions/buyerActions";
+import { buyerActions } from "../../js/actions/index";
 
 class Search extends Component {
   constructor() {

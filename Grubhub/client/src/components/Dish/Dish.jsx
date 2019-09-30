@@ -33,12 +33,12 @@ class Dish extends Component {
     if (nextProps.dish.id) {
       const { id, name, description, section, price, image } = nextProps.dish;
       this.setState({
-        id: "",
-        name: "",
-        description: "",
-        section: "",
-        price: "",
-        image: "",
+        id,
+        name,
+        description,
+        section,
+        price,
+        image,
         restaurant_id: nextProps.restaurant_id,
         update: true
       });
