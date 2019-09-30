@@ -1,0 +1,62 @@
+import express from 'express';
+import * as dishHandler from "../handlers/dish";
+const dishRouter = express.Router();
+
+
+dishRouter.post("/add", (req, res) => {
+    const dish_details = req.body;
+    dishHandler.addDish(dish_details).then(result => {
+        res.status(200).json(result);
+    }).catch(er => {
+        res.status(500).json({
+            message: err.message
+        })
+    })
+})
+
+dishRouter.get("/:dish_id", (req, res) => {
+    const dish_id = req.params.dish_id;
+    dishHandler.getDishDetails(dish_id).then(result => {
+        res.status(200).json(result);
+    }).catch(er => {
+        res.status(500).json({
+            message: err.message
+        })
+    })
+})
+
+dishRouter.post("/update", (req, res) => {
+    const dish_details = req.body;
+    dishHandler.updateDish(dish_details).then(result => {
+        res.status(200).json(result);
+    }).catch(er => {
+        res.status(500).json({
+            message: err.message
+        })
+    })
+})
+
+dishRouter.delete("/delete/:dish_id", (req, res) => {
+    const dish_id = req.body;
+    dishHandler.deleteDish(dish_id).then(result => {
+        res.status(200).json(result);
+    }).catch(er => {
+        res.status(500).json({
+            message: err.message
+        })
+    })
+})
+
+dishRouter.get("/buyer/search", (req, res) => {
+    const search_key = req.query.key;
+    dishHandler.searchDishes(search_key).then(result => {
+        res.status(200).json(result);
+    }).catch(er => {
+        res.status(500).json({
+            message: err.message
+        })
+    })
+})
+
+
+export default dishRouter;
