@@ -9,7 +9,9 @@ import CreateRestaurant from "./Create/CreateRestaurant";
 import Profile from "./Profile/Profile";
 import Navbar from "./Navbar/Navbar";
 import Sidebar from "./Sidebar/Sidebar";
-
+import Dish from "./Dish/Dish";
+import vendorMenu from "./Menu/vendorMenu";
+import Search from "./Search/Search"
 class Main extends Component {
   render() {
     return (
@@ -25,6 +27,9 @@ class Main extends Component {
           <Route path="/create-vendor" exact component={CreateVendor} />
           <Route path="/create-restaurant" exact component={CreateRestaurant} />
           <Route path="/:id/profile" exact component={Profile} />
+          <Route path="/dish" exact component={Dish} />
+          <Route path="/:id/menu" exact component={vendorMenu} />
+          <Route path="/:id/search" exact component={Search} />
         </BrowserRouter>
       </div>
     );
