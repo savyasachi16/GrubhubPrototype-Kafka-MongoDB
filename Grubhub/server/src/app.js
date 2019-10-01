@@ -14,7 +14,7 @@ const app = express();
 require('../config/passport');
 
 app.use(passport.initialize());
-//app.use(cors({origin: 'http://localhost:3000', credentials: true}));
+app.use(cors({origin: 'http://localhost:3000', credentials: true}));
 app.use(cors());
 app.use(bodyParser.json());
 

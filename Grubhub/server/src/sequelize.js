@@ -16,7 +16,9 @@ const Restaurants = RestaurantModel(sequelize, Sequelize);
 const Dishes = dishModel(sequelize, Sequelize);
 const Dishes_Restaurant = dishRestaurantModel(sequelize, Sequelize);
 
+
 Dishes_Restaurant.belongsTo(Dishes);
+Dishes_Restaurant.belongsTo(Restaurants);
 
 sequelize.sync()
     .then(() => {

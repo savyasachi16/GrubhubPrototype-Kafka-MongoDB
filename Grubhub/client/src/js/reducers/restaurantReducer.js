@@ -16,6 +16,9 @@ const restaurantReducer = (state = intialState, action) => {
         case actionTypes.SET_RESTAURANT:
             newState = action.payload;
             return Object.assign({}, state, newState);
+        case actionTypes.SET_MENU:
+            newState = action.payload;
+            return Object.assign({}, state, newState);
         default:
             break;
     }

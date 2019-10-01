@@ -24,6 +24,7 @@ const addDish = dish_details => {
         if (!dish) {
             throw new Error("Dish created in DB failed!");
         }
+        console.log("dish details.rest = ",dish_details.restaurant_id)
         return Dishes_Restaurant.create({
             dish_id: dish.id,
             restaurant_id: dish_details.restaurant_id

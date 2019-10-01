@@ -1,6 +1,9 @@
 import {
-    Restaurants
+    Restaurants,
+    Dishes_Restaurant,
+    Dishes
 } from "../src/sequelize";
+import _ from "lodash";
 
 const createRestaurant = restaurantDetails => {
     return Restaurants.create({
@@ -68,8 +71,38 @@ const updateRestaurant = restaurantDetails => {
     })
 }
 
+const getRestaurantMenu = (restaurant_id) => {
+    return Restaurants.findOne({
+        where: {
+            id: restaurant_id
+        }
+    }).then(restaurant => {
+        console.log(restaurant)
+        if (!restaurant) {
+            throw new Error("No restaurant found in DB!");
+        }
+        return Dishes_Restaurant.findAll({
+            where: {
+                restaurant_id
+            },
+            include: [{
+                model: Dishes
+            }, {
+                model: Restaurants
+            }]
+        }).then(allDishes => {
+            const groupedDishes = _.chain(allDishes).map('dish').groupBy('section').map((value, key) => ({
+                section: key,
+                dishes: value
+            })).flatten().value();
+            return groupedDishes
+        })
+    })
+}
+
 export default {
     createRestaurant,
     getRestaurant,
-    updateRestaurant
+    updateRestaurant,
+    getRestaurantMenu
 }

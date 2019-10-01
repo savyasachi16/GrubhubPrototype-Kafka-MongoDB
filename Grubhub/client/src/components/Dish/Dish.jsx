@@ -60,6 +60,7 @@ class Dish extends Component {
   handleAdd = e => {
     e.preventDefault();
     const payload = this.state;
+    console.log(payload);
     this.props.addDish(payload);
   };
 
@@ -69,6 +70,7 @@ class Dish extends Component {
       user_id: this.props.user_id,
       dish_id: this.state.id
     };
+    this.props.deleteDish(payload);
   };
   render() {
     return (
@@ -151,7 +153,7 @@ class Dish extends Component {
                   <button
                     type="submit"
                     className="btn btn-primary m-3"
-                    onClick={e => this.handleUpdate(e)}
+                    onClick={e => this.handleAdd(e)}
                   >
                     Add Dish
                   </button>
@@ -166,9 +168,9 @@ class Dish extends Component {
 }
 
 const mapStatetoProps = state => ({
-  restaurant_id: state.restaurant_id,
+  restaurant_id: state.restaurant.id,
   dish: state.dish || {},
-  user_id: state.user_id
+  user_id: state.user.id
 });
 
 const mapDispathToProps = (dispatch, ownProps) => ({

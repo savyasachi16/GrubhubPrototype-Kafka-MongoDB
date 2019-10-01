@@ -45,7 +45,6 @@ const updateUser = (payload) => {
             .then(response => {
                 if (response.status === 200) {
                     const userData = response.data.user;
-                    console.log(userData);
                     userData.valid = true;
                     const restaurantData = response.data.restaurant;
                     dispatch({

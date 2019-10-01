@@ -12,7 +12,7 @@ class vendorMenu extends Component {
   }
   componentDidMount() {
     this.props.getMenu({
-      restaurant_id: this.props.restaurant_id
+      restaurant_id: this.props.restaurant.id
     });
   }
   //WARNING! To be deprecated in React v17. Use new lifecycle static getDerivedStateFromProps instead.
@@ -45,21 +45,21 @@ class vendorMenu extends Component {
                     <label className="col-sm-2 col-form-label col-form-label-lg">
                       {eachSection.section}
                     </label>
-                    <div class="card-deck">
-                      {eachSection.items.map(dish => {
+                    <div className="card-deck">
+                      {eachSection.dishes.map(dish => {
                         let dish_detail_link = `/dish/detail/${dish.id}`;
                         return (
                           <Link to={dish_detail_link}>
-                            <div class="card menu_dish">
+                            <div className="card menu_dish">
                               <img
                                 //src={}
-                                class="card-img-top img-fluid img-thumbnail"
-                                alt="..."
+                                //className="card-img-top img-fluid img-thumbnail"
+                                //alt="..."
                               ></img>
-                              <div class="card-body">
-                                <h5 class="card-title">{dish.name}</h5>
-                                <p class="card-text">{dish.description}</p>
-                                <p class="card-text">{dish.price}</p>
+                              <div className="card-body">
+                                <h5 className="card-title">{dish.name}</h5>
+                                <p className="card-text">{dish.description}</p>
+                                <p className="card-text">{dish.price}</p>
                               </div>
                             </div>
                           </Link>
