@@ -1,7 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import session from 'express-session';
-import cookieParse from 'cookie-parser';
 import cors from 'cors';
 import passport from 'passport';
 import userRoutes from '../routes/user';

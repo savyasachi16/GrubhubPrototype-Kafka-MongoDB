@@ -77,7 +77,6 @@ const getRestaurantMenu = (restaurant_id) => {
             id: restaurant_id
         }
     }).then(restaurant => {
-        console.log(restaurant)
         if (!restaurant) {
             throw new Error("No restaurant found in DB!");
         }

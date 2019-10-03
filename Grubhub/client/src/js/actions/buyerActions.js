@@ -3,7 +3,7 @@ import axios from "axios";
 
 const getResults = payload => {
     return dispatch => {
-        return axios.get(`http://localhost:3001/dish/buyer/search`, {
+        return axios.get(`http://localhost:3001/buyer/search`, {
             params: {
                 key: payload.search
             }

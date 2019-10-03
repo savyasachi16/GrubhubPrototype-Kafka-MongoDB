@@ -15,7 +15,7 @@ dishRouter.post("/dish/add", (req, res) => {
     })
 })
 
-dishRouter.get("/:dish_id", (req, res) => {
+dishRouter.get("/dish/:dish_id", (req, res) => {
     const dish_id = req.params.dish_id;
     dishHandler.getDishDetails(dish_id).then(result => {
         res.status(200).json(result);
@@ -52,6 +52,7 @@ dishRouter.get("/buyer/search", (req, res) => {
     const search_key = req.query.key;
     dishHandler.searchDishes(search_key).then(result => {
         res.status(200).json(result);
+        console.log(result)
     }).catch(err => {
         res.status(500).json({
             message: err.message

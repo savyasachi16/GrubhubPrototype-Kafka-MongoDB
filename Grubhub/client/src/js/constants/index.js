@@ -6,8 +6,9 @@ const action_types = {
     SET_DISH: 'SET_DISH',
     CLEAR_DISH: 'CLEAR_DISH',
     SET_MENU: 'SET_MENU',
-    SET_SEARCH_RESULTS: 'SET_SEARCH_RESULTS'
-
+    SET_SEARCH_RESULTS: 'SET_SEARCH_RESULTS',
+    SET_ORDERS: 'SET_ORDERS',
+    SET_ORDER_DETAILS: 'SET_ORDER_DETAILS'
 };
 
 export default action_types;

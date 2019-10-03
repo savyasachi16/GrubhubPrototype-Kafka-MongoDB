@@ -5,6 +5,7 @@ import {
 } from "../src/sequelize";
 import Sequelize from "Sequelize";
 import _ from "lodash";
+import Promise from "bluebird"
 
 const addDish = dish_details => {
     const {
@@ -24,7 +25,6 @@ const addDish = dish_details => {
         if (!dish) {
             throw new Error("Dish created in DB failed!");
         }
-        console.log("dish details.rest = ",dish_details.restaurant_id)
         return Dishes_Restaurant.create({
             dish_id: dish.id,
             restaurant_id: dish_details.restaurant_id
@@ -109,7 +109,7 @@ const deleteDish = dish_id => {
 
 const Op = Sequelize.Op;
 const searchDishes = search_key => {
-    search_key = `%${search_key}`;
+    search_key = `%${search_key}%`;
     return Dishes.findAll({
         where: {
             name: {

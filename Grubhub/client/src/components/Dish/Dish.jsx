@@ -60,7 +60,6 @@ class Dish extends Component {
   handleAdd = e => {
     e.preventDefault();
     const payload = this.state;
-    console.log(payload);
     this.props.addDish(payload);
   };
 
