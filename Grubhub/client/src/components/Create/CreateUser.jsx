@@ -82,9 +82,7 @@ class CreateUser extends Component {
                     </div>
                     <div className="form-row">
                       <div className="form-group col-md-12">
-                        <label htmlFor="password">
-                          Password (8 character minimum)
-                        </label>
+                        <label htmlFor="password">Password</label>
                         <input
                           type="password"
                           className="form-control"

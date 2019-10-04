@@ -2,19 +2,14 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { userActions } from "../../js/actions/index";
-
+import { ToastContainer } from "react-toastify";
 class LoginUser extends Component {
   constructor() {
     super();
     this.state = {
       email: "",
-      password: "",
-      valid: false
+      password: ""
     };
-  }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.user.valid) {
-    }
   }
   handleChange = e => {
     this.setState({
@@ -70,6 +65,7 @@ class LoginUser extends Component {
                       <b>Sign in</b>
                     </button>
                   </form>
+                  <ToastContainer autoClose={2000} />
                   <br></br>
                   <Link to="/create-user">
                     <p className="text-center">Create User Account</p>
@@ -85,7 +81,6 @@ class LoginUser extends Component {
 }
 
 const mapStateToProps = state => ({
-  history: state.history,
   user: state.user
 });
 const mapDispatchToProps = (dispath, ownProps) => ({

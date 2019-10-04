@@ -88,12 +88,61 @@ const getBuyerOrders = payload => {
     };
 };
 
+const editSection = payload => {
+    return dispatch => {
+        return axios.put("http://localhost:/3001/restaurant/menu/section", payload).then(response => {
+            if (response.status === 200) {
+                dispatch({
+                    type: actionTypes.SET_MENU,
+                    payload: {
+                        menu: response.data
+                    }
+                })
+            }
+        })
+    }
+}
+
+const deleteSection = payload => {
+    return dispatch => {
+        return axios
+            .put("http://localhost:3001/restaurant/menu/section/delete", payload)
+            .then(response => {
+                if (response.status === 200) {
+                    dispatch({
+                        type: actionTypes.SET_MENU,
+                        payload: {
+                            menu: response.data
+                        }
+                    });
+                }
+            });
+    };
+};
+
+const uploadRestaurantImage = payload => {
+    return dispatch => {
+        return axios
+            .post(`http://localhost:3001/user/upload/image`, payload)
+            .then(response => {
+                if (response.status === 200) {
+                    dispatch({
+                        type: actionTypes.SET_RESTAURANT_PIC,
+                        payload: response.data
+                    });
+                }
+            });
+    };
+};
+
 export {
     getRestaurant,
     getMenu,
     getRestaurantOrders,
     changeStatus,
     getOrderDetails,
-    getBuyerOrders
-
+    getBuyerOrders,
+    editSection,
+    deleteSection,
+    uploadRestaurantImage
 };

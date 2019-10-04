@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-
 import { dishActions } from "../../js/actions/index";
+import { Container, Row, Col, Image } from "react-bootstrap";
+import Sidebar from "../Sidebar/Sidebar";
 
 class Dish extends Component {
   constructor(props) {
@@ -14,7 +15,8 @@ class Dish extends Component {
       price: "",
       image: "",
       restaurant_id: "",
-      update: false
+      update: false,
+      filepath: "Select a file"
     };
   }
   componentDidMount() {
@@ -40,7 +42,8 @@ class Dish extends Component {
         price,
         image,
         restaurant_id: nextProps.restaurant_id,
-        update: true
+        update: true,
+        filepath: "Select a file"
       });
     }
   }
@@ -71,9 +74,18 @@ class Dish extends Component {
     };
     this.props.deleteDish(payload);
   };
+
+  handleUpload = e => {
+    e.preventDefault();
+    const path = new FormData();
+    path.append("file", this.uploadInput.files[0] || "");
+    this.props.uploadDishImage(path);
+  };
+
   render() {
     return (
       <div>
+        <Sidebar></Sidebar>
         <div className="container shadow p-4 col-sm-9 col-md-7 col-lg-5 mx-auto">
           <form>
             <div className="form-row">
@@ -124,20 +136,62 @@ class Dish extends Component {
               </div>
             </div>
             <div className="form-row">
-              <div className="form-group col-md-12">
-                <label htmlFor="image">Image</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="image"
-                  placeholder="work in progress..."
-                  value={this.state.image}
-                  onChange={this.handleChange}
-                />
+              <label htmlFor="image">Image</label>
+              <div className="form-inline col-md-12 image-upload">
+                <div className="custom-file">
+                  <input
+                    type="file"
+                    className="custom-file-input"
+                    id="image"
+                    accept="image/*"
+                    placeholder="work in progress..."
+                    ref={ref => {
+                      this.uploadInput = ref;
+                    }}
+                    aria-describedby="fileUpload"
+                    onChange={e => {
+                      if (e.target.value) {
+                        let fileName = e.target.value.split("\\");
+                        this.setState({
+                          file:
+                            fileName && fileName.length
+                              ? fileName[fileName.length - 1]
+                              : "Select a file"
+                        });
+                      }
+                    }}
+                  />
+                </div>
+                <label
+                  className="custom-file-label"
+                  id="image-label"
+                  htmlFor="file"
+                >
+                  {this.state.file}
+                </label>
+              </div>
+              <div className="input-group-append">
+                <button
+                  className="btn btn-outline-secondary m-2"
+                  type="button"
+                  id="fileUpload"
+                  onClick={this.handleUpload}
+                >
+                  Upload
+                </button>
               </div>
             </div>
-            <div className="form-row">
-              {this.state.update ? (
+            <div className="form-group">
+              <Container style={{ width: "30rem" }}>
+                <Row>
+                  <Col xs={6} md={4}>
+                    <Image src={this.state.image} rounded />
+                  </Col>
+                </Row>
+              </Container>
+            </div>
+            {this.state.update ? (
+              <div className="form-row">
                 <div className="col text-center">
                   <button
                     type="submit"
@@ -147,7 +201,18 @@ class Dish extends Component {
                     Update Dish
                   </button>
                 </div>
-              ) : (
+                <div className="col text-center">
+                  <button
+                    type="submit"
+                    className="btn btn-danger m-3"
+                    onClick={e => this.handleDelete(e)}
+                  >
+                    Delete Dish
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="form-row">
                 <div className="col text-center">
                   <button
                     type="submit"
@@ -157,8 +222,8 @@ class Dish extends Component {
                     Add Dish
                   </button>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </form>
         </div>
       </div>
@@ -176,7 +241,8 @@ const mapDispathToProps = (dispatch, ownProps) => ({
   addDish: payload => dispatch(dishActions.addDish(payload)),
   deleteDish: payload => dispatch(dishActions.deleteDish(payload)),
   updateDish: payload => dispatch(dishActions.updateDish(payload)),
-  getDish: payload => dispatch(dishActions.getDish(payload))
+  getDish: payload => dispatch(dishActions.getDish(payload)),
+  uploadDishImage: payload => dispatch(dishActions.uploadDishImage(payload))
 });
 
 export default connect(

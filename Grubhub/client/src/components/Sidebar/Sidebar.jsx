@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { ListGroup } from "react-bootstrap";
+import { Navbar, ListGroup } from "react-bootstrap";
 import { connect } from "react-redux";
 import "./style.css";
 import { NavLink } from "react-router-dom";
+import cookie from "js-cookie";
 
 const sidebarRoutes = {
   vendor: [
@@ -18,23 +19,8 @@ const sidebarRoutes = {
       url: "/menu",
       name: "Menu"
     }
-  ],
-  user: [
-    {
-      url: "/search",
-      name: "Search"
-    },
-    {
-      url: "/profile",
-      name: "Account Details"
-    },
-    {
-      url: "/order",
-      name: "Orders"
-    }
   ]
 };
-
 class Sidebar extends Component {
   constructor(props) {
     super(props);
@@ -46,89 +32,63 @@ class Sidebar extends Component {
   }
 
   componentDidMount() {
-    if (
-      window.location.pathname === "/" ||
-      window.location.pathname === "/login-user" ||
-      window.location.pathname === "/login-vendor" ||
-      window.location.pathname === "/create-user" ||
-      window.location.pathname === "/create-vendor"
-    ) {
+    if (this.props.user) {
       this.setState({
-        visible: false
+        userId: this.props.user.id
       });
     }
   }
   componentWillReceiveProps(nextProps) {
-    if (
-      nextProps.location.pathname === "/" ||
-      nextProps.location.pathname === "/login-user" ||
-      nextProps.location.pathname === "/login-vendor" ||
-      nextProps.location.pathname === "/create-user" ||
-      nextProps.location.pathname === "/create-vendor"
-    ) {
+    if (!this.state.userId) {
       this.setState({
-        visible: false
-      });
-    } else {
-      this.setState({
-        visible: true,
         userId: nextProps.user.id
       });
     }
   }
-
+  handleLogout = e => {
+    e.preventDefault();
+    cookie.remove("token");
+    localStorage.clear();
+    window.location.href = "/";
+  };
   render() {
-    const { visible, currentSelection, userId } = this.state;
+    const { userId } = this.state;
     return (
-      <div>
-        {visible ? (
-          <div>
-            <nav className="sidebar">
-              <ListGroup variant="flush">
-                <ListGroup.Item variant="danger"></ListGroup.Item>
-                {this.props.user.account_type === "Vendor"
-                  ? sidebarRoutes.vendor.map((route, index) => {
-                      return (
-                        <NavLink
-                          key={`/${userId}${route.url}`}
-                          to={`/${userId}${route.url}`}
-                        >
-                          <ListGroup.Item
-                            action
-                            variant="danger"
-                            active={currentSelection === index}
-                            onClick={() => {
-                              this.setState({ currentSelection: index });
-                            }}
-                          >
-                            {route.name}
-                          </ListGroup.Item>
-                        </NavLink>
-                      );
-                    })
-                  : sidebarRoutes.user.map((route, index) => {
-                      return (
-                        <NavLink
-                          key={`/${userId}${route.url}`}
-                          to={`/${userId}${route.url}`}
-                        >
-                          <ListGroup.Item
-                            action
-                            variant="danger"
-                            active={currentSelection === index}
-                            onClick={() => {
-                              this.setState({ currentSelection: index });
-                            }}
-                          >
-                            {route.name}
-                          </ListGroup.Item>
-                        </NavLink>
-                      );
-                    })}
-              </ListGroup>
-            </nav>
-          </div>
-        ) : null}
+      <div className="fixed">
+        <nav className="sidebar flex-column">
+          <ListGroup variant="flush">
+            <ListGroup.Item variant="danger">
+              <Navbar.Brand>
+                <NavLink to={"/"}>Grubhub</NavLink>
+              </Navbar.Brand>
+              <button
+                type="button"
+                onClick={this.handleLogout}
+                className="btn btn-outline-danger"
+              >
+                Log Out
+              </button>
+            </ListGroup.Item>
+            {sidebarRoutes.vendor.map((route, selection) => {
+              return (
+                <NavLink
+                  key={`/${userId}${route.url}`}
+                  to={`/${userId}${route.url}`}
+                >
+                  <ListGroup.Item
+                    action
+                    variant="danger"
+                    onClick={() => {
+                      this.setState({ currentSelection: selection });
+                    }}
+                  >
+                    {route.name}
+                  </ListGroup.Item>
+                </NavLink>
+              );
+            })}
+          </ListGroup>
+        </nav>
       </div>
     );
   }

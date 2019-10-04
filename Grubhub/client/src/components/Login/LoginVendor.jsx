@@ -2,19 +2,15 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { userActions } from "../../js/actions/index";
 import { connect } from "react-redux";
+import { ToastContainer } from "react-toastify";
 
 class LoginVendor extends Component {
   constructor() {
     super();
     this.state = {
       email: "",
-      password: "",
-      valid: false
+      password: ""
     };
-  }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.user.valid) {
-    }
   }
   handleChange = e => {
     this.setState({
@@ -75,6 +71,8 @@ class LoginVendor extends Component {
                       </button>
                     </div>
                   </form>
+                  <ToastContainer autoClose={2000} />
+
                   <br></br>
                   <Link to="/create-vendor">
                     <p className="text-center">Create Vendor Account</p>
@@ -90,7 +88,6 @@ class LoginVendor extends Component {
 }
 
 const mapStateToProps = state => ({
-  history: state.history,
   user: state.user
 });
 const mapDispathToProps = (dispath, ownProps) => ({

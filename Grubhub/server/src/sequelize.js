@@ -25,7 +25,7 @@ Dishes_Restaurant.belongsTo(Restaurants);
 Orders.belongsTo(Users);
 Orders.belongsTo(Restaurants);
 Dishes_Order.belongsTo(Orders);
-Dishes_Order.belongsTo(Items);
+Dishes_Order.belongsTo(Dishes);
 
 
 sequelize.sync()

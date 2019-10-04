@@ -41,7 +41,36 @@ const dishRestaurantModel = (sequelize, type) => {
         underscored: true
     });
 }
+
+const dishOrderModel = (sequelize, type) => {
+    return sequelize.define('order_dish', {
+        id: {
+            type: type.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        dish_id: {
+            type: type.INTEGER,
+            references: {
+                model: 'items',
+                key: 'id'
+            }
+        },
+        order_id: {
+            type: type.INTEGER,
+            references: {
+                model: 'orders',
+                key: 'id'
+            }
+        },
+        quantity: type.INTEGER
+    }, {
+        underscored: true
+    })
+}
+
 export {
     dishModel,
-    dishRestaurantModel
+    dishRestaurantModel,
+    dishOrderModel
 };

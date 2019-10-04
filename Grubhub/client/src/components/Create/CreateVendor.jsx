@@ -84,7 +84,7 @@ class CreateVendor extends Component {
                     <div className="form-row">
                       <div className="form-group col-md-12">
                         <label htmlFor="password">
-                          Password (8 character minimum)
+                          Password
                         </label>
                         <input
                           type="password"

@@ -7,14 +7,21 @@ const initialState = {
     password: "",
     account_type: "",
     token: "",
+    image: "",
     valid: false
 };
 
 const userReducer = (state = initialState, action) => {
+    let newState = action.payload;
     switch (action.type) {
         case actionTypes.SET_USER:
-            let newState = action.payload;
             newState.valid = true;
+            return Object.assign({}, state, newState);
+        case actionTypes.SET_INVALID:
+            newState.valid = false;
+            return Object.assign({}, state, newState);
+        case actionTypes.SET_PROFILE_PIC:
+            newState = action.payload;
             return Object.assign({}, state, newState);
         default:
             break;

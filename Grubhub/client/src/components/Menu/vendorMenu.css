@@ -1,0 +1,15 @@
+.menuCard {
+    margin: 0 30px;
+    border: 1px double;
+    width: 200px;
+    height: 100px;
+    text-align: center;
+}
+
+.vendorMenu {
+    max-width: unset;
+    margin: 0;
+    padding: 30px 0 !important;
+    padding-left: 330px !important;
+    padding-right: 30px !important;
+}

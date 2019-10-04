@@ -1,11 +1,19 @@
 import actionTypes from "../constants/index";
 import axios from "axios";
+import cookie from "js-cookie";
+import {
+    toast
+} from "react-toastify";
+
 
 const loginUser = (payload, ownProps) => {
     return dispatch => {
         return axios.post("http://localhost:3001/login", payload).then(response => {
             if (response.status === 200) {
                 const userData = response.data;
+                cookie.set("token", userData.token, {
+                    expires: 1
+                })
                 dispatch({
                     type: actionTypes.SET_USER,
                     payload: userData
@@ -16,7 +24,10 @@ const loginUser = (payload, ownProps) => {
                     ownProps.history.push(`/${userData.id}/search`);
                 }
             }
-        })
+        }).catch(err => {
+            console.log("Login error:", err)
+            toast.error("User not found! Try creating an account?");
+        });
     }
 }
 
@@ -25,6 +36,9 @@ const registerUser = (payload, ownProps) => {
         return axios.post("http://localhost:3001/register", payload).then(response => {
             if (response.status === 200) {
                 const userData = response.data;
+                cookie.set("token", userData.token, {
+                    expires: 1
+                })
                 dispatch({
                     type: actionTypes.SET_USER,
                     payload: userData
@@ -46,22 +60,55 @@ const updateUser = (payload) => {
                 if (response.status === 200) {
                     const userData = response.data.user;
                     userData.valid = true;
-                    const restaurantData = response.data.restaurant;
                     dispatch({
                         type: actionTypes.SET_USER,
                         payload: userData
                     });
-                    dispatch({
-                        type: actionTypes.SET_RESTAURANT,
-                        payload: restaurantData
-                    });
+                    if (userData.type === "Vendor") {
+                        const restaurantData = response.data.restaurant;
+                        dispatch({
+                            type: actionTypes.SET_RESTAURANT,
+                            payload: restaurantData
+                        });
+                    }
+                    toast.success("Successfully updated data!")
                 }
             })
+    }
+}
+
+const getUser = payload => {
+    return dispatch => {
+        return axios.get(`http://localhost:3001/user/${payload.user_id}`)
+            .then(response => {
+                if (response.status === 200) {
+                    const userData = response.data;
+                    dispatch({
+                        type: actionTypes.SET_USER,
+                        payload: userData
+                    })
+                }
+            })
+    }
+}
+
+const uploadProfileImage = payload => {
+    return dispatch => {
+        return axios.post(`http://localhost:3001/user/upload/image`, payload).then(response => {
+            if (response.status === 200) {
+                dispatch({
+                    type: actionTypes.SET_PROFILE_PIC,
+                    payload: response.data
+                })
+            }
+        })
     }
 }
 
 export {
     registerUser,
     loginUser,
-    updateUser
+    updateUser,
+    getUser,
+    uploadProfileImage
 };
