@@ -5,7 +5,6 @@ const dishRouter = express.Router();
 
 dishRouter.post("/dish/add", (req, res) => {
     const dish_details = req.body;
-    console.log(dish_details)
     dishHandler.addDish(dish_details).then(result => {
         res.status(200).json(result);
     }).catch(err => {

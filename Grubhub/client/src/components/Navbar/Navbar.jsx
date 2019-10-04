@@ -6,16 +6,20 @@ import cookie from "js-cookie";
 class Navigbar extends Component {
   constructor() {
     super();
-    this.setState = {
+    this.state = {
       user: ""
     };
   }
   componentDidMount() {
-    this.setState({ user: this.props.user });
+    this.setState({
+      user: this.props.user
+    });
   }
   //WARNING! To be deprecated in React v17. Use new lifecycle static getDerivedStateFromProps instead.
   componentWillReceiveProps(nextProps) {
-    this.setState({ user: nextProps.user });
+    this.setState({
+      user: nextProps.user
+    });
   }
 
   handleLogout = e => {

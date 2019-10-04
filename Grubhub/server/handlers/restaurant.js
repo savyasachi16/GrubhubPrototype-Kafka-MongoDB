@@ -99,9 +99,78 @@ const getRestaurantMenu = (restaurant_id) => {
     })
 }
 
+const getRestaurantDetails = restaurant_id => {
+    return Restaurants.findOne({
+        where: {
+            id: restaurant_id
+        }
+    }).then(restaurant => {
+        if (!restaurant) {
+            throw new Error("Restaurant not found in DB!");
+        }
+        return getRestaurantMenu(restaurant_id).then(menu => {
+            restaurant.dataValues.menu = menu;
+            return {
+                current_restaurant: restaurant
+            };
+        });
+    });
+};
+
+const updateSection = section => {
+    if (!section.dishes || !section.dishes.length) {
+        throw new Error('No dishes in section.')
+    }
+    return Promise.map(section.dishes, dish => {
+        return Dishes.findOne({
+            where: {
+                id: dish
+            }
+        }).then(currentDish => {
+            return currentDish.update({
+                section: section.updated_name
+            })
+        })
+    }).then(() => {
+        return getRestaurantMenu(section.restaurant_id);
+    }).catch(err => {
+        return ({
+            message: err
+        });
+    });
+}
+
+const deleteSection = section => {
+    if (!section.dishes || !section.dishes.length) {
+        throw new Error('No dishes in section.')
+    }
+    return Promise.map(section.dishes, dish => {
+        return Dishes_Restaurant.destroy({
+            where: {
+                dish_id: dish
+            }
+        }).then(() => {
+            return Dishes.destroy({
+                where: {
+                    id: dish
+                }
+            });
+        });
+    }).then(() => {
+        return getRestaurantMenu(section.restaurant_id);
+    }).catch(err => {
+        return ({
+            message: err
+        });
+    });
+}
 export default {
     createRestaurant,
     getRestaurant,
     updateRestaurant,
-    getRestaurantMenu
+    getRestaurantMenu,
+    getRestaurantDetails,
+    updateSection,
+    deleteSection
+
 }

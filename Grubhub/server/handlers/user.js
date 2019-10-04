@@ -146,8 +146,63 @@ const updateUser = userDetails => {
     })
 }
 
+const getUser = id => {
+    return Users.findOne({
+        where: {
+            id
+        }
+    }).then(user => {
+        if (!user) {
+            throw new Error('User not found in DB!');
+        }
+        const {
+            id,
+            first_name,
+            last_name,
+            email,
+            account_type,
+            phone,
+            address,
+            image
+        } = user;
+        return {
+            id,
+            first_name,
+            last_name,
+            email,
+            account_type,
+            phone,
+            address,
+            image
+        };
+    })
+}
+
+const uploadUserImage = file => {
+    return uploader
+        .upload(file, {
+            transformation: [{
+                width: 175,
+                height: 125,
+                crop: "scale"
+            }]
+        })
+        .then(result => {
+            const image = result.url;
+            return ({
+                image
+            });
+        })
+        .catch(err => ({
+            messge: "Error while uploading image to repo: ",
+            err
+        }));
+};
+
 export {
     registerUser,
     loginUser,
-    updateUser
+    updateUser,
+    getUser,
+    uploadUserImage
 };

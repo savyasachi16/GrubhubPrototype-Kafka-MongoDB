@@ -1,6 +1,15 @@
 import express from 'express';
 import passport from 'passport';
 import * as userHandler from '../handlers/user'
+import {
+    multerUploads,
+    dataUri
+} from '../config/multer';
+import {
+    cloudinaryConfig
+} from '../config/cloudinary'
+
+
 
 const userRouter = express.Router();
 
@@ -44,5 +53,29 @@ userRouter.put("/userUpdate/:user_id", (req, res) => {
         res.status(500).json(err);
     })
 })
+
+userRouter.get("/get/:id", (req, res) => {
+    userHandler.getUser(req.params.id).then(result => {
+        res.status(200).json(result);
+    }).catch(err => {
+        res.status(500).json(err);
+    });
+});
+
+userRouter.post("/upload/image", multerUploads, cloudinaryConfig, (req, res) => {
+    let file;
+    if (req.file) {
+        file = dataUri(req).content;
+    } else {
+        res.status(400).json({
+            message: 'File not upload!'
+        });
+    }
+    userHandler.uploadUserImage(file).then(result => {
+        res.status(200).json(result);
+    }).catch(err => {
+        res.status(500).json(err);
+    });
+});
 
 export default userRouter;

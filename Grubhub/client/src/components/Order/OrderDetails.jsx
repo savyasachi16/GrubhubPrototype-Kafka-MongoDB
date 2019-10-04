@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import BootstrapTable from "react-bootstrap-table-next";
-import { ownerActions } from "../../js/actions/index";
+import { vendorActions } from "../../js/actions/index";
 import { Link } from "react-router-dom";
 
 class Orders extends Component {
@@ -70,7 +70,7 @@ class Orders extends Component {
     };
   }
   componentDidMount() {
-    if (this.props.user.type === "Owner") {
+    if (this.props.user.type === "Vendor") {
       this.props.getRestaurantOrders({
         id: this.props.restaurant.id
       });
@@ -169,9 +169,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   getRestaurantOrders: payload =>
-    dispatch(ownerActions.getRestaurantOrders(payload)),
-  changeStatus: payload => dispatch(ownerActions.changeStatus(payload)),
-  getBuyerOrders: payload => dispatch(ownerActions.getBuyerOrders(payload))
+    dispatch(vendorActions.getRestaurantOrders(payload)),
+  changeStatus: payload => dispatch(vendorActions.changeStatus(payload)),
+  getBuyerOrders: payload => dispatch(vendorActions.getBuyerOrders(payload))
 });
 
 export default connect(

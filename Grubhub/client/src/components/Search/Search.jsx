@@ -25,7 +25,7 @@ class Search extends Component {
   render() {
     return (
       <div>
-        <Navigbar></Navigbar>{" "}
+        <Navigbar></Navigbar>
         <div className="container p-4 col-sm-7">
           <form onSubmit={e => this.handleSearch(e)}>
             <div className="row">

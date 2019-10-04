@@ -111,9 +111,29 @@ const getOrdersByCustomer = user_id => {
     })
 }
 
+const createOrder = order_details => {
+    return Orders.create({
+        user_id: order_details.user_id.user_id,
+        restaurant_id: order_details.restaurant_id,
+        price: order_details.total_price,
+        status: "NEW"
+    }).then(order => {
+        return Promise.map(order_details.cart, dish => {
+            return Dishes_Order.create({
+                dish_id: dish.id,
+                order_id: order.id,
+                quantity: dish.quantity
+            })
+        }).then(() => {
+            return order
+        })
+    })
+}
+
 export {
     getOrdersByRestaurant,
     updateOrder,
     getOrderDetails,
-    getOrdersByCustomer
+    getOrdersByCustomer,
+    createOrder
 }

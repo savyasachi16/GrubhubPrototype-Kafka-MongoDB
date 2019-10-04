@@ -90,8 +90,8 @@ class LoginVendor extends Component {
 const mapStateToProps = state => ({
   user: state.user
 });
-const mapDispathToProps = (dispath, ownProps) => ({
-  loginUser: payload => dispath(userActions.loginUser(payload, ownProps))
+const mapDispathToProps = (dispatch, ownProps) => ({
+  loginUser: payload => dispatch(userActions.loginUser(payload, ownProps))
 });
 
 export default connect(

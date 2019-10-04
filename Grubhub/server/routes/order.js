@@ -17,7 +17,7 @@ orderRouter.put("/update/:order_id", (req, res) => {
         id: req.params.order_id,
         status: req.body.status
     };
-    orderService.updateOrder(order_details)
+    orderHandler.updateOrder(order_details)
         .then(result => {
             res.status(200).json(result);
         }).catch(err => {
@@ -29,7 +29,7 @@ orderRouter.put("/update/:order_id", (req, res) => {
 
 orderRouter.get("/:order_id", (req, res) => {
     const order_id = req.params.order_id;
-    orderService.getOrderDetails(order_id)
+    orderHandler.getOrderDetails(order_id)
         .then(result => {
             res.status(200).json(result);
         }).catch(err => {
@@ -39,9 +39,9 @@ orderRouter.get("/:order_id", (req, res) => {
         })
 });
 
-orderRouter.get("/customer/:user_id", (req, res) => {
+orderRouter.get("/buyer/:user_id", (req, res) => {
     const user_id = req.params.user_id;
-    orderService
+    orderHandler
         .getOrdersByCustomer(user_id)
         .then(result => {
             res.status(200).json(result);
@@ -52,6 +52,18 @@ orderRouter.get("/customer/:user_id", (req, res) => {
             });
         });
 });
+
+orderRouter.post("/confirmOrder", (req, res) => {
+    const order_details = req.body
+    return orderHandler.createOrder(order_details).then(result => {
+        res.status(200).json(result);
+    }).catch(err => {
+        res.status(500).json({
+            message: err.message
+        })
+    })
+})
+
 
 
 export default orderRouter;
