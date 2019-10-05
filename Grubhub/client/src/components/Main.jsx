@@ -29,7 +29,7 @@ class Main extends Component {
           <Route path="/dish/detail/:dish_id" exact component={Dish} />
           <Route path="/:id/menu" exact component={vendorMenu} />
           <Route path="/:id/search" exact component={Search} />
-          <Route path="results" exact component={SearchResults} />
+          <Route path="/results" exact component={SearchResults} />
           <Route path="/order/detail/:order_id" exact component={BuyerOrder} />
           <Route
             path="/restaurant/detail/:restaurant_id"

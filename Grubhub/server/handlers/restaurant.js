@@ -4,6 +4,7 @@ import {
     Dishes
 } from "../src/sequelize";
 import _ from "lodash";
+import Promise from "bluebird";
 
 const createRestaurant = restaurantDetails => {
     return Restaurants.create({
@@ -92,6 +93,7 @@ const getRestaurantMenu = (restaurant_id) => {
         }).then(allDishes => {
             const groupedDishes = _.chain(allDishes).map('dish').groupBy('section').map((value, key) => ({
                 section: key,
+                id: value[0].id,
                 dishes: value
             })).flatten().value();
             return groupedDishes

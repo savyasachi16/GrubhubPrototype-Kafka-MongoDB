@@ -8,8 +8,6 @@ const initialState = {
     account_type: "",
     token: "",
     image: "",
-    phone: "",
-    address: "",
     invalid: false
 };
 

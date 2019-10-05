@@ -13,7 +13,7 @@ const getResults = (payload, ownProps) => {
                     type: actionTypes.SET_SEARCH_RESULTS,
                     payload: response.data
                 })
-                ownProps.history.push("/searchresults")
+                ownProps.history.push("/results")
             }
         })
     }
@@ -53,7 +53,6 @@ const placeOrder = (payload, ownProps) => {
                         type: actionTypes.CLEAR_CART,
                         payload: response.data
                     });
-                    console.log(ownProps.history);
                     ownProps.history.replace(`/${payload.user_id}/order`);
                 }
             });

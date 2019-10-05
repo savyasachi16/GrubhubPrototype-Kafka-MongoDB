@@ -90,7 +90,7 @@ const getBuyerOrders = payload => {
 
 const editSection = payload => {
     return dispatch => {
-        return axios.put("http://localhost:/3001/restaurant/menu/section", payload).then(response => {
+        return axios.put("http://localhost:3001/restaurant/menu/section", payload).then(response => {
             if (response.status === 200) {
                 dispatch({
                     type: actionTypes.SET_MENU,

@@ -84,17 +84,17 @@ const updateDish = (dish_details) => {
     })
 };
 const deleteDish = dish_id => {
-    return Dishes.destroy({
+    return Dishes_Restaurant.destroy({
         where: {
-            id: dish_id
+            dish_id
         }
     }).then(rows => {
         if (!rows) {
             throw new Error("Dish not deleted in DB!");
         }
-        return Dishes_Restaurant.destroy({
+        return Dishes.destroy({
             wehre: {
-                dish_id
+                id: dish_id
             }
         }).then(rows => {
             if (!rows) {

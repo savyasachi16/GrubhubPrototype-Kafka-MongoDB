@@ -96,7 +96,7 @@ class CreateUser extends Component {
                       </div>
                     </div>
                     <div className="form-row"></div>
-                    <button type="submit" className="btn btn-primary btn-block">
+                    <button type="submit" className="btn btn-danger btn-block">
                       <b>Create your account</b>
                     </button>
                   </form>

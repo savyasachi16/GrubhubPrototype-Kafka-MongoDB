@@ -24,9 +24,9 @@ restaurantRouter.get('/restaurant/menu/:restaurant_id', (req, res) => {
     })
 })
 
-restaurantRouter.put('/menu/section', (req, res) => {
+restaurantRouter.put('/restaurant/menu/section', (req, res) => {
     const section = req.body;
-    restaurantHandler.getRestaurantDetails(restaurant_id).then(result => {
+    restaurantHandler.updateSection(section).then(result => {
         res.status(200).json(result)
     }).catch(err => {
         res.status(500).json({
@@ -35,18 +35,7 @@ restaurantRouter.put('/menu/section', (req, res) => {
     })
 })
 
-restaurantRouter.put('/menu/section', (req, res) => {
-    const section = req.body;
-    restaurantHandler.updateSection(section).then(result => {
-        res.status(200).json(result);
-    }).catch(err => {
-        res.status(500).json({
-            message: err.message
-        });
-    });
-});
-
-restaurantRouter.put('/menu/section/delete', (req, res) => {
+restaurantRouter.put('/restaurant/menu/section/delete', (req, res) => {
     const section = req.body;
     restaurantHandler.deleteSection(section).then(result => {
         res.status(200).json(result);

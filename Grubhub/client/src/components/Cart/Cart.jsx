@@ -93,7 +93,7 @@ class Cart extends Component {
               <div className="place_order">
                 <button
                   id="placeOrder"
-                  className="btn btn-primary"
+                  className="btn btn-danger"
                   onClick={this.handlePlaceOrder}
                 >
                   Place Order

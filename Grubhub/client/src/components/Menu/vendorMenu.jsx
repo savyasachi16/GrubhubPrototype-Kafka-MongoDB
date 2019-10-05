@@ -38,9 +38,9 @@ class vendorMenu extends Component {
   }
   handleChange = e => {
     e.preventDefault();
-    var key = parseInt(e.currentTarget.id);
-    var value = e.currentTarget.value;
-    var updatedSection = [...this.state.sections];
+    let key = parseInt(e.currentTarget.id);
+    let value = e.currentTarget.value;
+    let updatedSection = [...this.state.sections];
     _.find(updatedSection, { id: key }).updated_name = value;
     this.setState({
       sections: updatedSection
@@ -71,12 +71,12 @@ class vendorMenu extends Component {
         <Container className="vendorMenu">
           <Row className="p-3 col-sm-9 col-md-7 col-lg-5 mx-auto align-center">
             <Link to="/dish">
-              <button type="submit" className="btn btn-primary m-3">
+              <button type="submit" className="btn btn-danger m-3">
                 Add Dish
               </button>
             </Link>
           </Row>
-          <div className="container shadow p-4 col-sm-9 col-md-7 col-lg-5 mx-auto">
+          <div className="container shadow p-4 col-sm-9 mx-auto">
             {this.state.menu && this.state.menu.length
               ? this.state.menu.map(eachSection => {
                   return (
@@ -93,7 +93,7 @@ class vendorMenu extends Component {
                               onChange={this.handleChange}
                               key={eachSection.id}
                               id={eachSection.id}
-                              placeholder="Section Title"
+                              placeholder="Update Title"
                               aria-describedby="button-addon4"
                             />
                             <div
@@ -101,7 +101,7 @@ class vendorMenu extends Component {
                               id="button-addon4"
                             >
                               <button
-                                className="btn btn-outline-secondary"
+                                className="btn btn-outline-danger"
                                 type="button"
                                 name="edit"
                                 value={eachSection.id}
@@ -110,7 +110,7 @@ class vendorMenu extends Component {
                                 Edit
                               </button>
                               <button
-                                className="btn btn-outline-secondary"
+                                className="btn btn-outline-danger"
                                 type="button"
                                 name="delete"
                                 value={eachSection.id}
@@ -130,10 +130,12 @@ class vendorMenu extends Component {
                               return (
                                 <Link key={dish.id} to={dish_detail_link}>
                                   <div className="m-2">
-                                    <Card style={{ width: "14rem" }}>
+                                    <Card style={{ width: "12rem" }}>
                                       <Card.Img
                                         variant="top"
                                         src={dish.image}
+                                        width="60px"
+                                        height="90px"
                                       />
                                       <Card.Body>
                                         <Card.Title>{dish.name}</Card.Title>

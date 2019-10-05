@@ -44,7 +44,7 @@ class Search extends Component {
             </div>
             <div className="row">
               <div className="col text-center">
-                <button type="submit" className="btn btn-info">
+                <button type="submit" className="btn btn-danger">
                   Search
                 </button>
               </div>
@@ -56,8 +56,8 @@ class Search extends Component {
   }
 }
 
-const mapDispathToProps = dispatch => ({
-  getResults: payload => dispatch(buyerActions.getResults(payload))
+const mapDispathToProps = (dispatch, ownProps) => ({
+  getResults: payload => dispatch(buyerActions.getResults(payload, ownProps))
 });
 
 export default connect(
