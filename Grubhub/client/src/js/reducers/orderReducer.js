@@ -1,17 +1,7 @@
 import actionTypes from "../constants/index";
 const initialState = {
-    current_orders: [{
-        id: "",
-        customer_name: "",
-        amount: "",
-        status: ""
-    }],
-    past_orders: [{
-        id: "",
-        customer_name: "",
-        amount: "",
-        status
-    }],
+    current_orders: [],
+    past_orders: [],
     active: {}
 }
 

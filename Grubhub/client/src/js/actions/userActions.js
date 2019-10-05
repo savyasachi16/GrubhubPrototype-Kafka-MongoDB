@@ -54,6 +54,7 @@ const registerUser = (payload, ownProps) => {
 };
 
 const updateUser = payload => {
+    console.log("In updateUser:", payload)
     return dispatch => {
         return axios.put(`http://localhost:3001/userUpdate/${payload.id}`, payload)
             .then(response => {

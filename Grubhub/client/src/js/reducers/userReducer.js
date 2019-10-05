@@ -10,17 +10,19 @@ const initialState = {
     image: "",
     phone: "",
     address: "",
-    valid: false
+    invalid: false
 };
 
 const userReducer = (state = initialState, action) => {
-    let newState = action.payload;
+    let newState;
     switch (action.type) {
         case actionTypes.SET_USER:
-            newState.valid = true;
+            newState = action.payload;
+            newState.invalid = false;
             return Object.assign({}, state, newState);
         case actionTypes.SET_INVALID:
-            newState.valid = false;
+            newState = action.payload;
+            newState.invalid = true;
             return Object.assign({}, state, newState);
         case actionTypes.SET_PROFILE_PIC:
             newState = action.payload;

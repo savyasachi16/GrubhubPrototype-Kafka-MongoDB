@@ -11,13 +11,16 @@ const intialState = {
 };
 
 const restaurantReducer = (state = intialState, action) => {
-    let newState = action.payload;
+    let newState
     switch (action.type) {
         case actionTypes.SET_RESTAURANT:
+            newState = action.payload;
             return Object.assign({}, state, newState);
         case actionTypes.SET_MENU:
+            newState = action.payload;
             return Object.assign({}, state, newState);
         case actionTypes.SET_RESTAURANT_PIC:
+            newState = action.payload;
             return Object.assign({}, state, newState);
         default:
             break;

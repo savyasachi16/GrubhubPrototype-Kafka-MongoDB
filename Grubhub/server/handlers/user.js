@@ -93,6 +93,7 @@ const loginUser = userCredentials => {
 };
 
 const updateUser = userDetails => {
+    console.log("User Details", userDetails)
     return Users.findOne({
         where: {
             id: userDetails.user_id

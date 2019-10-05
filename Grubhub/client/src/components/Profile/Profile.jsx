@@ -348,7 +348,12 @@ class Profile extends Component {
                     <Container>
                       <Row>
                         <Col xs={6} md={4}>
-                          <Image src={this.state.restaurant_image} rounded />
+                          <Image
+                            src={this.state.restaurant_image}
+                            roundedCircle
+                            width="250px"
+                            height="250px"
+                          />
                         </Col>
                       </Row>
                     </Container>
@@ -381,7 +386,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   updateUser: payload => dispatch(userActions.updateUser(payload)),
-  getUser: payload => dispatch(userActions.getUser(payload)),
   getRestaurant: payload => dispatch(vendorActions.getRestaurant(payload)),
   uploadProfileImage: payload =>
     dispatch(userActions.uploadProfileImage(payload)),
