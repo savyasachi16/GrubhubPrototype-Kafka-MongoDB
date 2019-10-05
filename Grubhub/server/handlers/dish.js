@@ -47,6 +47,7 @@ const getDishDetails = dish_id => {
 };
 
 const updateDish = (dish_details) => {
+    console.log("updateDish:", dish_details)
     return Dishes.findOne({
         where: {
             id: dish_details.id

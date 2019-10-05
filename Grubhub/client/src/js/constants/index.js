@@ -12,7 +12,9 @@ const action_types = {
     SET_PROFILE_PIC: 'SET_PROFILE_PIC',
     SET_RESTAURANT_PIC: 'SET_RESTAURANT_PIC',
     SET_INVALID: 'SET_INVALID',
-    SET_DISH_IMAGE: 'SET_DISH_IMAGE'
+    SET_DISH_IMAGE: 'SET_DISH_IMAGE',
+    CLEAR_CART: 'CLEAR_CART',
+    ADD_TO_CART: 'ADD_TO_CART'
 };
 
 export default action_types;

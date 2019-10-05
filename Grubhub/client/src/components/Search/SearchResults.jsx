@@ -92,7 +92,7 @@ class SearchResults extends Component {
 }
 
 const mapStateToProps = state => ({
-  search_results: state.customer.search_results
+  search_results: state.buyer.search_results
 });
 
 export default connect(mapStateToProps)(SearchResults);

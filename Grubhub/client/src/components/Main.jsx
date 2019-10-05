@@ -10,6 +10,9 @@ import Dish from "./Dish/Dish";
 import vendorMenu from "./Menu/vendorMenu";
 import Search from "./Search/Search";
 import BuyerOrder from "./Order/BuyerOrder";
+import Cart from "./Cart/Cart";
+import SearchResults from "./Search/SearchResults";
+import Restaurant from "./Restaurant/Restaurant";
 class Main extends Component {
   render() {
     return (
@@ -26,7 +29,14 @@ class Main extends Component {
           <Route path="/dish/detail/:dish_id" exact component={Dish} />
           <Route path="/:id/menu" exact component={vendorMenu} />
           <Route path="/:id/search" exact component={Search} />
-          <Route path="/order/detail/:order_id" component={BuyerOrder} />
+          <Route path="results" exact component={SearchResults} />
+          <Route path="/order/detail/:order_id" exact component={BuyerOrder} />
+          <Route
+            path="/restaurant/detail/:restaurant_id"
+            exact
+            component={Restaurant}
+          />
+          <Route exact path="/:id/cart" component={Cart} />
         </BrowserRouter>
       </div>
     );

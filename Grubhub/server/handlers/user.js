@@ -4,6 +4,9 @@ import {
 import jwtScecret from '../config/jwtConfig'
 import jwt from 'jsonwebtoken';
 import restaurantHandler from "./restaurant";
+import {
+    uploader
+} from "../config/cloudinary"
 
 const registerUser = userDetails => {
     return Users.findOne({
@@ -70,7 +73,10 @@ const loginUser = userCredentials => {
             first_name,
             last_name,
             email,
-            account_type
+            account_type,
+            phone,
+            address,
+            image,
         } = user;
         return {
             id,
@@ -78,6 +84,9 @@ const loginUser = userCredentials => {
             last_name,
             email,
             account_type,
+            phone,
+            address,
+            image,
             token
         };
     });

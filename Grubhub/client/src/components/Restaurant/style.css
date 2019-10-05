@@ -1,0 +1,25 @@
+.img-thumbnail {
+    width: 300px;
+    height: 250px;
+    margin-left: 60%;
+}
+
+.restaurant_name {
+    margin-left: 14%;
+    margin-top: 3%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+}
+
+.restaurant_title {
+    padding-top: 31px;
+}
+
+.menu {
+    padding: 15px;
+}
+
+.section {
+    padding: 16px;
+}

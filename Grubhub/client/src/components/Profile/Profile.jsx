@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { Container, Row, Col, Image } from "react-bootstrap";
 import Navigbar from "../Navbar/Navbar";
 import Sidebar from "../Sidebar/Sidebar";
+import "./style.css";
 class Profile extends Component {
   constructor(props) {
     super(props);
@@ -70,7 +71,7 @@ class Profile extends Component {
       account_type,
       address,
       image
-    } = this.props.user;
+    } = nextProps.user;
     const restaurant = nextProps.restaurant;
     this.setState({
       id,
@@ -125,7 +126,7 @@ class Profile extends Component {
   render() {
     return (
       <div>
-        {this.state.type === "Vendor" ? <Sidebar /> : <Navigbar />}
+        {this.state.account_type === "Vendor" ? <Sidebar /> : <Navigbar />}
         <div className="form-row">
           <div className="container shadow p-4 col-sm-9 col-md-7 col-lg-5 mx-auto">
             <form onSubmit={e => this.handleUpdate(e)}>
@@ -187,7 +188,7 @@ class Profile extends Component {
                 </div>
               </div>
               <div className="form-group image-upload">
-                <label htmlFor="image">Image</label>
+                <label htmlFor="image"> Profile Image</label>
                 <div className="custom-file">
                   <input
                     type="file"
@@ -230,11 +231,16 @@ class Profile extends Component {
                   </button>
                 </div>
               </div>
-              <div className="form-group" style={{ width: "60rem" }}>
+              <div className="form-group" style={{ width: "30 rem" }}>
                 <Container>
                   <Row>
-                    <Col xs={6} md={4}>
-                      <Image src={this.state.image} roundedCircle />
+                    <Col xs={3} md={2}>
+                      <Image
+                        src={this.state.image}
+                        roundedCircle
+                        width="250px"
+                        height="250px"
+                      />
                     </Col>
                   </Row>
                 </Container>
@@ -338,7 +344,7 @@ class Profile extends Component {
                       </button>
                     </div>
                   </div>
-                  <div className="form-group" style={{ width: "60rem" }}>
+                  <div className="form-group" style={{ width: "30rem" }}>
                     <Container>
                       <Row>
                         <Col xs={6} md={4}>
@@ -375,6 +381,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   updateUser: payload => dispatch(userActions.updateUser(payload)),
+  getUser: payload => dispatch(userActions.getUser(payload)),
   getRestaurant: payload => dispatch(vendorActions.getRestaurant(payload)),
   uploadProfileImage: payload =>
     dispatch(userActions.uploadProfileImage(payload)),

@@ -58,16 +58,15 @@ class Sidebar extends Component {
         <nav className="sidebar flex-column">
           <ListGroup variant="flush">
             <ListGroup.Item variant="danger">
-              <Navbar.Brand>
-                <NavLink to={"/"}>Grubhub</NavLink>
+              <Navbar.Brand href={`/${userId}/profile`}>
+                <img
+                  src="https://assets.grubhub.com/assets/img/grubhub/logo-full-primary.svg"
+                  width="125px"
+                  height="33px"
+                  className="d-inline-block align-top"
+                  alt="Main logo link to home"
+                />
               </Navbar.Brand>
-              <button
-                type="button"
-                onClick={this.handleLogout}
-                className="btn btn-outline-danger"
-              >
-                Log Out
-              </button>
             </ListGroup.Item>
             {sidebarRoutes.vendor.map((route, selection) => {
               return (
@@ -87,6 +86,9 @@ class Sidebar extends Component {
                 </NavLink>
               );
             })}
+            <ListGroup.Item action variant="danger" onClick={this.handleLogout}>
+              Logout
+            </ListGroup.Item>
           </ListGroup>
         </nav>
       </div>

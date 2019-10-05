@@ -36,10 +36,10 @@ class Navigbar extends Component {
         <Navbar.Brand href={redirect}>
           <img
             src="https://assets.grubhub.com/assets/img/grubhub/logo-full-primary.svg"
-            width="115px"
-            height="23px"
+            width="125px"
+            height="33px"
             className="d-inline-block align-top"
-            alt="Main logo link to landing"
+            alt="Main logo link to home"
           />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

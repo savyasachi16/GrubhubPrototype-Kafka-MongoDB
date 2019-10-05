@@ -53,13 +53,13 @@ const registerUser = (payload, ownProps) => {
     };
 };
 
-const updateUser = (payload) => {
+const updateUser = payload => {
     return dispatch => {
         return axios.put(`http://localhost:3001/userUpdate/${payload.id}`, payload)
             .then(response => {
                 if (response.status === 200) {
                     const userData = response.data.user;
-                    userData.valid = true;
+                    userData.update_success = true;
                     dispatch({
                         type: actionTypes.SET_USER,
                         payload: userData
@@ -94,7 +94,7 @@ const getUser = payload => {
 
 const uploadProfileImage = payload => {
     return dispatch => {
-        return axios.post(`http://localhost:3001/user/upload/image`, payload).then(response => {
+        return axios.post(`http://localhost:3001/upload/image`, payload).then(response => {
             if (response.status === 200) {
                 dispatch({
                     type: actionTypes.SET_PROFILE_PIC,

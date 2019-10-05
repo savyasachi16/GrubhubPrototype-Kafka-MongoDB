@@ -44,18 +44,19 @@ userRouter.post('/login', passport.authenticate('login'), (req, res) => {
     });
 });
 
-userRouter.put("/userUpdate/:user_id", (req, res) => {
+userRouter.put("/userUpdate/:user_id", passport.authenticate("jwt"), (req, res) => {
     const userDetails = req.body;
     userDetails.user_id = req.params.user_id;
     return userHandler.updateUser(userDetails).then(result => {
         res.status(200).json(result);
     }).catch(err => {
         res.status(500).json(err);
+        console.log("ERROR: ", err)
     })
 })
 
-userRouter.get("/get/:id", (req, res) => {
-    userHandler.getUser(req.params.id).then(result => {
+userRouter.get("/user/:user_id", (req, res) => {
+    userHandler.getUser(req.params.user_id).then(result => {
         res.status(200).json(result);
     }).catch(err => {
         res.status(500).json(err);
@@ -68,7 +69,7 @@ userRouter.post("/upload/image", multerUploads, cloudinaryConfig, (req, res) => 
         file = dataUri(req).content;
     } else {
         res.status(400).json({
-            message: 'File not upload!'
+            message: 'File not uploaded!'
         });
     }
     userHandler.uploadUserImage(file).then(result => {

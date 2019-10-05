@@ -59,7 +59,7 @@ class vendorMenu extends Component {
       } else if (e.currentTarget.name === "delete") {
         this.props.deleteSection(current_section);
       } else {
-        console.log("No items in section...");
+        console.log("No dishes in section...");
       }
     }
   };
@@ -67,19 +67,13 @@ class vendorMenu extends Component {
   render() {
     return (
       <div>
-        <Sidebar />
+        <Sidebar></Sidebar>
         <Container className="vendorMenu">
-          <Row>
+          <Row className="p-3 col-sm-9 col-md-7 col-lg-5 mx-auto align-center">
             <Link to="/dish">
-              <div className="container col-sm-2 mx-auto">
-                <div className="row">
-                  <div className="col text-center">
-                    <button type="submit" className="btn btn-primary m-3">
-                      Add Dish
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <button type="submit" className="btn btn-primary m-3">
+                Add Dish
+              </button>
             </Link>
           </Row>
           <div className="container shadow p-4 col-sm-9 col-md-7 col-lg-5 mx-auto">
@@ -131,22 +125,22 @@ class vendorMenu extends Component {
                       <Row>
                         <Container>
                           <Row>
-                            {eachSection.items.map(item => {
-                              let item_detail_link = `/item/detail/${item.id}`;
+                            {eachSection.dishes.map(dish => {
+                              let dish_detail_link = `/dish/detail/${dish.id}`;
                               return (
-                                <Link key={item.id} to={item_detail_link}>
+                                <Link key={dish.id} to={dish_detail_link}>
                                   <div className="m-2">
                                     <Card style={{ width: "14rem" }}>
                                       <Card.Img
                                         variant="top"
-                                        src={item.image}
+                                        src={dish.image}
                                       />
                                       <Card.Body>
-                                        <Card.Title>{item.name}</Card.Title>
+                                        <Card.Title>{dish.name}</Card.Title>
                                         <Card.Text>
-                                          <label>{item.description}</label>
+                                          <label>{dish.description}</label>
                                           <br></br>
-                                          <label>${item.rate}</label>
+                                          <label>${dish.rate}</label>
                                         </Card.Text>
                                       </Card.Body>
                                     </Card>

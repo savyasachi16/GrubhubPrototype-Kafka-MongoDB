@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { dishActions } from "../../js/actions/index";
 import { Container, Row, Col, Image } from "react-bootstrap";
 import Sidebar from "../Sidebar/Sidebar";
+import { toast } from "react-toastify";
 
 class Dish extends Component {
   constructor(props) {
@@ -78,8 +79,12 @@ class Dish extends Component {
   handleUpload = e => {
     e.preventDefault();
     const path = new FormData();
-    path.append("file", this.uploadInput.files[0] || "");
-    this.props.uploadDishImage(path);
+    if (this.uploadInput.files && this.uploadInput.files.length) {
+      path.append("file", this.uploadInput.files[0] || "");
+      this.props.uploadDishImage(path);
+    } else {
+      toast.warning("No image selected for upload!");
+    }
   };
 
   render() {
@@ -136,7 +141,7 @@ class Dish extends Component {
               </div>
             </div>
             <div className="form-row">
-              <label htmlFor="image">Image</label>
+              <label htmlFor="image">Dish Image</label>
               <div className="form-inline col-md-12 image-upload">
                 <div className="custom-file">
                   <input
@@ -144,7 +149,6 @@ class Dish extends Component {
                     className="custom-file-input"
                     id="image"
                     accept="image/*"
-                    placeholder="work in progress..."
                     ref={ref => {
                       this.uploadInput = ref;
                     }}
@@ -156,7 +160,7 @@ class Dish extends Component {
                           file:
                             fileName && fileName.length
                               ? fileName[fileName.length - 1]
-                              : "Select a file"
+                              : "Choose a file"
                         });
                       }
                     }}
@@ -185,7 +189,12 @@ class Dish extends Component {
               <Container style={{ width: "30rem" }}>
                 <Row>
                   <Col xs={6} md={4}>
-                    <Image src={this.state.image} rounded />
+                    <Image
+                      src={this.state.image}
+                      roundedCircle
+                      width="250px"
+                      height="250px"
+                    />
                   </Col>
                 </Row>
               </Container>
