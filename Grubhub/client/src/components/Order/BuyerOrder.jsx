@@ -41,7 +41,7 @@ class BuyerOrder extends Component {
   }
   componentWillReceiveProps(nextProps) {
     const { id, status, amount, dishes } = nextProps.order;
-    const { name, address } = nextProps.order.customer;
+    const { name, address } = nextProps.order.buyer;
     this.setState({
       order: { id, name, address, status, amount, dishes }
     });
@@ -76,16 +76,16 @@ class BuyerOrder extends Component {
                   </div>
                   <div className="form-group row">
                     <label
-                      htmlFor="customerName"
+                      htmlFor="buyerName"
                       className="col-sm-2 col-form-label col-form-label-lg"
                     >
-                      Customer Name
+                      Buyer Name
                     </label>
                     <div className="col-sm-10">
                       <input
                         type="text"
                         className="form-control form-control-lg order_detail_input"
-                        id="customerName"
+                        id="buyerName"
                         value={this.state.order.name}
                         readOnly
                       ></input>
@@ -96,7 +96,7 @@ class BuyerOrder extends Component {
                       htmlFor="address"
                       className="col-sm-2 col-form-label col-form-label-lg"
                     >
-                      Customer Address
+                      Buyer Address
                     </label>
                     <div className="col-sm-10">
                       <input

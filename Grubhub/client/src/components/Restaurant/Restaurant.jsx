@@ -80,7 +80,7 @@ class Restaurant extends Component {
             <img
               src={current_restaurant.image}
               className="img-thumbnail"
-              alt="Responsive"
+              alt="Oops, restaurant has no image..."
             />
           </div>
           <div className="restaurant_name">
@@ -90,7 +90,7 @@ class Restaurant extends Component {
         </div>
         <div className="restaurant-detail">
           <div className="container">
-            <h3 className="menu">MENU</h3>
+            <h3 className="menu">Menu</h3>
             {current_restaurant.menu && current_restaurant.menu.length
               ? current_restaurant.menu.map(eachSection => {
                   return (
@@ -103,10 +103,15 @@ class Restaurant extends Component {
                               return (
                                 <div className="m-2">
                                   <Card
-                                    style={{ width: "14rem" }}
+                                    style={{ width: "14rem", height: "20rem" }}
                                     key={dish.id}
                                   >
-                                    <Card.Img variant="top" src={dish.image} />
+                                    <Card.Img
+                                      variant="top"
+                                      src={dish.image}
+                                      width="60px"
+                                      height="90px"
+                                    />
                                     <Card.Body>
                                       <Card.Title>{dish.name}</Card.Title>
                                       <Card.Text>
@@ -148,7 +153,7 @@ class Restaurant extends Component {
   }
 }
 const mapStateToProps = state => ({
-  current_restaurant: state.customer.current_restaurant
+  current_restaurant: state.buyer.current_restaurant
 });
 const mapDispatchToProps = dispatch => ({
   getRestaurantDetails: payload =>

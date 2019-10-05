@@ -76,7 +76,7 @@ const getOrderDetails = payload => {
 const getBuyerOrders = payload => {
     return dispatch => {
         return axios
-            .get(`http://localhost:3001/order/customer/${payload.id}`)
+            .get(`http://localhost:3001/order/buyer/${payload.id}`)
             .then(response => {
                 if (response.status === 200) {
                     dispatch({

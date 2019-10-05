@@ -26,7 +26,7 @@ const getRestaurantDetails = payload => {
             .then(response => {
                 if (response.status === 200) {
                     dispatch({
-                        type: actionTypes.SET_CUSTOMER_SELECTED_RESTAURANT,
+                        type: actionTypes.SET_BUYER_SELECTED_RESTAURANT,
                         payload: response.data
                     });
                 }

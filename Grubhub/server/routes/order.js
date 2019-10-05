@@ -42,7 +42,7 @@ orderRouter.get("/:order_id", (req, res) => {
 orderRouter.get("/buyer/:user_id", (req, res) => {
     const user_id = req.params.user_id;
     orderHandler
-        .getOrdersByCustomer(user_id)
+        .getOrdersByBuyer(user_id)
         .then(result => {
             res.status(200).json(result);
         })

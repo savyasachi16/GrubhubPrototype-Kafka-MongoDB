@@ -82,7 +82,7 @@ const getOrderDetails = (order_id) => {
             }
             return {
                 id: order.id,
-                customer: {
+                buyer: {
                     name: order.suer.first_name + order.user.last_name,
                     address: order.user.address
                 },
@@ -94,7 +94,7 @@ const getOrderDetails = (order_id) => {
     })
 }
 
-const getOrdersByCustomer = user_id => {
+const getOrdersByBuyer = user_id => {
     return Orders.findAll({
         where: {
             user_id
@@ -134,6 +134,6 @@ export {
     getOrdersByRestaurant,
     updateOrder,
     getOrderDetails,
-    getOrdersByCustomer,
+    getOrdersByBuyer,
     createOrder
 }
