@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import _ from "lodash";
-
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import filterFactory, { selectFilter } from "react-bootstrap-table2-filter";
 import BootstrapTable from "react-bootstrap-table-next";
@@ -11,7 +10,7 @@ import Nabvigbar from "../Navbar/Navbar";
 class SearchResults extends Component {
   constructor(props) {
     super(props);
-    var cuisines =
+    let cuisines =
       this.props.search_results && this.props.search_results.length
         ? _.chain(this.props.search_results)
             .map("cuisine")
@@ -26,21 +25,21 @@ class SearchResults extends Component {
       search_results: [],
       restaurant_list_columns: [
         {
-          fieldName: "id",
+          dataField: "id",
           text: "ID",
           hidden: true
         },
         {
-          fieldName: "name",
+          dataField: "name",
           text: "Name",
           formatter: this.restaurantNameFormatter
         },
         {
-          fieldName: "address",
-          text: "address"
+          dataField: "address",
+          text: "Address"
         },
         {
-          fieldName: "cuisine",
+          dataField: "cuisine",
           text: "Cuisine",
           formatter: cell =>
             cuisines.filter(opt => opt.label === cell)[0].label || "",
@@ -52,6 +51,10 @@ class SearchResults extends Component {
     };
   }
 
+  restaurantNameFormatter = (cell, row) => {
+    let detailpage_link = `/restaurant/detail/${row.id}`;
+    return <Link to={detailpage_link}>{cell}</Link>;
+  };
   componentDidMount() {
     const search_results = this.props.search_results;
     if (search_results && search_results.length) {
@@ -60,27 +63,23 @@ class SearchResults extends Component {
       });
     }
   }
-  restaurantNameFormatter = (cell, row) => {
-    let detailpage_link = `/restaurant/detail/${row.id}`;
-    return <Link to={detailpage_link}>{cell}</Link>;
-  };
 
   render() {
     return (
       <div>
         <Nabvigbar></Nabvigbar>
         {this.state.search_results && this.state.search_results.length ? (
-          <div className="container">
+          <div className="container shadow">
             <BootstrapTable
               keyField="id"
               data={this.state.search_results}
-              columns={this.state.restaurant_list_coloumns}
+              columns={this.state.restaurant_list_columns}
               filter={filterFactory()}
               bordered={true}
             />
           </div>
         ) : (
-          <div>
+          <div className="container shadow">
             <p>
               Could find any restaurant serving this. Try finding another dish?
             </p>

@@ -19,7 +19,6 @@ class vendorMenu extends Component {
       restaurant_id: this.props.restaurant.id
     });
   }
-  //WARNING! To be deprecated in React v17. Use new lifecycle static getDerivedStateFromProps instead.
   componentWillReceiveProps(nextProps) {
     if (nextProps.restaurant.menu && nextProps.restaurant.menu.length) {
       const sections = nextProps.restaurant.menu.map(eachSection => ({
