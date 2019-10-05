@@ -38,10 +38,11 @@ dishRouter.post("/dish/update", (req, res) => {
 })
 
 dishRouter.delete("/dish/delete/:dish_id", (req, res) => {
-    const dish_id = req.body;
+    const dish_id = req.params.dish_id;
     dishHandler.deleteDish(dish_id).then(result => {
         res.status(200).json(result);
     }).catch(err => {
+        console.log("Dish delete Error:", err)
         res.status(500).json({
             message: err.message
         })

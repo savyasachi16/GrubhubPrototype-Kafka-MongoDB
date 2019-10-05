@@ -60,7 +60,7 @@ class Restaurant extends Component {
             id: dish.id,
             name: dish.name,
             quantity: this.state.cart[dish.id],
-            rate: dish.rate ? dish.rate * this.state.cart[dish.id] : 0
+            price: dish.price ? dish.price * this.state.cart[dish.id] : 0
           };
         }
       });
@@ -112,7 +112,7 @@ class Restaurant extends Component {
                                       <Card.Text>
                                         <label>{dish.description}</label>
                                         <br></br>
-                                        <label>${dish.rate}</label>
+                                        <label>${dish.price}</label>
                                         <Form.Group as={Row}>
                                           <Form.Label column sm="6">
                                             Quantity

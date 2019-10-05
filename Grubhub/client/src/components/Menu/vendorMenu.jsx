@@ -140,7 +140,7 @@ class vendorMenu extends Component {
                                         <Card.Text>
                                           <label>{dish.description}</label>
                                           <br></br>
-                                          <label>${dish.rate}</label>
+                                          <label>${dish.price}</label>
                                         </Card.Text>
                                       </Card.Body>
                                     </Card>

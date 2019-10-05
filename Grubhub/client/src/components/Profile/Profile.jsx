@@ -225,7 +225,7 @@ class Profile extends Component {
                     type="button"
                     id="fileUpload"
                     value="profile_pic"
-                    onClick={this.handleUpload}
+                    onClick={e => this.handleUpload(e)}
                   >
                     Upload
                   </button>
@@ -338,7 +338,7 @@ class Profile extends Component {
                         type="button"
                         id="fileUpload"
                         value="restaurant_pic"
-                        onClick={this.handleUpload}
+                        onClick={e => this.handleUpload(e)}
                       >
                         Upload
                       </button>

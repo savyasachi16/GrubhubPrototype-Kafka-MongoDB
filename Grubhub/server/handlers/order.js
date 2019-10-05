@@ -70,12 +70,12 @@ const getOrderDetails = (order_id) => {
                     const {
                         id,
                         name,
-                        rate
+                        price
                     } = eachDish.dish;
                     return {
                         id,
                         name,
-                        rate,
+                        price,
                         quantity: eachDish.quantity
                     }
                 })

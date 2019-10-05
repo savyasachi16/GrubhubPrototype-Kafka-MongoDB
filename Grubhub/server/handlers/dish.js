@@ -66,7 +66,6 @@ const updateDish = (dish_details) => {
         return dish.update({
             name,
             section,
-            rate,
             price,
             description,
             image
