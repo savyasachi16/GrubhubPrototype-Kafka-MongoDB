@@ -59,7 +59,6 @@ const changeStatus = payload => {
 }
 
 const getOrderDetails = payload => {
-    console.log("Payload: ", payload)
     return dispatch => {
         return axios
             .get(`http://localhost:3001/order/${payload.order_id}`)

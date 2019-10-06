@@ -14,10 +14,6 @@ const columns = [
   {
     dataField: "quantity",
     text: "Quantity"
-  },
-  {
-    dataField: "price",
-    text: "Price"
   }
 ];
 
@@ -56,11 +52,15 @@ class Orderdetails extends Component {
     });
   }
   render() {
-    console.log("This state: ", this.state)
+    console.log("This state: ", this.state);
     return (
       <div>
-        {this.props.user.type === "Vendor" ? <Sidebar /> : <Navigationbar />}
-        <div className="container p-2 order-detail">
+        {this.props.user.account_type === "Vendor" ? (
+          <Sidebar />
+        ) : (
+          <Navigationbar />
+        )}
+        <div className="container shadow p-4 col-sm-9 col-md-7 col-lg-5 mx-auto">
           <form>
             <div className="form-group row">
               <label

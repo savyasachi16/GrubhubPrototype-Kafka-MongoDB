@@ -14,7 +14,7 @@ class Cart extends Component {
     super();
     this.state = {
       cart: [],
-      total_price: 0,
+      total_amount: 0,
       cart_columns: [
         {
           dataField: "name",
@@ -34,7 +34,7 @@ class Cart extends Component {
 
   componentDidMount() {
     const cart = this.props.cart;
-    const total_price =
+    const total_amount =
       cart && cart.length
         ? _.chain(cart)
             .map("price")
@@ -43,13 +43,13 @@ class Cart extends Component {
         : 0;
     this.setState({
       cart,
-      total_price
+      total_amount
     });
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.cart && nextProps.cart.length) {
       const cart = nextProps.cart;
-      const total_price =
+      const total_amount =
         cart && cart.length
           ? _.chain(cart)
               .map("price")
@@ -58,18 +58,18 @@ class Cart extends Component {
           : 0;
       this.setState({
         cart,
-        total_price
+        total_amount
       });
     }
   }
 
   handlePlaceOrder = e => {
     e.preventDefault();
-    const { cart, total_price } = this.state;
+    const { cart, total_amount } = this.state;
     const { user_id, restaurant_id } = this.props;
     this.props.placeOrder({
       cart,
-      total_price,
+      total_amount,
       user_id,
       restaurant_id
     });
@@ -88,7 +88,7 @@ class Cart extends Component {
                 bordered={true}
               />
               <div>
-                <h3>Total Price: ${this.state.total_price}</h3>
+                <h3>Total Price: ${this.state.total_amount}</h3>
               </div>
               <div className="place_order">
                 <button

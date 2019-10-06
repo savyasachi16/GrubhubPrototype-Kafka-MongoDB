@@ -2,7 +2,7 @@ import express from "express";
 import * as orderHandler from "../handlers/order"
 const orderRouter = express.Router();
 
-orderRouter.get("/restaurant/:restaurant_id", (req, res) => {
+orderRouter.get("/order/restaurant/:restaurant_id", (req, res) => {
     const restaurant_id = req.params.restaurant_id
     orderHandler.getOrdersByRestaurant(restaurant_id).then(result => {
         res.status(200).json(result);
@@ -12,7 +12,7 @@ orderRouter.get("/restaurant/:restaurant_id", (req, res) => {
         })
     })
 })
-orderRouter.put("/update/:order_id", (req, res) => {
+orderRouter.put("/order/update/:order_id", (req, res) => {
     const order_details = {
         id: req.params.order_id,
         status: req.body.status
@@ -33,6 +33,7 @@ orderRouter.get("/order/:order_id", (req, res) => {
         .then(result => {
             res.status(200).json(result);
         }).catch(err => {
+            console.log("ERROR: ", err)
             res.status(500).json({
                 message: err.message
             });

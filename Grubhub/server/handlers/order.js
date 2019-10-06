@@ -71,12 +71,12 @@ const getOrderDetails = (order_id) => {
                     const {
                         id,
                         name,
-                        price
+                        amount
                     } = eachDish.dish;
                     return {
                         id,
                         name,
-                        price,
+                        amount,
                         quantity: eachDish.quantity
                     }
                 })
@@ -84,10 +84,10 @@ const getOrderDetails = (order_id) => {
             return {
                 id: order.id,
                 buyer: {
-                    name: order.user.first_name + order.user.last_name,
+                    name: order.user.first_name + " " + order.user.last_name,
                     address: order.user.address
                 },
-                items,
+                dishes,
                 status: order.status,
                 amount: order.amount
             }
