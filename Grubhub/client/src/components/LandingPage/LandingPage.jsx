@@ -9,7 +9,7 @@ class LandingPage extends Component {
     return (
       <div>
         <Image src={sideImage} width="700" height="700" />
-        <Container className="float-right container align-center">
+        <Container className="float-right container-landing align-center">
           <Col>
             <Link to="/login-user" className="font-weight-bold text-center">
               <h4>Login as User</h4>
