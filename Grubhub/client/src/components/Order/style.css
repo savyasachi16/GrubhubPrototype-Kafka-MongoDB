@@ -1,0 +1,20 @@
+.order-detail {
+    margin-top: 1%;
+    width: 90%;
+    margin: 0;
+    padding: 30px 0 !important;
+    padding-left: 330px !important;
+    padding-right: 150px !important;
+}
+
+.order_detail_input {
+    width: 50%
+}
+
+.order_list {
+    max-width: unset;
+    margin: 0;
+    padding: 30px 0 !important;
+    padding-left: 330px !important;
+    padding-right: 150px !important;
+}

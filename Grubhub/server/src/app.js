@@ -6,6 +6,7 @@ import passport from 'passport';
 import userRoutes from '../routes/user';
 import restaurantRoutes from '../routes/restaurant';
 import dishRoutes from '../routes/dish'
+import orderRoutes from '../routes/order'
 
 const app = express();
 
@@ -13,7 +14,10 @@ const app = express();
 require('../config/passport');
 
 app.use(passport.initialize());
-app.use(cors({origin: 'http://localhost:3000', credentials: true}));
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+}));
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -32,6 +36,7 @@ app.use(bodyParser.urlencoded({
 app.use('/', userRoutes);
 app.use('/', restaurantRoutes);
 app.use('/', dishRoutes)
+app.use('/', orderRoutes)
 
 app.listen(3001);
 console.log("Grubhub Server listening on port 3001");

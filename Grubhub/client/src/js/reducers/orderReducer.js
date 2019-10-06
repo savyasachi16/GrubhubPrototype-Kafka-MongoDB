@@ -11,6 +11,7 @@ const orderReducer = (state = initialState, action) => {
         case actionTypes.SET_ORDERS:
             newState = action.payload;
             return Object.assign({}, state, newState)
+            
         case actionTypes.SET_ORDER_DETAILS:
             newState = {}
             newState.active = action.payload

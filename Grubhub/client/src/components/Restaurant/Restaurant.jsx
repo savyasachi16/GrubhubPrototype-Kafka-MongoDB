@@ -74,7 +74,6 @@ class Restaurant extends Component {
     return (
       <div>
         <Navigbar />
-
         <div className="form-group row restaurant_title">
           <div className="image-container">
             <img
@@ -147,6 +146,13 @@ class Restaurant extends Component {
                 })
               : null}
           </div>
+          <button
+            type="submit"
+            className="btn btn-danger m-3 float-right"
+            onClick={this.handleAddToCart}
+          >
+            Add Selected Dishes to Cart
+          </button>
         </div>
       </div>
     );

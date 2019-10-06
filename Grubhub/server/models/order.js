@@ -19,7 +19,7 @@ const orderModel = (sequelize, type) => {
                 key: 'id'
             }
         },
-        amount: type.INTEGER,
+        price: type.INTEGER,
         status: type.STRING
     }, {
         underscored: true

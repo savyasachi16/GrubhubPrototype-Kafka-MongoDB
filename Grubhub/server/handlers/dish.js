@@ -93,7 +93,7 @@ const deleteDish = dish_id => {
             throw new Error("Dish not deleted in DB!");
         }
         return Dishes.destroy({
-            wehre: {
+            where: {
                 id: dish_id
             }
         }).then(rows => {

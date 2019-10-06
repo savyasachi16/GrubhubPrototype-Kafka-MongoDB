@@ -17,15 +17,15 @@ class Cart extends Component {
       total_price: 0,
       cart_columns: [
         {
-          fieldName: "name",
+          dataField: "name",
           text: "Dish Name"
         },
         {
-          fieldName: "quantity",
+          dataField: "quantity",
           text: "Quantity"
         },
         {
-          fieldName: "price",
+          dataField: "price",
           text: "Price"
         }
       ]
@@ -102,7 +102,7 @@ class Cart extends Component {
             </div>
           ) : (
             <div className="empty_cart">
-              <Image src={empty} rounded />
+              <Image src={empty} rounded width="200px" height="200px" />
               <h3>Cart is empty...</h3>
             </div>
           )}

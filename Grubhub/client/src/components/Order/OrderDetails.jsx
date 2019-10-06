@@ -1,180 +1,182 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { vendorActions } from "../../js/actions";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
-import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import BootstrapTable from "react-bootstrap-table-next";
-import { vendorActions } from "../../js/actions/index";
-import { Link } from "react-router-dom";
+import Sidebar from "../Sidebar/Sidebar";
+import Navigationbar from "../Navbar/Navbar";
+import "./style.css";
+const columns = [
+  {
+    dataField: "name",
+    text: "Name"
+  },
+  {
+    dataField: "quantity",
+    text: "Quantity"
+  },
+  {
+    dataField: "price",
+    text: "Price"
+  }
+];
 
-class Orders extends Component {
-  constructor() {
-    super();
+class Orderdetails extends Component {
+  constructor(props) {
+    super(props);
     this.state = {
-      current_orders: [],
-      past_orders: [],
-      past_orders_columns: [
-        {
-          fieldName: "id",
-          text: "Order ID",
-          formatter: this.orderIdFormatter
-        },
-        {
-          fieldName: "amount",
-          text: "Amount"
-        },
-        {
-          fieldName: "status",
-          text: "Order Status"
-        }
-      ],
-      current_order_columns: [
-        {
-          fieldName: "id",
-          text: "Order ID",
-          formatter: this.orderIdFormatter
-        },
-        {
-          fieldName: "amount",
-          text: "Amount"
-        },
-        {
-          fieldName: "status",
-          text: "Order Status",
-          editor: {
-            type: Type.SELECT,
-            options: [
-              {
-                label: "New",
-                value: "NEW"
-              },
-              {
-                label: "Preparing",
-                value: "PREPARING"
-              },
-              {
-                label: "Ready",
-                value: "READY"
-              },
-              {
-                label: "Delivered",
-                value: "DELIVERED"
-              },
-              {
-                label: "Cancelled",
-                value: "CANCELLED"
-              }
-            ]
-          }
-        }
-      ]
+      order: {
+        id: "",
+        name: "",
+        address: "",
+        status: "",
+        amount: "",
+        dishes: []
+      }
     };
   }
   componentDidMount() {
-    if (this.props.user.type === "Vendor") {
-      this.props.getRestaurantOrders({
-        id: this.props.restaurant.id
-      });
-    } else {
-      this.props.getBuyerOrders({
-        id: this.props.user.id
-      });
-    }
-  }
-  //WARNING! To be deprecated in React v17. Use new lifecycle static getDerivedStateFromProps instead.
-  componentWillReceiveProps(nextProps) {
-    if (
-      (nextProps.order.current_orders &&
-        nextProps.order.current_orders.length) ||
-      (nextProps.order.past_orders && nextProps.order.past_orders.length)
-    ) {
-      this.setState({
-        current_orders: nextProps.order.current_orders,
-        past_orders: nextProps.order.past_orders
-      });
-    }
-  }
-
-  orderIdFormatter = (cell, row) => {
-    var detailpage_link = `/order/detail/${row.id}`;
-    return <Link to={detailpage_link}>{cell}</Link>;
-  };
-  afterSaveCell = (oldValue, newValue, row) => {
     const payload = {
-      id: row.id,
-      status: row.status
+      order_id: this.props.match.params.order_id
     };
-    this.props.changeStatus(payload);
-  };
-
+    this.props.getOrderDetails(payload);
+  }
+  componentWillReceiveProps(nextProps) {
+    const { id, status, amount, dishes } = nextProps.order;
+    const { name, address } = nextProps.order.buyer;
+    this.setState({
+      order: {
+        id,
+        name,
+        address,
+        status,
+        amount,
+        dishes
+      }
+    });
+  }
   render() {
+    console.log("This state: ", this.state)
     return (
       <div>
-        <div>
-          <label className="col-sm-2 col-form-label col-form-label-lg">
-            Current Orders
-          </label>
-        </div>
-        {this.props.user.type === "Vendor" ? (
-          <div>
-            <BootstrapTable
-              keyField="id"
-              data={this.state.current_orders}
-              columns={this.state.current_order_columns}
-              bordered={true}
-              cellEdit={cellEditFactory({
-                mode: "click",
-                blurToSave: true,
-                afterSaveCell: (oldValue, newValue, row) => {
-                  this.afterSaveCell(oldValue, newValue, row);
-                }
-              })}
-            />
-          </div>
-        ) : (
-          <div>
-            <BootstrapTable
-              keyField="id"
-              data={this.state.current_orders}
-              columns={this.state.current_order_columns}
-              bordered={true}
-            />
-          </div>
-        )}
-
-        <div>
-          <label className="col-sm-2 col-form-label col-form-label-lg">
-            Past Orders
-          </label>
-        </div>
-        <div>
-          <BootstrapTable
-            keyField="id"
-            data={this.state.past_orders}
-            columns={this.state.past_orders_coloumns}
-            bordered={true}
-          />
+        {this.props.user.type === "Vendor" ? <Sidebar /> : <Navigationbar />}
+        <div className="container p-2 order-detail">
+          <form>
+            <div className="form-group row">
+              <label
+                htmlFor="orderId"
+                className="col-sm-2 col-form-label col-form-label-lg"
+              >
+                Order ID
+              </label>
+              <div className="col-sm-10">
+                <input
+                  type="text"
+                  className="form-control form-control-lg order_detail_input"
+                  id="orderId"
+                  value={this.state.order.id}
+                  readOnly
+                ></input>
+              </div>
+            </div>
+            <div className="form-group row">
+              <label
+                htmlFor="buyerName"
+                className="col-sm-2 col-form-label col-form-label-lg"
+              >
+                Buyer Name
+              </label>
+              <div className="col-sm-10">
+                <input
+                  type="text"
+                  className="form-control form-control-lg order_detail_input"
+                  id="buyerName"
+                  value={this.state.order.name}
+                  readOnly
+                ></input>
+              </div>
+            </div>
+            <div className="form-group row">
+              <label
+                htmlFor="address"
+                className="col-sm-2 col-form-label col-form-label-lg"
+              >
+                Buyer Address
+              </label>
+              <div className="col-sm-10">
+                <textarea
+                  className="form-control form-control-lg order_detail_input"
+                  id="address"
+                  value={this.state.order.address}
+                  readOnly
+                ></textarea>
+              </div>
+            </div>
+            <div className="form-group row">
+              <label
+                htmlFor="amount"
+                className="col-sm-2 col-form-label col-form-label-lg"
+              >
+                Amount
+              </label>
+              <div className="col-sm-10">
+                <input
+                  type="text"
+                  className="form-control form-control-lg order_detail_input"
+                  id="amount"
+                  value={this.state.order.amount}
+                  readOnly
+                ></input>
+              </div>
+            </div>
+            <div className="form-group row">
+              <label
+                htmlFor="status"
+                className="col-sm-2 col-form-label col-form-label-lg"
+              >
+                Status
+              </label>
+              <div className="col-sm-10">
+                <input
+                  type="text"
+                  className="form-control form-control-lg order_detail_input"
+                  id="status"
+                  value={this.state.order.status}
+                  readOnly
+                ></input>
+              </div>
+            </div>
+            <div className="form-group row">
+              <label
+                htmlFor="dishes"
+                className="col-sm-2 col-form-label col-form-label-lg"
+              >
+                Dishes
+              </label>
+            </div>
+            <div>
+              <BootstrapTable
+                keyField="name"
+                data={this.state.order.dishes}
+                columns={columns}
+                bordered={true}
+              />
+            </div>
+          </form>
         </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    user: state.user,
-    restaurant: state.restaurant,
-    order: state.order
-  };
-};
-
-const mapDispatchToProps = dispatch => ({
-  getRestaurantOrders: payload =>
-    dispatch(vendorActions.getRestaurantOrders(payload)),
-  changeStatus: payload => dispatch(vendorActions.changeStatus(payload)),
-  getBuyerOrders: payload => dispatch(vendorActions.getBuyerOrders(payload))
+const mapStateToProps = state => ({
+  order: state.order.active,
+  user: state.user
 });
-
+const mapDispatchToProps = dispatch => ({
+  getOrderDetails: payload => dispatch(vendorActions.getOrderDetails(payload))
+});
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Orders);
+)(Orderdetails);

@@ -37,6 +37,7 @@ const getRestaurant = user_id => {
     }).then(restaurant => {
         if (!restaurant) {
             console.log("No restaurant in DB for current user...");
+            return {}
         }
         return restaurant
     })
@@ -91,11 +92,14 @@ const getRestaurantMenu = (restaurant_id) => {
                 model: Restaurants
             }]
         }).then(allDishes => {
+            if (!allDishes || !allDishes.length) {
+                return []
+            }
             const groupedDishes = _.chain(allDishes).map('dish').groupBy('section').map((value, key) => ({
                 section: key,
                 id: value[0].id,
                 dishes: value
-            })).flatten().value();
+            })).flatten().sortBy(each => each.section.toLowerCase()).value();
             return groupedDishes
         })
     })

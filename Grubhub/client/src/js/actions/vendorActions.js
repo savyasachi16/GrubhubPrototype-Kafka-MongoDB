@@ -59,13 +59,14 @@ const changeStatus = payload => {
 }
 
 const getOrderDetails = payload => {
+    console.log("Payload: ", payload)
     return dispatch => {
         return axios
             .get(`http://localhost:3001/order/${payload.order_id}`)
             .then(response => {
                 if (response.status === 200) {
                     dispatch({
-                        type: actionTypes.SET_ORDER_DETAIL,
+                        type: actionTypes.SET_ORDER_DETAILS,
                         payload: response.data
                     });
                 }

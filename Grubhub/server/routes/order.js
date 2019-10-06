@@ -27,7 +27,7 @@ orderRouter.put("/update/:order_id", (req, res) => {
         })
 });
 
-orderRouter.get("/:order_id", (req, res) => {
+orderRouter.get("/order/:order_id", (req, res) => {
     const order_id = req.params.order_id;
     orderHandler.getOrderDetails(order_id)
         .then(result => {
@@ -39,7 +39,7 @@ orderRouter.get("/:order_id", (req, res) => {
         })
 });
 
-orderRouter.get("/buyer/:user_id", (req, res) => {
+orderRouter.get("/order/buyer/:user_id", (req, res) => {
     const user_id = req.params.user_id;
     orderHandler
         .getOrdersByBuyer(user_id)
@@ -47,23 +47,23 @@ orderRouter.get("/buyer/:user_id", (req, res) => {
             res.status(200).json(result);
         })
         .catch(err => {
+            console.log("ERROR: ", err)
             res.status(500).json({
                 message: err.message
             });
         });
 });
 
-orderRouter.post("/confirmOrder", (req, res) => {
+orderRouter.post("/order/confirm", (req, res) => {
     const order_details = req.body
+    console.log("Order detls:", order_details)
     return orderHandler.createOrder(order_details).then(result => {
         res.status(200).json(result);
     }).catch(err => {
+        console.log("Place Order: ", err)
         res.status(500).json({
             message: err.message
         })
     })
 })
-
-
-
 export default orderRouter;

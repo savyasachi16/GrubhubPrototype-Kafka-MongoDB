@@ -6,6 +6,7 @@ import {
     Dishes_Order
 } from "../src/sequelize";
 import _ from "lodash";
+import Promise from "bluebird"
 
 const getOrdersByRestaurant = restaurant_id => {
     return Orders.findAll({
@@ -31,7 +32,7 @@ const updateOrder = order_details => {
     }).then(order => {
         return order.update({
             status: order_details.status
-        }).then(order => {
+        }).then(() => {
             return getOrdersByRestaurant(order.restaurant_id)
         })
     })
@@ -55,7 +56,7 @@ const getOrderDetails = (order_id) => {
         }
         return Dishes_Order.findAll({
             where: {
-                order_id: order.Dishes
+                order_id: order.id
             },
             include: [{
                 model: Dishes
@@ -64,7 +65,7 @@ const getOrderDetails = (order_id) => {
             if (!allDishes) {
                 throw new Error("Order does not have dishes! Weird...")
             }
-            var dishes = []
+            let dishes = []
             if (allDishes && allDishes.length) {
                 dishes = allDishes.map(eachDish => {
                     const {
@@ -83,7 +84,7 @@ const getOrderDetails = (order_id) => {
             return {
                 id: order.id,
                 buyer: {
-                    name: order.suer.first_name + order.user.last_name,
+                    name: order.user.first_name + order.user.last_name,
                     address: order.user.address
                 },
                 items,
@@ -113,9 +114,9 @@ const getOrdersByBuyer = user_id => {
 
 const createOrder = order_details => {
     return Orders.create({
-        user_id: order_details.user_id.user_id,
+        user_id: order_details.user_id,
         restaurant_id: order_details.restaurant_id,
-        price: order_details.total_price,
+        amount: order_details.total_amount,
         status: "NEW"
     }).then(order => {
         return Promise.map(order_details.cart, dish => {
