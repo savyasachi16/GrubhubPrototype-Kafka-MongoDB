@@ -13,34 +13,34 @@ class Order extends Component {
     this.state = {
       current_orders: [],
       past_orders: [],
-      past_orders_coloumns: [
+      past_orders_columns: [
         {
           dataField: "id",
-          text: "Order ID",
+          text: "ID",
           formatter: this.orderIdFormatter
         },
         {
           dataField: "amount",
-          text: "Order Amount"
+          text: "Amount"
         },
         {
           dataField: "status",
-          text: "Order Status"
+          text: "Status"
         }
       ],
       current_order_columns: [
         {
           dataField: "id",
-          text: "Order ID",
+          text: "ID",
           formatter: this.orderIdFormatter
         },
         {
           dataField: "amount",
-          text: "Order Amount"
+          text: "Amount"
         },
         {
           dataField: "status",
-          text: "Order Status",
+          text: "Status",
           editor: {
             type: Type.SELECT,
             options: [
@@ -128,6 +128,7 @@ class Order extends Component {
   };
 
   render() {
+    console.log("Past Orders: ", this.state.past_orders);
     return (
       <div>
         {this.props.user.account_type === "Vendor" ? (
@@ -173,7 +174,7 @@ class Order extends Component {
             <BootstrapTable
               keyField="id"
               data={this.state.past_orders}
-              columns={this.state.past_orders_coloumns}
+              columns={this.state.past_orders_columns}
               bordered={true}
             />
           </div>
