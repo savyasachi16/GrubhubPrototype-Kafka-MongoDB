@@ -53,11 +53,11 @@ class Navigbar extends Component {
               <NavDropdown.Item href={`/${this.state.user.id}/profile`}>
                 Profile
               </NavDropdown.Item>
-              <NavDropdown.Item href={`/${this.state.user.id}/order`}>
-                My Orders
-              </NavDropdown.Item>
               <NavDropdown.Item href={`/${this.state.user.id}/cart`}>
                 Cart
+              </NavDropdown.Item>
+              <NavDropdown.Item href={`/${this.state.user.id}/order`}>
+                My Orders
               </NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item onClick={this.handleLogout}>

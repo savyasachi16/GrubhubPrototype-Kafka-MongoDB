@@ -93,6 +93,20 @@ class Dish extends Component {
         <Sidebar></Sidebar>
         <div className="container shadow p-4 col-sm-9 col-md-7 col-lg-5 mx-auto">
           <form>
+            <div className="form-group mx-auto align-center">
+              <Container style={{ width: "30rem" }}>
+                <Row>
+                  <Col xs={6} md={4}>
+                    <Image
+                      src={this.state.image}
+                      roundedCircle
+                      width="250px"
+                      height="250px"
+                    />
+                  </Col>
+                </Row>
+              </Container>
+            </div>
             <div className="form-row">
               <div className="form-group col-md-12">
                 <label htmlFor="name">Dish Name</label>
@@ -185,20 +199,7 @@ class Dish extends Component {
                 </button>
               </div>
             </div>
-            <div className="form-group">
-              <Container style={{ width: "30rem" }}>
-                <Row>
-                  <Col xs={6} md={4}>
-                    <Image
-                      src={this.state.image}
-                      roundedCircle
-                      width="250px"
-                      height="250px"
-                    />
-                  </Col>
-                </Row>
-              </Container>
-            </div>
+
             {this.state.update ? (
               <div className="form-row">
                 <div className="col text-center">

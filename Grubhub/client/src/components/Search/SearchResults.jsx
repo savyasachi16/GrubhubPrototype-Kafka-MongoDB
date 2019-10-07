@@ -36,7 +36,7 @@ class SearchResults extends Component {
         },
         {
           dataField: "address",
-          text: "Address"
+          text: "Location"
         },
         {
           dataField: "cuisine",
@@ -76,10 +76,13 @@ class SearchResults extends Component {
               columns={this.state.restaurant_list_columns}
               filter={filterFactory()}
               bordered={true}
+              hover
+              condensed
+              striped
             />
           </div>
         ) : (
-          <div className="container shadow">
+          <div className="container shadow mx-auto">
             <p>
               Could find any restaurant serving this. Try finding another dish?
             </p>

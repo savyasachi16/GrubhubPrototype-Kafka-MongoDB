@@ -86,24 +86,31 @@ class Cart extends Component {
                 data={this.state.cart}
                 columns={this.state.cart_columns}
                 bordered={true}
+                hover
+                condensed
+                striped
               />
               <div>
-                <h3>Total Price: ${this.state.total_amount}</h3>
+                <h6 className="float-right">
+                  Total Amount Due at checkout: ${this.state.total_amount}
+                </h6>
               </div>
+              <br></br>
+              <br></br>
               <div className="place_order">
                 <button
                   id="placeOrder"
-                  className="btn btn-danger"
+                  className="btn btn-danger float-right"
                   onClick={this.handlePlaceOrder}
                 >
-                  Place Order
+                  Confirm Order
                 </button>
               </div>
             </div>
           ) : (
             <div className="empty_cart">
               <Image src={empty} rounded width="200px" height="200px" />
-              <h3>Cart is empty...</h3>
+              <h3>There is nothing in your cart...</h3>
             </div>
           )}
         </div>

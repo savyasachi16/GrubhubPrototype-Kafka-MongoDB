@@ -160,6 +160,9 @@ class Orderdetails extends Component {
                 data={this.state.order.dishes}
                 columns={columns}
                 bordered={true}
+                hover
+                condensed
+                striped
               />
             </div>
           </form>

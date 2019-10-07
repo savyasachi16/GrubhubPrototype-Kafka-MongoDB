@@ -130,6 +130,20 @@ class Profile extends Component {
         <div className="form-row">
           <div className="container shadow p-4 col-sm-9 col-md-7 col-lg-5 mx-auto">
             <form onSubmit={e => this.handleUpdate(e)}>
+              <div className="form-group" style={{ width: "30 rem" }}>
+                <Container>
+                  <Row>
+                    <Col xs={3} md={2}>
+                      <Image
+                        src={this.state.image}
+                        roundedCircle
+                        width="250px"
+                        height="250px"
+                      />
+                    </Col>
+                  </Row>
+                </Container>
+              </div>
               <div className="form-row">
                 <div className="form-group col-md-6">
                   <label htmlFor="firstName">First Name</label>
@@ -231,21 +245,6 @@ class Profile extends Component {
                   </button>
                 </div>
               </div>
-              <div className="form-group" style={{ width: "30 rem" }}>
-                <Container>
-                  <Row>
-                    <Col xs={3} md={2}>
-                      <Image
-                        src={this.state.image}
-                        roundedCircle
-                        width="250px"
-                        height="250px"
-                      />
-                    </Col>
-                  </Row>
-                </Container>
-              </div>
-
               {this.state.account_type === "Vendor" ? (
                 <div>
                   <div className="form-row">
@@ -300,6 +299,20 @@ class Profile extends Component {
                       />
                     </div>
                   </div>
+                  <div className="form-group" style={{ width: "30rem" }}>
+                    <Container>
+                      <Row>
+                        <Col xs={6} md={4}>
+                          <Image
+                            src={this.state.restaurant_image}
+                            rounded
+                            width="250px"
+                            height="250px"
+                          />
+                        </Col>
+                      </Row>
+                    </Container>
+                  </div>
                   <div className="form-group image-upload">
                     <label htmlFor="image">Restaurant Image</label>
                     <div className="custom-file">
@@ -343,20 +356,6 @@ class Profile extends Component {
                         Upload
                       </button>
                     </div>
-                  </div>
-                  <div className="form-group" style={{ width: "30rem" }}>
-                    <Container>
-                      <Row>
-                        <Col xs={6} md={4}>
-                          <Image
-                            src={this.state.restaurant_image}
-                            roundedCircle
-                            width="250px"
-                            height="250px"
-                          />
-                        </Col>
-                      </Row>
-                    </Container>
                   </div>
                 </div>
               ) : null}

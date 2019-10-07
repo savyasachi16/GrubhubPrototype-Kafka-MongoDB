@@ -68,7 +68,7 @@ class vendorMenu extends Component {
       <div>
         <Sidebar></Sidebar>
         <Container className="vendorMenu">
-          <Row className="p-3 col-sm-9 col-md-7 col-lg-5 mx-auto align-center">
+          <Row className="p-2 col-sm-9 col-md-7 col-lg-2 mx-auto hover-right">
             <Link to="/dish">
               <button type="submit" className="btn btn-danger m-3">
                 Add Dish

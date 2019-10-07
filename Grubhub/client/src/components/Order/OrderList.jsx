@@ -128,7 +128,7 @@ class Order extends Component {
   };
 
   render() {
-    console.log("Past Orders: ", this.state.past_orders);
+    console.log("Previous Orders: ", this.state.past_orders);
     return (
       <div>
         {this.props.user.account_type === "Vendor" ? (
@@ -147,6 +147,9 @@ class Order extends Component {
                 data={this.state.current_orders}
                 columns={this.state.current_order_columns}
                 bordered={true}
+                hover
+                condensed
+                striped
                 cellEdit={cellEditFactory({
                   mode: "click",
                   blurToSave: true,
@@ -163,12 +166,15 @@ class Order extends Component {
                 data={this.state.current_orders}
                 columns={this.state.current_order_columns}
                 bordered={true}
+                hover
+                condensed
+                striped
               />
             </div>
           )}
 
           <div>
-            <h3>Past Orders</h3>
+            <h3>Previous Orders</h3>
           </div>
           <div>
             <BootstrapTable
@@ -176,6 +182,9 @@ class Order extends Component {
               data={this.state.past_orders}
               columns={this.state.past_orders_columns}
               bordered={true}
+              hover
+              condensed
+              striped
             />
           </div>
         </div>
