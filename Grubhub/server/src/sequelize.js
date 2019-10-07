@@ -10,7 +10,12 @@ import OrderModel from "../models/Order"
 
 const sequelize = new Sequelize('grubhubDB', 'root', 'root1234', {
     host: 'localhost',
-    dialect: 'mysql'
+    dialect: 'mysql',
+    pool: {
+        max: 5,
+        min: 0,
+        idle: 10000
+    }
 });
 
 const Users = UserModel(sequelize, Sequelize);
