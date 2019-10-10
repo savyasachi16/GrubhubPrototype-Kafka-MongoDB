@@ -3,7 +3,7 @@ import {
     Dishes_Restaurant,
     Restaurants
 } from "../src/sequelize";
-import Sequelize from "Sequelize";
+import Sequelize from "sequelize";
 import _ from "lodash";
 import Promise from "bluebird"
 
