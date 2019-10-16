@@ -1,8 +1,4 @@
-import {
-    Restaurants,
-    Dishes_Restaurant,
-    Dishes
-} from "../src/sequelize";
+import Restaurants from "../models/restaurant";
 import _ from "lodash";
 import Promise from "bluebird";
 

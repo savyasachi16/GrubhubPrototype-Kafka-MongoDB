@@ -1,10 +1,5 @@
-import {
-    Orders,
-    Users,
-    Restaurants,
-    Dishes,
-    Dishes_Order
-} from "../src/sequelize";
+import Users from "../models/user";
+import Restaurants from "../models/restaurant"
 import _ from "lodash";
 import Promise from "bluebird"
 

@@ -1,14 +1,21 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import session from 'express-session';
 import cors from 'cors';
 import passport from 'passport';
 import userRoutes from '../routes/user';
 import restaurantRoutes from '../routes/restaurant';
 import dishRoutes from '../routes/dish'
 import orderRoutes from '../routes/order'
+import mongoClient from '../config/mongoose'
 
 const app = express();
+
+//DB Connect
+mongoClient.connect().then(() => {
+    console.log("DB Created Successfully...")
+}).catch(err => {
+    console.log("DB Creation Error: ", err.message)
+})
 
 //load configurations for passport
 require('../config/passport');
@@ -40,4 +47,7 @@ app.use('/', orderRoutes)
 
 app.listen(3001);
 console.log("Grubhub Server listening on port 3001");
-module.exports = app;
+
+
+//module.exports = app;
+export default app;

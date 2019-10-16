@@ -17,8 +17,10 @@ userRouter.get('/', (req, res) => {
     res.send("Grubhub Server Home");
 })
 
+//userRouter.post('/register', passport.authenticate('register'), (req, res) => {
 userRouter.post('/register', passport.authenticate('register'), (req, res) => {
     const userDetails = req.body;
+    console.log(userDetails)
     return userHandler.registerUser(userDetails).then(result => {
         res.cookie('grubhubCookie', result.token, {
             maxAge: 900000,

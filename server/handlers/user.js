@@ -1,6 +1,4 @@
-import {
-    Users,
-} from '../src/sequelize';
+import Users from "../models/user"
 import jwtScecret from '../config/jwtConfig'
 import jwt from 'jsonwebtoken';
 import restaurantHandler from "./restaurant";

@@ -1,9 +1,4 @@
-import {
-    Dishes,
-    Dishes_Restaurant,
-    Restaurants
-} from "../src/sequelize";
-import Sequelize from "sequelize";
+import Restaurants from "../models/restaurant";
 import _ from "lodash";
 import Promise from "bluebird"
 
@@ -107,7 +102,9 @@ const deleteDish = dish_id => {
     })
 };
 
-const Op = Sequelize.Op;
+//const Op = Sequelize.Op;
+const Op="searchTerm";
+
 const searchDishes = search_key => {
     search_key = `%${search_key}%`;
     return Dishes.findAll({

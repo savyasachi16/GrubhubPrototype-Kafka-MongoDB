@@ -1,6 +1,6 @@
 {
   "name": "grubhub-backend",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "API for Grubhub built on express.js",
   "main": "app.js",
   "scripts": {
@@ -24,6 +24,7 @@
     "express-session": "^1.16.2",
     "jsonwebtoken": "^8.5.1",
     "mocha": "^6.2.1",
+    "mongoose": "^5.7.4",
     "multer": "^1.4.2",
     "mysql2": "^1.7.0",
     "nodemon": "^1.19.3",
