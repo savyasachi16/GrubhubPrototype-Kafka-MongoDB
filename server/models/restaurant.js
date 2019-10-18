@@ -22,11 +22,9 @@ const restaurantSchema = new Schema({
         default: ""
     },
     dishes: [{
-        name: String,
-        section: String,
-        description: String,
-        image: String,
-        price: Number
+        type: Schema.Types.ObjectId,
+        ref: "Dishes"
+
     }],
     orders: [{
         type: Schema.Types.ObjectId,

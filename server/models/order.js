@@ -6,7 +6,7 @@ const orderSchema = new Schema({
     dishes: [{
         dish_id: {
             type: Schema.Types.ObjectId,
-            ref: "Restaurants.dish"
+            ref: "Dishes"
         },
         quantity: Number
     }],

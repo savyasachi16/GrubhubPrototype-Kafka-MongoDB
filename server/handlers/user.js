@@ -50,57 +50,73 @@ const loginUser = async userCredentials => {
 }
 
 const updateUser = async userDetails => {
-    let user = await Users.findOne({
-        _id: userDetails.user_id
-    })
-    if (!user) throw new Error("User not found in DB!")
-    user.first_name = userDetails.first_name
-    user.last_name = userDetails.last_name
-    user.phone = userDetails.phone
-    user.address = userDetails.address
-    user.image = userDetails.image
-    let updatedUser = await user.save()
-    if (updatedUser.account_type === "Vendor") {
-        const restaurantDetails = {
-            restaurant_name: userDetails.restaurant_name,
-            cuisine: userDetails.cuisine,
-            restaurant_image: userDetails.restaurant_image,
-            address: userDetails.restaurant_address,
-            zipcode: userDetails.restaurant_zipcode,
-            user_id: userDetails.user_id
-        }
-        if (!userDetails.restaurant_id) {
-            let restaurant = await restaurantHandler.createRestaurant(restaurantDetails)
-            return {
-                user: updatedUser,
-                restaurant
+    try {
+        let user = await Users.findOne({
+            _id: userDetails.user_id
+        })
+        if (!user) throw new Error("User not found in DB!")
+        user.first_name = userDetails.first_name
+        user.last_name = userDetails.last_name
+        user.phone = userDetails.phone
+        user.address = userDetails.address
+        user.image = userDetails.image
+        let updatedUser = await user.save()
+        if (updatedUser.account_type === "Vendor") {
+            const restaurantDetails = {
+                restaurant_name: userDetails.restaurant_name,
+                cuisine: userDetails.cuisine,
+                restaurant_image: userDetails.restaurant_image,
+                address: userDetails.restaurant_address,
+                zipcode: userDetails.restaurant_zipcode,
+                user_id: userDetails.user_id
             }
-        } else {
-            let restaurant = await restaurantHandler.updateRestaurant(restaurantDetails)
-            return {
-                user: updatedUser,
-                restaurant
+            if (!userDetails.restaurant_id) {
+                let restaurant = await restaurantHandler.createRestaurant(restaurantDetails)
+                return {
+                    user: updatedUser,
+                    restaurant
+                }
+            } else {
+                let restaurant = await restaurantHandler.updateRestaurant(restaurantDetails)
+                return {
+                    user: updatedUser,
+                    restaurant
+                }
             }
+        } else return {
+            user: updatedUser
         }
-    } else return {
-        user: updatedUser
+    } catch {
+        err => {
+            return ({
+                message: err
+            })
+        }
     }
 }
 
 const getUser = async id => {
-    let user = await Users.findOne({
-        _id: id
-    })
-    if (!user) throw new Error("User not found in DB!")
-    return {
-        id: user._id,
-        first_name: user.first_name,
-        last_name: user.last_name,
-        email: user.email,
-        account_type: user.account_type,
-        phone: user.phone,
-        address: user.address,
-        image: user.image
+    try {
+        let user = await Users.findOne({
+            _id: id
+        })
+        if (!user) throw new Error("User not found in DB!")
+        return {
+            id: user._id,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            email: user.email,
+            account_type: user.account_type,
+            phone: user.phone,
+            address: user.address,
+            image: user.image
+        }
+    } catch {
+        err => {
+            return ({
+                message: err
+            })
+        }
     }
 }
 
