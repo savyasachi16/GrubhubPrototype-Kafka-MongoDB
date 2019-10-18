@@ -54,12 +54,12 @@ const registerUser = (payload, ownProps) => {
 };
 
 const updateUser = payload => {
-    console.log("In updateUser:", payload)
     return dispatch => {
         return axios.put(`http://localhost:3001/userUpdate/${payload.id}`, payload)
             .then(response => {
                 if (response.status === 200) {
                     const userData = response.data.user;
+
                     userData.update_success = true;
                     dispatch({
                         type: actionTypes.SET_USER,

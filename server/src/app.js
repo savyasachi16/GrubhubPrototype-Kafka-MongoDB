@@ -7,15 +7,24 @@ import restaurantRoutes from '../routes/restaurant';
 import dishRoutes from '../routes/dish'
 import orderRoutes from '../routes/order'
 import mongoClient from '../config/mongoose'
-
+import Promise from "bluebird"
+import mongoose from 'mongoose'
+//mongoose.Promise = Promise;
 const app = express();
 
 //DB Connect
-mongoClient.connect().then(() => {
-    console.log("DB Created Successfully...")
-}).catch(err => {
-    console.log("DB Creation Error: ", err.message)
-})
+// mongoClient.connect().then(() => {
+//     console.log("DB Created Successfully...")
+// }).catch(err => {
+//     console.log("DB Creation Error: ", err.message)
+// })
+
+mongoose.connect('mongodb+srv://root:root1234@grubhubcluster-7frcc.mongodb.net/test?retryWrites=true&w=majority', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    poolSize: 4
+});
+
 
 //load configurations for passport
 require('../config/passport');
@@ -49,5 +58,5 @@ app.listen(3001);
 console.log("Grubhub Server listening on port 3001");
 
 
-//module.exports = app;
-export default app;
+module.exports = app;
+//export default app;

@@ -17,10 +17,8 @@ userRouter.get('/', (req, res) => {
     res.send("Grubhub Server Home");
 })
 
-//userRouter.post('/register', passport.authenticate('register'), (req, res) => {
 userRouter.post('/register', passport.authenticate('register'), (req, res) => {
     const userDetails = req.body;
-    console.log(userDetails)
     return userHandler.registerUser(userDetails).then(result => {
         res.cookie('grubhubCookie', result.token, {
             maxAge: 900000,
@@ -28,6 +26,7 @@ userRouter.post('/register', passport.authenticate('register'), (req, res) => {
         });
         return res.status(200).json(result);
     }).catch(err => {
+        console.log("Register Error: ", err)
         return res.status(500).json(err);
     });
 });

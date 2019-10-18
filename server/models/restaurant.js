@@ -21,7 +21,7 @@ const restaurantSchema = new Schema({
         type: String,
         default: ""
     },
-    dish: [{
+    dishes: [{
         name: String,
         section: String,
         description: String,
@@ -29,19 +29,8 @@ const restaurantSchema = new Schema({
         price: Number
     }],
     orders: [{
-        user_id: {
-            type: Schema.Types.ObjectId,
-            ref: "Users"
-        },
-        dishes: [{
-            dish_id: {
-                type: Schema.Types.ObjectId,
-                ref: "Dishes"
-            },
-            quantity: Number
-        }],
-        amount: Number,
-        status: String
+        type: Schema.Types.ObjectId,
+        ref: "Orders"
     }]
 })
 

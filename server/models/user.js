@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 const userSchema = new Schema({
-    _id: Schema.Types.ObjectId,
     first_name: {
         type: String,
         default: ""
@@ -42,6 +41,6 @@ const userSchema = new Schema({
     }]
 })
 
-const Users = new mongoose.model("Users", userSchema)
+const Users = mongoose.model("Users", userSchema)
 
 export default Users;
