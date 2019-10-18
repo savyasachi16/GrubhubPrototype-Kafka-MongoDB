@@ -3,7 +3,7 @@ import axios from "axios";
 
 const getRestaurant = payload => {
     return dispatch => {
-        return axios.get(`http://localhost:3001/restaurant/${payload.user_id}`)
+        return axios.get(`http://localhost:3001/restaurant/${payload.restaurant_id}`)
             .then(response => {
                 if (response.status === 200) {
                     dispatch({

@@ -33,7 +33,6 @@ userRouter.post('/register', passport.authenticate('register'), (req, res) => {
 
 userRouter.post('/login', passport.authenticate('login'), (req, res) => {
     const userCredentials = req.body;
-    console.log(req.body);
     return userHandler.loginUser(userCredentials).then(result => {
         res.cookie('grubhubCookie', result.token, {
             maxAge: 900000,

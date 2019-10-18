@@ -57,11 +57,9 @@ orderRouter.get("/order/buyer/:user_id", (req, res) => {
 
 orderRouter.post("/order/confirm", (req, res) => {
     const order_details = req.body
-    console.log("Order detls:", order_details)
     return orderHandler.createOrder(order_details).then(result => {
         res.status(200).json(result);
     }).catch(err => {
-        console.log("Place Order: ", err)
         res.status(500).json({
             message: err.message
         })

@@ -7,45 +7,91 @@ import {
 } from "../config/cloudinary"
 
 const registerUser = async userDetails => {
-    let user = await Users.findOne({
-        email: userDetails.email
-    })
-    if (!user) throw new Error("Email already exists in DB!");
-    user.first_name = userDetails.first_name
-    user.last_name = userDetails.last_name
-    user.account_type = userDetails.account_type
-    let updatedUser = await user.save()
-    const token = jwt.sign({
-        id: updatedUser._id
-    }, jwtSecret.secret)
-    return {
-        id: updateUser._id,
-        first_name: updatedUser.first_name,
-        last_name: updatedUser.last_name,
-        email: updatedUser.email,
-        account_type: updatedUser.account_type,
-        token: token
+    try {
+        let user = await Users.findOne({
+            email: userDetails.email
+        })
+        if (!user) throw new Error("Email already exists in DB!");
+        user.first_name = userDetails.first_name
+        user.last_name = userDetails.last_name
+        user.account_type = userDetails.account_type
+        let restaurant;
+        if (userDetails.account_type === 'Vendor') {
+            restaurant = await restaurantHandler.createRestaurant({})
+            user.restaurant_id = restaurant.id
+        }
+
+        let updatedUser = await user.save()
+        const token = jwt.sign({
+            id: updatedUser._id
+        }, jwtSecret.secret)
+        if (updatedUser.account_type === "Vendor")
+            return {
+                id: updatedUser._id,
+                first_name: updatedUser.first_name,
+                last_name: updatedUser.last_name,
+                email: updatedUser.email,
+                account_type: updatedUser.account_type,
+                token: token,
+                restaurant_id: updatedUser.restaurant_id
+            }
+        else {
+            return {
+                id: updatedUser._id,
+                first_name: updatedUser.first_name,
+                last_name: updatedUser.last_name,
+                email: updatedUser.email,
+                account_type: updatedUser.account_type,
+                token: token,
+            }
+        }
+    } catch (err) {
+        return err
     }
 }
 
 const loginUser = async userCredentials => {
-    let user = await Users.findOne({
-        email: userCredentials.email
-    })
-    if (!user) return new Error("User not registered!")
-    const token = jwt.sign({
-        id: user._id
-    }, jwtSecret.secret)
-    return {
-        id: user._id,
-        first_name: user.first_name,
-        last_name: user.last_name,
-        email: user.email,
-        account_type: user.account_type,
-        phone: user.phone,
-        address: user.address,
-        image: user.image,
-        token: token
+    try {
+        let user = await Users.findOne({
+            email: userCredentials.email
+        })
+        if (!user) return new Error("User not registered!")
+        const token = jwt.sign({
+            id: user._id
+        }, jwtSecret.secret)
+        if (user.account_type === 'Vendor') {
+            return {
+                id: user._id,
+                first_name: user.first_name,
+                last_name: user.last_name,
+                email: user.email,
+                account_type: user.account_type,
+                phone: user.phone,
+                address: user.address,
+                image: user.image,
+                token: token,
+                restaurant_id: user.restaurant_id
+            }
+        } else {
+            return {
+                id: user._id,
+                first_name: user.first_name,
+                last_name: user.last_name,
+                email: user.email,
+                account_type: user.account_type,
+                phone: user.phone,
+                address: user.address,
+                image: user.image,
+                token: token,
+            }
+        }
+
+    } catch {
+        err => {
+            return ({
+                message: err
+            })
+        }
     }
 }
 
@@ -60,38 +106,29 @@ const updateUser = async userDetails => {
         user.phone = userDetails.phone
         user.address = userDetails.address
         user.image = userDetails.image
+
         let updatedUser = await user.save()
         if (updatedUser.account_type === "Vendor") {
             const restaurantDetails = {
+                restaurant_id: userDetails.restaurant_id,
                 restaurant_name: userDetails.restaurant_name,
                 cuisine: userDetails.cuisine,
                 restaurant_image: userDetails.restaurant_image,
                 address: userDetails.restaurant_address,
                 zipcode: userDetails.restaurant_zipcode,
-                user_id: userDetails.user_id
             }
-            if (!userDetails.restaurant_id) {
-                let restaurant = await restaurantHandler.createRestaurant(restaurantDetails)
-                return {
-                    user: updatedUser,
-                    restaurant
-                }
-            } else {
-                let restaurant = await restaurantHandler.updateRestaurant(restaurantDetails)
-                return {
-                    user: updatedUser,
-                    restaurant
-                }
+
+            let restaurant = await restaurantHandler.updateRestaurant(restaurantDetails)
+            return {
+                user: updatedUser,
+                restaurant
+
             }
         } else return {
             user: updatedUser
         }
     } catch {
-        err => {
-            return ({
-                message: err
-            })
-        }
+        throw new Error(err);
     }
 }
 
@@ -122,7 +159,7 @@ const getUser = async id => {
 
 const uploadUserImage = async file => {
     try {
-        result = await uploader.upload(file, {
+        let result = await uploader.upload(file, {
             transformation: [{
                 width: 175,
                 height: 125,

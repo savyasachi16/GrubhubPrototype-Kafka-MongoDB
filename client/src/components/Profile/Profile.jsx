@@ -38,10 +38,11 @@ class Profile extends Component {
       phone,
       account_type,
       address,
-      image
+      image,
+      restaurant_id
     } = this.props.user;
     if (account_type === "Vendor") {
-      this.props.getRestaurant({ user_id: id });
+      this.props.getRestaurant({ restaurant_id: restaurant_id });
     }
     const restaurant = this.props.restaurant;
     this.setState({
@@ -53,7 +54,7 @@ class Profile extends Component {
       account_type,
       address,
       image,
-      restaurant_id: restaurant.id,
+      restaurant_id,
       restaurant_name: restaurant.name,
       restaurant_address: restaurant.address,
       restaurant_zipcode: restaurant.zipcode,
@@ -70,7 +71,8 @@ class Profile extends Component {
       phone,
       account_type,
       address,
-      image
+      image,
+      restaurant_id
     } = nextProps.user;
     const restaurant = nextProps.restaurant;
     this.setState({
@@ -82,7 +84,7 @@ class Profile extends Component {
       account_type,
       address,
       image,
-      restaurant_id: restaurant.id,
+      restaurant_id,
       restaurant_name: restaurant.name,
       restaurant_address: restaurant.address,
       restaurant_zipcode: restaurant.zipcode,

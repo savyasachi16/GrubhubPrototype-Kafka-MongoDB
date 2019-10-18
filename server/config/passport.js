@@ -41,7 +41,7 @@ passport.use("register", new localStrategy({
         }
     } catch (err) {
         console.log("Register Error: ", err)
-        done(err)
+        return err
     }
 }))
 

@@ -3,91 +3,58 @@ import Restaurants from "../models/restaurant"
 import _ from "lodash";
 import Promise from "bluebird"
 
-const getOrdersByRestaurant = restaurant_id => {
-    return Orders.findAll({
-        where: {
-            restaurant_id
-        }
-    }).then(allOrders => {
-        var current_orders, past_orders;
+const getOrdersByRestaurant = async restaurant_id => {
+    try {
+        let allOrders = await Orders.findAll({
+            restaurant_id: restaurant_id
+        })
+        let current_orders, past_orders
         current_orders = allOrders.filter(order => ["NEW", "PREPARING", "READY"].includes(order.status))
         past_orders = allOrders.filter(order => ["DELIVERED", "CANCELED"].includes(order.status))
         return {
             current_orders,
             past_orders
         }
-    })
+    } catch {
+        err => {
+            return ({
+                message: err
+            })
+        }
+    }
 }
 
-const updateOrder = order_details => {
-    return Orders.findOne({
-        where: {
-            id: order_details.id
-        }
-    }).then(order => {
-        return order.update({
-            status: order_details.status
-        }).then(() => {
-            return getOrdersByRestaurant(order.restaurant_id)
+const updateOrder = async order_details => {
+    try {
+        let order = await Orders.findOne({
+            _id: order_details.id
         })
-    })
+        order.status = order_details.status
+        updatedOrder = await order.save()
+        return getOrdersByRestaurant(order.restaurant_id)
+    } catch {
+        err => {
+            return ({
+                message: err
+            })
+        }
+    }
 }
 
-const getOrderDetails = (order_id) => {
-    return Orders.findOne({
-        where: {
-            id: order_id
-        },
-        include: [{
-                model: Users
-            },
-            {
-                model: Restaurants
-            }
-        ]
-    }).then(order => {
-        if (!order) {
-            throw new Error("Order not found in DB!")
-        }
-        return Dishes_Order.findAll({
-            where: {
-                order_id: order.id
-            },
-            include: [{
-                model: Dishes
-            }]
-        }).then(allDishes => {
-            if (!allDishes) {
-                throw new Error("Order does not have dishes! Weird...")
-            }
-            let dishes = []
-            if (allDishes && allDishes.length) {
-                dishes = allDishes.map(eachDish => {
-                    const {
-                        id,
-                        name,
-                        amount
-                    } = eachDish.dish;
-                    return {
-                        id,
-                        name,
-                        amount,
-                        quantity: eachDish.quantity
-                    }
-                })
-            }
-            return {
-                id: order.id,
-                buyer: {
-                    name: order.user.first_name + " " + order.user.last_name,
-                    address: order.user.address
-                },
-                dishes,
-                status: order.status,
-                amount: order.amount
-            }
+const getOrderDetails = async order_id => {
+    try {
+        let order = await Orders.findOne({
+            _id: order_id
         })
-    })
+        if (!order) throw new Error("Order not found in DB!")
+        
+    } catch {
+        err => {
+            return ({
+                message: err
+            })
+        }
+    }
 }
 
 const getOrdersByBuyer = user_id => {

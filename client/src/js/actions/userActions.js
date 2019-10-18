@@ -14,6 +14,7 @@ const loginUser = (payload, ownProps) => {
                 cookie.set("token", userData.token, {
                     expires: 1
                 })
+                console.log(userData)
                 dispatch({
                     type: actionTypes.SET_USER,
                     payload: userData
@@ -65,7 +66,7 @@ const updateUser = payload => {
                         type: actionTypes.SET_USER,
                         payload: userData
                     });
-                    if (userData.type === "Vendor") {
+                    if (userData.account_type === "Vendor") {
                         const restaurantData = response.data.restaurant;
                         dispatch({
                             type: actionTypes.SET_RESTAURANT,

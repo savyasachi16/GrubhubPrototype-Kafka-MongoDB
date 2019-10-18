@@ -22,7 +22,7 @@ const app = express();
 mongoose.connect('mongodb+srv://root:root1234@grubhubcluster-7frcc.mongodb.net/test?retryWrites=true&w=majority', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    poolSize: 4
+    //poolSize: 4
 });
 
 

@@ -22,38 +22,29 @@ const createRestaurant = async restaurantDetails => {
             zipcode: restaurant.zipcode
         }
     } catch {
-        err => {
-            return ({
-                message: err
-            })
-        }
+        throw new Error(err);
     }
 
 }
 
-const getRestaurant = async user_id => {
+const getRestaurant = async restaurant_id => {
     try {
         let restaurant = await Restaurants.findOne({
-            user_id: user_id
+            _id: restaurant_id
         })
         if (!restaurant) {
-            console.log("No restaurant in DB for current user...");
-            return {}
+            throw new Error("No restaurant in DB!")
         }
         return restaurant
     } catch {
-        err => {
-            return ({
-                message: err
-            })
-        }
+        throw new Error(err);
     }
 }
 
 const updateRestaurant = async restaurantDetails => {
     try {
         let restaurant = await Restaurants.findOne({
-            _id: restaurantDetails.id
+            _id: restaurantDetails.restaurant_id
         })
         restaurant.name = restaurantDetails.restaurant_name
         restaurant.cuisine = restaurantDetails.cuisine
@@ -61,6 +52,7 @@ const updateRestaurant = async restaurantDetails => {
         restaurant.address = restaurantDetails.address
         restaurant.zipcode = restaurantDetails.zipcode
         let updatedRestaurant = await restaurant.save()
+        if (!restaurant) throw new Error("No restaurant in DB!")
         restaurant = await Restaurants.findOne({
             _id: updatedRestaurant._id
         })

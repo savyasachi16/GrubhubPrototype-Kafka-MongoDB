@@ -52,7 +52,6 @@ class Orderdetails extends Component {
     });
   }
   render() {
-    console.log("This state: ", this.state);
     return (
       <div>
         {this.props.user.account_type === "Vendor" ? (

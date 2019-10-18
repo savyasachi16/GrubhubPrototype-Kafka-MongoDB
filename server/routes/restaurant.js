@@ -3,8 +3,8 @@ import restaurantHandler from '../handlers/restaurant';
 
 const restaurantRouter = express.Router();
 
-restaurantRouter.get("/restaurant/:user_id", (req, res) => {
-    const user_id = req.params.user_id;
+restaurantRouter.get("/restaurant/:restaurant_id", (req, res) => {
+    const user_id = req.params.restaurant_id;
     restaurantHandler.getRestaurant(user_id).then(result => {
         res.status(200).json(result)
     }).catch(err => {
