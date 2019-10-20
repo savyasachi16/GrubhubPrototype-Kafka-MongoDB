@@ -62,7 +62,8 @@ class Restaurant extends Component {
             quantity: this.state.cart[dish.id],
             price: dish.price ? dish.price * this.state.cart[dish.id] : 0
           };
-        }
+          //NEW
+        } else return {};
       });
       this.props.addToCart({
         cart: _.compact(cart)

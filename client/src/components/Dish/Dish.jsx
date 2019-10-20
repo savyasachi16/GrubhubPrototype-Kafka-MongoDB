@@ -4,7 +4,6 @@ import { dishActions } from "../../js/actions/index";
 import { Container, Row, Col, Image } from "react-bootstrap";
 import Sidebar from "../Sidebar/Sidebar";
 import { toast } from "react-toastify";
-
 class Dish extends Component {
   constructor(props) {
     super(props);
@@ -247,7 +246,7 @@ const mapStatetoProps = state => ({
   user_id: state.user.id
 });
 
-const mapDispathToProps = (dispatch, ownProps) => ({
+const mapDispathToProps = dispatch => ({
   addDish: payload => dispatch(dishActions.addDish(payload)),
   deleteDish: payload => dispatch(dishActions.deleteDish(payload)),
   updateDish: payload => dispatch(dishActions.updateDish(payload)),

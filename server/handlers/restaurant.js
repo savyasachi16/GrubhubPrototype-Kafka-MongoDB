@@ -35,7 +35,14 @@ const getRestaurant = async restaurant_id => {
         if (!restaurant) {
             throw new Error("No restaurant in DB!")
         }
-        return restaurant
+        return {
+            id: restaurant._id,
+            name: restaurant.name,
+            cuisine: restaurant.cuisine,
+            image: restaurant.image,
+            address: restaurant.address,
+            zipcode: restaurant.zipcode
+        }
     } catch {
         throw new Error(err);
     }
@@ -64,11 +71,7 @@ const updateRestaurant = async restaurantDetails => {
             zipcode: restaurant.zipcode
         }
     } catch {
-        err => {
-            return ({
-                message: err
-            })
-        }
+        throw new Error(err);
     }
 }
 
@@ -80,8 +83,10 @@ const getRestaurantMenu = async restaurant_id => {
         if (!restaurant) {
             throw new Error("No restaurant found in DB!");
         }
-        let allDishes = await Dishes.findAll({
-            _id: restaurant.dishes
+        let allDishes = await Dishes.find({
+            _id: {
+                $in: restaurant.dishes
+            }
         })
         if (!allDishes || !allDishes.length) {
             return []
@@ -94,9 +99,7 @@ const getRestaurantMenu = async restaurant_id => {
         return groupedDishes
     } catch {
         err => {
-            return ({
-                message: err
-            })
+            return err
         }
     }
 }
@@ -104,7 +107,7 @@ const getRestaurantMenu = async restaurant_id => {
 const getRestaurantDetails = async restaurant_id => {
     try {
         let restaurant = await Restaurants.findOne({
-            id: restaurant_id
+            _id: restaurant_id
         })
         if (!restaurant) {
             throw new Error("Restaurant not found in DB!");
@@ -115,11 +118,7 @@ const getRestaurantDetails = async restaurant_id => {
             current_restaurant: restaurant
         }
     } catch {
-        err => {
-            return ({
-                message: err
-            })
-        }
+        throw new Error(err);
     }
 }
 
@@ -138,19 +137,24 @@ const updateSection = async section => {
         currentDish = await currentDish.save()
         return getRestaurantMenu(section.restaurant_id);
     } catch {
-        err => {
-            return ({
-                message: err
-            })
-        }
+        throw new Error(err);
     }
 }
 
 const deleteSection = async section => {
-    if (!section.dishes || !section.dishes.length) {
-        throw new Error("No dishes in section.")
+    try {
+        console.log("Section in deleteSection: ", section)
+        if (!section.dishes || !section.dishes.length) {
+            throw new Error("No dishes in section.")
+        }
+        sectionDelete = await Dishes.deleteMany({
+            section: section.name
+        })
+        sectionDelete = await sectionDelete.save()
+        return getRestaurantMenu(section.restaurant_id);
+    } catch {
+        throw new Error(err);
     }
-    ///continue later...
 }
 
 export default {

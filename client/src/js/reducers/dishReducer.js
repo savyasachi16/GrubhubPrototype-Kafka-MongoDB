@@ -9,7 +9,7 @@ const initialState = {
 };
 
 const dishReducer = (state = initialState, action) => {
-    var newState;
+    let newState;
     switch (action.type) {
 
         case actionTypes.SET_DISH:
@@ -22,8 +22,8 @@ const dishReducer = (state = initialState, action) => {
 
         case actionTypes.SET_DISH_IMAGE:
             newState = action.payload;
+            console.log("Reducer State and New State:", state, newState)
             return Object.assign({}, state, newState);
-
         default:
             break;
     }

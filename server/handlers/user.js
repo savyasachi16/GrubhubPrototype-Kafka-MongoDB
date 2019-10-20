@@ -46,6 +46,7 @@ const registerUser = async userDetails => {
             }
         }
     } catch (err) {
+        console.log("Register Error: ", err)
         return err
     }
 }
@@ -86,12 +87,9 @@ const loginUser = async userCredentials => {
             }
         }
 
-    } catch {
-        err => {
-            return ({
-                message: err
-            })
-        }
+    } catch (err) {
+        console.log("Login Error: ", err)
+        return err
     }
 }
 
@@ -127,8 +125,9 @@ const updateUser = async userDetails => {
         } else return {
             user: updatedUser
         }
-    } catch {
-        throw new Error(err);
+    } catch (err) {
+        console.log("Update User Error: ", err)
+        return err
     }
 }
 
@@ -148,12 +147,9 @@ const getUser = async id => {
             address: user.address,
             image: user.image
         }
-    } catch {
-        err => {
-            return ({
-                message: err
-            })
-        }
+    } catch (err) {
+        console.log("Get user Error: ", err)
+        return err
     }
 }
 
@@ -172,7 +168,7 @@ const uploadUserImage = async file => {
         })
     } catch (err) {
         console.log("Error while uploading image to repo: ", err)
-        throw err
+        return err
     }
 }
 

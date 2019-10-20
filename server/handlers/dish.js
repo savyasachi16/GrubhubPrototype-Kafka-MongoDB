@@ -1,138 +1,120 @@
 import Restaurants from "../models/restaurant";
+import Dishes from "../models/dish"
 import _ from "lodash";
 import Promise from "bluebird"
 
-const addDish = dish_details => {
-    const {
-        name,
-        price,
-        description,
-        image,
-        section
-    } = dish_details;
-    return Dishes.create({
-        name,
-        price,
-        description,
-        image,
-        section
-    }).then(dish => {
-        if (!dish) {
-            throw new Error("Dish created in DB failed!");
-        }
-        return Dishes_Restaurant.create({
-            dish_id: dish.id,
-            restaurant_id: dish_details.restaurant_id
-        }).then(() => {
-            return dish
+const addDish = async dish_details => {
+    try {
+        let dish = await Dishes.create({
+            name: dish_details.name,
+            price: dish_details.price,
+            description: dish_details.description,
+            image: dish_details.image,
+            section: dish_details.section
         })
-    })
-};
-const getDishDetails = dish_id => {
-    return Dishes.findOne({
-        where: {
-            id: dish_id
+        if (!dish) throw new Error("Unable to add new dish!")
+        let restaurant = await Restaurants.updateOne({
+            _id: dish_details.restaurant_id
+        }, {
+            $push: {
+                dishes: dish._id
+            }
+        })
+        if (!restaurant) throw new Error("Error mapping dish to restaurant!")
+        return {
+            id: dish._id,
+            name: dish.name,
+            price: dish.price,
+            description: dish.description,
+            image: dish.image,
+            section: dish.section
         }
-    }).then(dish => {
-        if (!dish) {
-            throw new Error("Dish not found in DB!");
-        }
+    } catch (err) {
+        console.log("Add Dish Error: ", err)
+        return err
+    }
+}
+const getDishDetails = async dish_id => {
+    try {
+        let dish = await Dishes.findOne({
+            _id: dish_id
+        })
+        if (!dish) throw new Error("Dish not found in DB!");
         return dish
-    })
-};
+    } catch (err) {
+        console.log("Get Dish Details Error: ", err)
+        return err
+    }
+}
 
-const updateDish = (dish_details) => {
-    return Dishes.findOne({
-        where: {
-            id: dish_details.id
-        }
-    }).then(dish => {
-        if (!dish) {
-            throw new Error("Dish not found in DB!");
-        }
-        const {
-            name,
-            price,
-            section,
-            description,
-            image
-        } = dish_details;
-        return dish.update({
-            name,
-            section,
-            price,
-            description,
-            image
-        }).then(() => {
-            return Dishes.findOne({
-                where: {
-                    id: dish_details.id
-                }
-            }).then(updatedDish => {
-                if (!updatedDish) {
-                    throw new Error("Updated dish not found!")
-                }
-                return updatedDish
-            })
+const updateDish = async dish_details => {
+    try {
+        let dish = await Dishes.findAll({
+            _id: dish_details.id
         })
-    })
-};
-const deleteDish = dish_id => {
-    return Dishes_Restaurant.destroy({
-        where: {
-            dish_id
-        }
-    }).then(rows => {
-        if (!rows) {
-            throw new Error("Dish not deleted in DB!");
-        }
-        return Dishes.destroy({
-            where: {
-                id: dish_id
-            }
-        }).then(rows => {
-            if (!rows) {
-                throw new Error("Dish not deleted in DB!");
-            }
-            return {
-                message: "Dish deleted Successfully"
-            }
+        if (!dish) throw new Error("Dish not found in DB!")
+        dish.name = dish_details.name
+        dish.price = dish_details.price
+        dish.section = dish_details.section
+        dish.description = dish_details.description
+        dish.image = dish_details.image
+        let updatedDish = await dish.save()
+        if (!updatedDish) throw new Error("Dish update failure!")
+        return updatedDish
+    } catch (err) {
+        console.log("Update Dish Error: ", err)
+        return err
+    }
+}
+const deleteDish = async ids => {
+    try {
+        let restaurant = await Restaurants.dishes._id(ids.dish_id).remove()
+        restaurant.save(err => {
+            if (err) throw new Error("Delete dish failure!")
         })
-    })
-};
+    } catch (err) {
+        console.log("Delete Dish Error: ", err)
+        return err
+    }
+}
 
 //const Op = Sequelize.Op;
-const Op="searchTerm";
+const Op = "searchTerm";
 
 const searchDishes = search_key => {
-    search_key = `%${search_key}%`;
-    return Dishes.findAll({
-        where: {
-            name: {
-                [Op.like]: search_key
-            }
-        }
-    }).then(searchDishes => {
-        return Promise.map(searchDishes, dish => {
-            return Dishes_Restaurant.findOne({
-                where: {
-                    dish_id: dish.id
-                },
-                include: [{
-                    model: Restaurants
-                }]
-            }).then(dish_restaurant => {
-                if (dish_restaurant) {
-                    return dish_restaurant.restaurant;
+    try {
+        search_key = `%${search_key}%`;
+        return Dishes.findAll({
+            where: {
+                name: {
+                    [Op.like]: search_key
                 }
-            })
-        }).then(restaurants => {
+            }
+        }).then(searchDishes => {
+            return Promise.map(searchDishes, dish => {
+                return Dishes_Restaurant.findOne({
+                    where: {
+                        dish_id: dish.id
+                    },
+                    include: [{
+                        model: Restaurants
+                    }]
+                }).then(dish_restaurant => {
+                    if (dish_restaurant) {
+                        return dish_restaurant.restaurant;
+                    }
+                })
+            }).then(restaurants => {
 
-            return {
-                search_results: _.chain(restaurants).compact().uniqBy('id').value()
-            };
+                return {
+                    search_results: _.chain(restaurants).compact().uniqBy('id').value()
+                };
+            })
         })
-    })
+    } catch (err) {
+        console.log("Search Dish Error: ", err)
+        return err
+    }
 }
 export {
     addDish,

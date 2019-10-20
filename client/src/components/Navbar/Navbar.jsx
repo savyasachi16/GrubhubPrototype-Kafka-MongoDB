@@ -15,7 +15,6 @@ class Navigbar extends Component {
       user: this.props.user
     });
   }
-  //WARNING! To be deprecated in React v17. Use new lifecycle static getDerivedStateFromProps instead.
   componentWillReceiveProps(nextProps) {
     this.setState({
       user: nextProps.user

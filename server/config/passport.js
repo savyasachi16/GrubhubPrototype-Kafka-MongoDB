@@ -40,8 +40,7 @@ passport.use("register", new localStrategy({
             }
         }
     } catch (err) {
-        console.log("Register Error: ", err)
-        return err
+        done(err)
     }
 }))
 
