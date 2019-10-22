@@ -32,7 +32,7 @@ class Dish extends Component {
   }
   //WARNING! To be deprecated in React v17. Use new lifecycle static getDerivedStateFromProps instead.
   componentWillReceiveProps(nextProps) {
-    if (nextProps.dish.id) {
+    if (nextProps.dish.id && this.props.match.params.dish_id) {
       const { id, name, description, section, price, image } = nextProps.dish;
       this.setState({
         id,
@@ -70,7 +70,8 @@ class Dish extends Component {
     e.preventDefault();
     const payload = {
       user_id: this.props.user_id,
-      dish_id: this.state.id
+      dish_id: this.state.id,
+      restaurant_id: this.props.restaurant_id
     };
     this.props.deleteDish(payload);
   };
@@ -246,10 +247,10 @@ const mapStatetoProps = state => ({
   user_id: state.user.id
 });
 
-const mapDispathToProps = dispatch => ({
-  addDish: payload => dispatch(dishActions.addDish(payload)),
-  deleteDish: payload => dispatch(dishActions.deleteDish(payload)),
-  updateDish: payload => dispatch(dishActions.updateDish(payload)),
+const mapDispathToProps = (dispatch, ownProps) => ({
+  addDish: payload => dispatch(dishActions.addDish(payload,ownProps)),
+  deleteDish: payload => dispatch(dishActions.deleteDish(payload, ownProps)),
+  updateDish: payload => dispatch(dishActions.updateDish(payload, ownProps)),
   getDish: payload => dispatch(dishActions.getDish(payload)),
   uploadDishImage: payload => dispatch(dishActions.uploadDishImage(payload))
 });

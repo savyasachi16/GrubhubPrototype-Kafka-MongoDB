@@ -25,7 +25,8 @@ class vendorMenu extends Component {
       sections = nextProps.restaurant.menu.map(eachSection => ({
         name: eachSection.section,
         id: eachSection.id,
-        items: _.map(eachSection.items, "id"),
+        dishes: _.map(eachSection.dishes, "_id"),
+        //dishes: _.map(eachSection.dishes, "name"),
         updated_name: ""
       }));
     }
@@ -37,9 +38,11 @@ class vendorMenu extends Component {
 
   handleChange = e => {
     e.preventDefault();
-    let key = parseInt(e.currentTarget.id);
+    console.log(this.state.menu);
+    let key = e.currentTarget.id;
     let value = e.currentTarget.value;
     let updatedSection = [...this.state.sections];
+    console.log("Updated Section: ", updatedSection);
     _.find(updatedSection, { id: key }).updated_name = value;
     this.setState({
       sections: updatedSection
@@ -49,17 +52,18 @@ class vendorMenu extends Component {
   handleEdit = e => {
     e.preventDefault();
     const current_section = _.find(this.state.sections, {
-      id: parseInt(e.currentTarget.value)
+      id: e.currentTarget.value
     });
-    if (current_section.updated_name) {
-      current_section.restaurant_id = this.props.restaurant.id;
-      if (e.currentTarget.name === "edit") {
+    current_section.restaurant_id = this.props.restaurant.id;
+    if (e.currentTarget.name === "edit") {
+      if (current_section.updated_name) {
+        current_section.restaurant_id = this.props.restaurant.id;
         this.props.editSection(current_section);
-      } else if (e.currentTarget.name === "delete") {
-        this.props.deleteSection(current_section);
-      } else {
-        console.log("No dishes in section...");
       }
+    } else if (e.currentTarget.name === "delete") {
+      this.props.deleteSection(current_section);
+    } else {
+      console.log("No dishes in section...");
     }
   };
 
@@ -125,9 +129,9 @@ class vendorMenu extends Component {
                         <Container>
                           <Row>
                             {eachSection.dishes.map(dish => {
-                              let dish_detail_link = `/dish/detail/${dish.id}`;
+                              let dish_detail_link = `/dish/detail/${dish._id}`;
                               return (
-                                <Link key={dish.id} to={dish_detail_link}>
+                                <Link key={dish._id} to={dish_detail_link}>
                                   <div className="m-2">
                                     <Card style={{ width: "12rem" }}>
                                       <Card.Img

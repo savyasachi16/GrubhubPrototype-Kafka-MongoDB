@@ -40,6 +40,7 @@ restaurantRouter.put('/restaurant/menu/section', (req, res) => {
     restaurantHandler.updateSection(section).then(result => {
         res.status(200).json(result)
     }).catch(err => {
+        console.log("Section Update error: ", err)
         res.status(500).json({
             message: err.message
         })
@@ -51,6 +52,7 @@ restaurantRouter.put('/restaurant/menu/section/delete', (req, res) => {
     restaurantHandler.deleteSection(section).then(result => {
         res.status(200).json(result);
     }).catch(err => {
+        console.log("Delete Section error:", err)
         res.status(500).json({
             message: err.message
         });

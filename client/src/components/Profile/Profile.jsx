@@ -63,17 +63,7 @@ class Profile extends Component {
     });
   }
   componentWillReceiveProps(nextProps) {
-    const {
-      id,
-      first_name,
-      last_name,
-      email,
-      phone,
-      account_type,
-      address,
-      image,
-      restaurant_id
-    } = nextProps.user;
+    const {id, first_name, last_name, email, phone, account_type, address, image, restaurant_id} = nextProps.user;
     const restaurant = nextProps.restaurant;
     this.setState({
       id,

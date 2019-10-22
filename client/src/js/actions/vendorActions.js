@@ -104,6 +104,7 @@ const editSection = payload => {
 }
 
 const deleteSection = payload => {
+    console.log("Delete Section Payload: ", payload)
     return dispatch => {
         return axios
             .put("http://localhost:3001/restaurant/menu/section/delete", payload)

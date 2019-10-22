@@ -18,6 +18,7 @@ userRouter.get('/', (req, res) => {
 })
 
 userRouter.post('/register', passport.authenticate('register'), (req, res) => {
+    console.log(req.body)
     const userDetails = req.body;
     return userHandler.registerUser(userDetails).then(result => {
         res.cookie('grubhubCookie', result.token, {
