@@ -10,7 +10,7 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: "",
+      _id: "",
       first_name: "",
       last_name: "",
       email: "",
@@ -31,21 +31,7 @@ class Profile extends Component {
   }
   componentDidMount() {
     const {
-      id,
-      first_name,
-      last_name,
-      email,
-      phone,
-      account_type,
-      address,
-      image
-    } = this.props.user;
-    if (account_type === "Vendor") {
-      this.props.getRestaurant({ user_id: id });
-    }
-    const restaurant = this.props.restaurant;
-    this.setState({
-      id,
+      _id,
       first_name,
       last_name,
       email,
@@ -53,7 +39,22 @@ class Profile extends Component {
       account_type,
       address,
       image,
-      restaurant_id: restaurant.id,
+      restaurant_id
+    } = this.props.user;
+    if (account_type === "Vendor") {
+      this.props.getRestaurant({ restaurant_id: restaurant_id });
+    }
+    const restaurant = this.props.restaurant;
+    this.setState({
+      _id,
+      first_name,
+      last_name,
+      email,
+      phone,
+      account_type,
+      address,
+      image,
+      restaurant_id,
       restaurant_name: restaurant.name,
       restaurant_address: restaurant.address,
       restaurant_zipcode: restaurant.zipcode,
@@ -62,19 +63,10 @@ class Profile extends Component {
     });
   }
   componentWillReceiveProps(nextProps) {
-    const {
-      id,
-      first_name,
-      last_name,
-      email,
-      phone,
-      account_type,
-      address,
-      image
-    } = nextProps.user;
+    const {_id, first_name, last_name, email, phone, account_type, address, image, restaurant_id} = nextProps.user;
     const restaurant = nextProps.restaurant;
     this.setState({
-      id,
+      _id,
       first_name,
       last_name,
       email,
@@ -82,7 +74,7 @@ class Profile extends Component {
       account_type,
       address,
       image,
-      restaurant_id: restaurant.id,
+      restaurant_id,
       restaurant_name: restaurant.name,
       restaurant_address: restaurant.address,
       restaurant_zipcode: restaurant.zipcode,

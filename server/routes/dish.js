@@ -2,10 +2,8 @@ import express from 'express';
 import * as dishHandler from "../handlers/dish";
 const dishRouter = express.Router();
 
-
 dishRouter.post("/dish/add", (req, res) => {
     const dish_details = req.body;
-    console.log(dish_details)
     dishHandler.addDish(dish_details).then(result => {
         res.status(200).json(result);
     }).catch(err => {
@@ -37,9 +35,9 @@ dishRouter.post("/dish/update", (req, res) => {
     })
 })
 
-dishRouter.delete("/dish/delete/:dish_id", (req, res) => {
-    const dish_id = req.params.dish_id;
-    dishHandler.deleteDish(dish_id).then(result => {
+dishRouter.post("/dish/delete/", (req, res) => {
+    const ids = req.body;
+    dishHandler.deleteDish(ids).then(result => {
         res.status(200).json(result);
     }).catch(err => {
         console.log("Dish delete Error:", err)
@@ -59,6 +57,4 @@ dishRouter.get("/buyer/search", (req, res) => {
         })
     })
 })
-
-
 export default dishRouter;

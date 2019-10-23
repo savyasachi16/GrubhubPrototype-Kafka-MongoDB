@@ -1,7 +1,7 @@
 import actionTypes from "../constants/index";
 import axios from "axios";
 
-const addDish = payload => {
+const addDish = (payload, ownProps) => {
     return dispatch => {
         return axios.post(`http://localhost:3001/dish/add`, payload).then(response => {
             if (response.status === 200) {
@@ -9,19 +9,21 @@ const addDish = payload => {
                     type: actionTypes.SET_DISH,
                     payload: response.data
                 });
+                ownProps.history.push(`/${payload.restaurant_id}/menu`)
             }
         })
     }
 }
 
-const updateDish = payload => {
+const updateDish = (payload, ownProps) => {
     return dispatch => {
         return axios.post(`http://localhost:3001/dish/update`, payload).then(response => {
             if (response.status === 200) {
                 dispatch({
                     type: actionTypes.SET_DISH,
                     payload: response.data
-                });
+                })
+                ownProps.history.push(`/${payload.restaurant_id}/menu`)
             }
         })
     }
@@ -29,13 +31,13 @@ const updateDish = payload => {
 
 const deleteDish = (payload, ownProps) => {
     return dispatch => {
-        return axios.delete(`http://localhost:3001/dish/delete/${payload.dish_id}`, payload).then(response => {
+        return axios.post(`http://localhost:3001/dish/delete/`, payload).then(response => {
             if (response.status === 200) {
                 dispatch({
                     type: actionTypes.CLEAR_DISH,
                     payload: {}
                 })
-                ownProps.history.push(`/${payload.user_id}/menu`)
+                ownProps.history.push(`/${payload.restaurant_id}/menu`)
             }
         })
     }

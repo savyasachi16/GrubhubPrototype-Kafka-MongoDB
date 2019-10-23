@@ -11,7 +11,7 @@ class Restaurant extends Component {
     super(props);
     this.state = {
       current_restaurant: {
-        id: "",
+        _id: "",
         name: "",
         cuisine: "",
         address: "",
@@ -55,15 +55,17 @@ class Restaurant extends Component {
       .value();
     if (dishes && dishes.length) {
       const cart = dishes.map(dish => {
-        if (this.state.cart[dish.id] && this.state.cart[dish.id] !== 0) {
+        if (this.state.cart[dish._id] && this.state.cart[dish._id] !== 0) {
           return {
-            id: dish.id,
+            _id: dish._id,
             name: dish.name,
-            quantity: this.state.cart[dish.id],
-            price: dish.price ? dish.price * this.state.cart[dish.id] : 0
+            quantity: this.state.cart[dish._id],
+            price: dish.price ? dish.price * this.state.cart[dish._id] : 0
           };
-        }
+          //NEW
+        } else return {};
       });
+      console.log(cart);
       this.props.addToCart({
         cart: _.compact(cart)
       });
@@ -103,7 +105,7 @@ class Restaurant extends Component {
                                 <div className="m-2">
                                   <Card
                                     style={{ width: "14rem", height: "20rem" }}
-                                    key={dish.id}
+                                    key={dish._id}
                                   >
                                     <Card.Img
                                       variant="top"
@@ -127,7 +129,7 @@ class Restaurant extends Component {
                                               placeholder=""
                                               min="0"
                                               max="10"
-                                              id={dish.id}
+                                              id={dish._id}
                                               onChange={this.handleQuantity}
                                             />
                                           </Col>

@@ -25,7 +25,7 @@ class SearchResults extends Component {
       search_results: [],
       restaurant_list_columns: [
         {
-          dataField: "id",
+          dataField: "_id",
           text: "ID",
           hidden: true
         },
@@ -52,7 +52,7 @@ class SearchResults extends Component {
   }
 
   restaurantNameFormatter = (cell, row) => {
-    let detailpage_link = `/restaurant/detail/${row.id}`;
+    let detailpage_link = `/restaurant/detail/${row._id}`;
     return <Link to={detailpage_link}>{cell}</Link>;
   };
   componentDidMount() {

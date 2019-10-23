@@ -15,7 +15,7 @@ class Order extends Component {
       past_orders: [],
       past_orders_columns: [
         {
-          dataField: "id",
+          dataField: "_id",
           text: "ID",
           formatter: this.orderIdFormatter
         },
@@ -30,7 +30,7 @@ class Order extends Component {
       ],
       current_order_columns: [
         {
-          dataField: "id",
+          dataField: "_id",
           text: "ID",
           formatter: this.orderIdFormatter
         },
@@ -74,19 +74,19 @@ class Order extends Component {
   componentDidMount() {
     if (this.props.user.account_type === "Vendor") {
       this.props.getRestaurantOrders({
-        id: this.props.restaurant.id
+        _id: this.props.restaurant._id
       });
     } else if (this.props.user.account_type === "User") {
       this.props.getBuyerOrders({
-        id: this.props.match.params.id
+        _id: this.props.match.params._id
       });
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.restaurant.id && nextProps.user.account_type === "Vendor") {
+    if (!nextProps.restaurant._id && nextProps.user.account_type === "Vendor") {
       nextProps.getRestaurant({
-        user_id: this.props.match.params.id
+        user_id: this.props.match.params._id
       });
     }
     if (
@@ -101,11 +101,11 @@ class Order extends Component {
     } else {
       if (nextProps.user.type === "Vendor") {
         nextProps.getRestaurantOrders({
-          id: nextProps.restaurant.id
+          _id: nextProps.restaurant._id
         });
       } else {
         nextProps.getBuyerOrders({
-          id: nextProps.match.params.id
+          _id: nextProps.match.params._id
         });
       }
       this.setState({
@@ -115,13 +115,13 @@ class Order extends Component {
     }
   }
   orderIdFormatter = (cell, row) => {
-    let detailpage_link = `/order/detail/${row.id}`;
+    let detailpage_link = `/order/detail/${row._id}`;
     return <Link to={detailpage_link}>{cell}</Link>;
   };
 
   afterSaveCell = (oldValue, newValue, row) => {
     const payload = {
-      id: row.id,
+      _id: row._id,
       status: row.status
     };
     this.props.changeStatus(payload);
@@ -143,7 +143,7 @@ class Order extends Component {
           {this.props.user.account_type === "Vendor" ? (
             <div>
               <BootstrapTable
-                keyField="id"
+                keyField="_id"
                 data={this.state.current_orders}
                 columns={this.state.current_order_columns}
                 bordered={true}
@@ -162,7 +162,7 @@ class Order extends Component {
           ) : (
             <div>
               <BootstrapTable
-                keyField="id"
+                keyField="_id"
                 data={this.state.current_orders}
                 columns={this.state.current_order_columns}
                 bordered={true}
@@ -178,7 +178,7 @@ class Order extends Component {
           </div>
           <div>
             <BootstrapTable
-              keyField="id"
+              keyField="_id"
               data={this.state.past_orders}
               columns={this.state.past_orders_columns}
               bordered={true}

@@ -3,8 +3,8 @@ import restaurantHandler from '../handlers/restaurant';
 
 const restaurantRouter = express.Router();
 
-restaurantRouter.get("/restaurant/:user_id", (req, res) => {
-    const user_id = req.params.user_id;
+restaurantRouter.get("/restaurant/:restaurant_id", (req, res) => {
+    const user_id = req.params.restaurant_id;
     restaurantHandler.getRestaurant(user_id).then(result => {
         res.status(200).json(result)
     }).catch(err => {
@@ -29,6 +29,8 @@ restaurantRouter.get('/restaurant/details/:restaurant_id', (req, res) => {
     restaurantHandler.getRestaurantDetails(restaurant_id).then(result => {
         res.status(200).json(result);
     }).catch(err => {
+        console.log("Get Restaurant Details Error: ", err)
+
         res.status(500).json({
             message: err.message
         });
@@ -40,6 +42,7 @@ restaurantRouter.put('/restaurant/menu/section', (req, res) => {
     restaurantHandler.updateSection(section).then(result => {
         res.status(200).json(result)
     }).catch(err => {
+        console.log("Section Update error: ", err)
         res.status(500).json({
             message: err.message
         })
@@ -51,6 +54,7 @@ restaurantRouter.put('/restaurant/menu/section/delete', (req, res) => {
     restaurantHandler.deleteSection(section).then(result => {
         res.status(200).json(result);
     }).catch(err => {
+        console.log("Delete Section error:", err)
         res.status(500).json({
             message: err.message
         });

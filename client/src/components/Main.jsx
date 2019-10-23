@@ -26,11 +26,11 @@ class Main extends Component {
           <Route path="/create-user" exact component={CreateUser} />
           <Route path="/create-vendor" exact component={CreateVendor} />
 
-          <Route path="/:id/profile" exact component={Profile} />
-          <Route exact path="/:id/cart" component={Cart} />
-          <Route exact path="/:id/order" component={OrderList} />
-          <Route path="/:id/menu" exact component={vendorMenu} />
-          <Route path="/:id/search" exact component={Search} />
+          <Route path="/:_id/profile" exact component={Profile} />
+          <Route exact path="/:_id/cart" component={Cart} />
+          <Route exact path="/:_id/order" component={OrderList} />
+          <Route path="/:_id/menu" exact component={vendorMenu} />
+          <Route path="/:_id/search" exact component={Search} />
           <Route path="/results" exact component={SearchResults} />
 
           <Route path="/dish" exact component={Dish} />

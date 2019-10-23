@@ -1,14 +1,20 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import session from 'express-session';
 import cors from 'cors';
 import passport from 'passport';
 import userRoutes from '../routes/user';
 import restaurantRoutes from '../routes/restaurant';
 import dishRoutes from '../routes/dish'
 import orderRoutes from '../routes/order'
-
+import Promise from "bluebird"
+import mongoose from 'mongoose'
 const app = express();
+
+mongoose.connect('mongodb+srv://root:root1234@grubhubcluster-7frcc.mongodb.net/test?retryWrites=true&w=majority', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    //poolSize: 4
+});
 
 //load configurations for passport
 require('../config/passport');
@@ -40,4 +46,7 @@ app.use('/', orderRoutes)
 
 app.listen(3001);
 console.log("Grubhub Server listening on port 3001");
+
+
 module.exports = app;
+//export default app;

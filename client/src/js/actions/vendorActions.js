@@ -3,7 +3,7 @@ import axios from "axios";
 
 const getRestaurant = payload => {
     return dispatch => {
-        return axios.get(`http://localhost:3001/restaurant/${payload.user_id}`)
+        return axios.get(`http://localhost:3001/restaurant/${payload.restaurant_id}`)
             .then(response => {
                 if (response.status === 200) {
                     dispatch({
@@ -32,7 +32,7 @@ const getMenu = payload => {
 
 const getRestaurantOrders = payload => {
     return dispatch => {
-        return axios.get(`http://localhost:3001/order/restaurant/${payload.id}`).then(response => {
+        return axios.get(`http://localhost:3001/order/restaurant/${payload._id}`).then(response => {
             if (response.status === 200) {
                 dispatch({
                     type: actionTypes.SET_ORDERS,
@@ -45,7 +45,7 @@ const getRestaurantOrders = payload => {
 
 const changeStatus = payload => {
     return dispatch => {
-        return axios.put(`http://localhost:3001/order/update/${payload.id}`, {
+        return axios.put(`http://localhost:3001/order/update/${payload._id}`, {
             status: payload.status
         }).then(response => {
             if (response === 200) {
@@ -76,7 +76,7 @@ const getOrderDetails = payload => {
 const getBuyerOrders = payload => {
     return dispatch => {
         return axios
-            .get(`http://localhost:3001/order/buyer/${payload.id}`)
+            .get(`http://localhost:3001/order/buyer/${payload._id}`)
             .then(response => {
                 if (response.status === 200) {
                     dispatch({

@@ -83,6 +83,9 @@ class LoginUser extends Component {
 const mapStateToProps = state => ({
   user: state.user
 });
+
+//check dispath!!!!!
+
 const mapDispatchToProps = (dispath, ownProps) => ({
   loginUser: payload => dispath(userActions.loginUser(payload, ownProps))
 });

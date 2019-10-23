@@ -15,7 +15,6 @@ class Navigbar extends Component {
       user: this.props.user
     });
   }
-  //WARNING! To be deprecated in React v17. Use new lifecycle static getDerivedStateFromProps instead.
   componentWillReceiveProps(nextProps) {
     this.setState({
       user: nextProps.user
@@ -30,7 +29,7 @@ class Navigbar extends Component {
   };
 
   render() {
-    const redirect = `\\${this.state.user.id}\\search`;
+    const redirect = `\\${this.state.user._id}\\search`;
     return (
       <Navbar bg="light" expand="lg" className="fluid">
         <Navbar.Brand href={redirect}>
@@ -50,13 +49,13 @@ class Navigbar extends Component {
               id="basic-nav-dropdown"
               drop="left"
             >
-              <NavDropdown.Item href={`/${this.state.user.id}/profile`}>
+              <NavDropdown.Item href={`/${this.state.user._id}/profile`}>
                 Profile
               </NavDropdown.Item>
-              <NavDropdown.Item href={`/${this.state.user.id}/cart`}>
+              <NavDropdown.Item href={`/${this.state.user._id}/cart`}>
                 Cart
               </NavDropdown.Item>
-              <NavDropdown.Item href={`/${this.state.user.id}/order`}>
+              <NavDropdown.Item href={`/${this.state.user._id}/order`}>
                 My Orders
               </NavDropdown.Item>
               <NavDropdown.Divider />

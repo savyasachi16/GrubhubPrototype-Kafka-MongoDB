@@ -35,6 +35,7 @@ const getRestaurantDetails = payload => {
 };
 
 const addToCart = payload => {
+    console.log(payload)
     return dispatch => {
         dispatch({
             type: actionTypes.ADD_TO_CART,

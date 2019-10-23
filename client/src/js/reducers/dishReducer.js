@@ -1,6 +1,6 @@
 import actionTypes from "./../constants/index";
 const initialState = {
-    id: "",
+    _id: "",
     name: "",
     description: "",
     section: "",
@@ -9,7 +9,7 @@ const initialState = {
 };
 
 const dishReducer = (state = initialState, action) => {
-    var newState;
+    let newState;
     switch (action.type) {
 
         case actionTypes.SET_DISH:
@@ -23,7 +23,6 @@ const dishReducer = (state = initialState, action) => {
         case actionTypes.SET_DISH_IMAGE:
             newState = action.payload;
             return Object.assign({}, state, newState);
-
         default:
             break;
     }

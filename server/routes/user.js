@@ -18,6 +18,7 @@ userRouter.get('/', (req, res) => {
 })
 
 userRouter.post('/register', passport.authenticate('register'), (req, res) => {
+    console.log(req.body)
     const userDetails = req.body;
     return userHandler.registerUser(userDetails).then(result => {
         res.cookie('grubhubCookie', result.token, {
@@ -26,13 +27,13 @@ userRouter.post('/register', passport.authenticate('register'), (req, res) => {
         });
         return res.status(200).json(result);
     }).catch(err => {
+        console.log("Register Error: ", err)
         return res.status(500).json(err);
     });
 });
 
 userRouter.post('/login', passport.authenticate('login'), (req, res) => {
     const userCredentials = req.body;
-    console.log(req.body);
     return userHandler.loginUser(userCredentials).then(result => {
         res.cookie('grubhubCookie', result.token, {
             maxAge: 900000,

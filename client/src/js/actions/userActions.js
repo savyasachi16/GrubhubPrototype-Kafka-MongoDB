@@ -14,14 +14,15 @@ const loginUser = (payload, ownProps) => {
                 cookie.set("token", userData.token, {
                     expires: 1
                 })
+                console.log(userData)
                 dispatch({
                     type: actionTypes.SET_USER,
                     payload: userData
                 });
                 if (userData.account_type === "Vendor") {
-                    ownProps.history.push(`/${userData.id}/profile`);
+                    ownProps.history.push(`/${userData._id}/profile`);
                 } else {
-                    ownProps.history.push(`/${userData.id}/search`);
+                    ownProps.history.push(`/${userData._id}/search`);
                 }
             }
         }).catch(err => {
@@ -54,18 +55,18 @@ const registerUser = (payload, ownProps) => {
 };
 
 const updateUser = payload => {
-    console.log("In updateUser:", payload)
     return dispatch => {
-        return axios.put(`http://localhost:3001/userUpdate/${payload.id}`, payload)
+        return axios.put(`http://localhost:3001/userUpdate/${payload._id}`, payload)
             .then(response => {
                 if (response.status === 200) {
                     const userData = response.data.user;
+
                     userData.update_success = true;
                     dispatch({
                         type: actionTypes.SET_USER,
                         payload: userData
                     });
-                    if (userData.type === "Vendor") {
+                    if (userData.account_type === "Vendor") {
                         const restaurantData = response.data.restaurant;
                         dispatch({
                             type: actionTypes.SET_RESTAURANT,

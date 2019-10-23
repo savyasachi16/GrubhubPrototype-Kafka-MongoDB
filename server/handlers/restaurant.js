@@ -1,175 +1,120 @@
-import {
-    Restaurants,
-    Dishes_Restaurant,
-    Dishes
-} from "../src/sequelize";
+import Restaurants from "../models/restaurant";
+import Dishes from "../models/dish";
 import _ from "lodash";
 import Promise from "bluebird";
+import mongoose from "mongoose";
 
-const createRestaurant = restaurantDetails => {
-    return Restaurants.create({
+const createRestaurant = async restaurantDetails => {
+    let restaurant = await Restaurants.create({
         name: restaurantDetails.restaurant_name,
         cuisine: restaurantDetails.cuisine,
-        user_id: restaurantDetails.user_id,
         image: restaurantDetails.restaurant_image,
         address: restaurantDetails.address,
         zipcode: restaurantDetails.zipcode
-    }).then(restaurant => {
-        if (!restaurant) {
-            throw new Error("Restaurant creation error!");
-        }
-        return {
-            id: restaurant.id,
-            name: restaurant.name,
-            cuisine: restaurant.cuisine,
-            image: restaurant.image,
-            address: restaurant.address,
-            zipcode: restaurant.zipcode
-        }
     })
+    if (!restaurant) throw new Error("Restaurant creation error!")
+    return restaurant
 }
 
-const getRestaurant = user_id => {
-    return Restaurants.findOne({
-        where: {
-            user_id
-        }
-    }).then(restaurant => {
-        if (!restaurant) {
-            console.log("No restaurant in DB for current user...");
-            return {}
-        }
-        return restaurant
+const getRestaurant = async restaurant_id => {
+    let restaurant = await Restaurants.findOne({
+        _id: restaurant_id
     })
+    if (!restaurant) {
+        throw new Error("No restaurant in DB!")
+    }
+    return restaurant
 }
 
-const updateRestaurant = restaurantDetails => {
-    return Restaurants.findOne({
-        where: {
-            id: restaurantDetails.id
-        }
-    }).then(restaurant => {
-        return restaurant.update({
-            name: restaurantDetails.restaurant_name,
-            cuisine: restaurantDetails.cuisine,
-            image: restaurantDetails.restaurant_image,
-            address: restaurantDetails.address,
-            zipcode: restaurantDetails.zipcode
-        }).then(updatedRestaurant => {
-            return Restaurants.findOne({
-                where: {
-                    id: updatedRestaurant.id
-                }
-            }).then(restaurant => {
-                return {
-                    id: restaurant.id,
-                    name: restaurant.name,
-                    cuisine: restaurant.cuisine,
-                    address: restaurant.address,
-                    zipcode: restaurant.zipcode
-                }
-            })
-        })
+const updateRestaurant = async restaurantDetails => {
+    let restaurant = await Restaurants.findOne({
+        _id: restaurantDetails.restaurant_id
     })
+    restaurant.name = restaurantDetails.restaurant_name
+    restaurant.cuisine = restaurantDetails.cuisine
+    restaurant.image = restaurantDetails.restaurant_image
+    restaurant.address = restaurantDetails.address
+    restaurant.zipcode = restaurantDetails.zipcode
+    let updatedRestaurant = await restaurant.save()
+    if (!restaurant) throw new Error("No restaurant in DB!")
+    restaurant = await Restaurants.findOne({
+        _id: updatedRestaurant._id
+    })
+    return restaurant
 }
 
-const getRestaurantMenu = (restaurant_id) => {
-    return Restaurants.findOne({
-        where: {
-            id: restaurant_id
-        }
-    }).then(restaurant => {
-        if (!restaurant) {
-            throw new Error("No restaurant found in DB!");
-        }
-        return Dishes_Restaurant.findAll({
-            where: {
-                restaurant_id
-            },
-            include: [{
-                model: Dishes
-            }, {
-                model: Restaurants
-            }]
-        }).then(allDishes => {
-            if (!allDishes || !allDishes.length) {
-                return []
-            }
-            const groupedDishes = _.chain(allDishes).map('dish').groupBy('section').map((value, key) => ({
-                section: key,
-                id: value[0].id,
-                dishes: value
-            })).flatten().sortBy(each => each.section.toLowerCase()).value();
-            return groupedDishes
-        })
+const getRestaurantMenu = async restaurant_id => {
+    let restaurant = await Restaurants.findOne({
+        _id: restaurant_id
     })
+    if (!restaurant) {
+        throw new Error("No restaurant found in DB!");
+    }
+    let allDishes = await Dishes.find({
+        _id: {
+            $in: restaurant.dishes
+        }
+    })
+    if (!allDishes || !allDishes.length) {
+        return []
+    }
+    const groupedDishes = _.chain(allDishes).map().groupBy('section').map((value, key) => ({
+        section: key,
+        _id: value[0]._id,
+        dishes: value
+    })).flatten().sortBy(each => each.section.toLowerCase()).value();
+    return groupedDishes
 }
 
-const getRestaurantDetails = restaurant_id => {
-    return Restaurants.findOne({
-        where: {
-            id: restaurant_id
-        }
-    }).then(restaurant => {
-        if (!restaurant) {
-            throw new Error("Restaurant not found in DB!");
-        }
-        return getRestaurantMenu(restaurant_id).then(menu => {
-            restaurant.dataValues.menu = menu;
-            return {
-                current_restaurant: restaurant
-            };
-        });
-    });
-};
+const getRestaurantDetails = async restaurant_id => {
+    let restaurant = await Restaurants.findOne({
+        _id: restaurant_id
+    }).lean();
+    if (!restaurant) {
+        throw new Error("Restaurant not found in DB!");
+    }
+    let menu = await getRestaurantMenu(restaurant_id)
+    restaurant.menu = menu;
+    return {
+        current_restaurant: restaurant
+    }
+}
 
-const updateSection = section => {
+
+const updateSection = async section => {
     if (!section.dishes || !section.dishes.length) {
         throw new Error('No dishes in section.')
     }
     return Promise.map(section.dishes, dish => {
         return Dishes.findOne({
-            where: {
-                id: dish
-            }
+            _id: dish
         }).then(currentDish => {
-            return currentDish.update({
+            return currentDish.updateOne({
                 section: section.updated_name
             })
         })
     }).then(() => {
         return getRestaurantMenu(section.restaurant_id);
-    }).catch(err => {
-        return ({
-            message: err
-        });
-    });
+    })
 }
 
-const deleteSection = section => {
+const deleteSection = async section => {
     if (!section.dishes || !section.dishes.length) {
-        throw new Error('No dishes in section.')
+        throw new Error("No dishes in section.")
     }
-    return Promise.map(section.dishes, dish => {
-        return Dishes_Restaurant.destroy({
-            where: {
-                dish_id: dish
-            }
-        }).then(() => {
-            return Dishes.destroy({
-                where: {
-                    id: dish
-                }
-            });
-        });
-    }).then(() => {
-        return getRestaurantMenu(section.restaurant_id);
-    }).catch(err => {
-        return ({
-            message: err
-        });
-    });
+    let restaurant = await Restaurants.findOne({
+        _id: section.restaurant_id
+    })
+    let objectIdArray = section.dishes.map(s => mongoose.Types.ObjectId(s));
+    restaurant.dishes = _.difference(restaurant.dishes, objectIdArray)
+
+    restaurant = await restaurant.save()
+    let dish = await Dishes.deleteMany({
+        _id: section.dishes
+    })
+    return getRestaurantMenu(section.restaurant_id);
 }
+
 export default {
     createRestaurant,
     getRestaurant,

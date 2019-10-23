@@ -4,6 +4,7 @@ const orderRouter = express.Router();
 
 orderRouter.get("/order/restaurant/:restaurant_id", (req, res) => {
     const restaurant_id = req.params.restaurant_id
+    console.log(restaurant_id)
     orderHandler.getOrdersByRestaurant(restaurant_id).then(result => {
         res.status(200).json(result);
     }).catch(err => {
@@ -14,7 +15,7 @@ orderRouter.get("/order/restaurant/:restaurant_id", (req, res) => {
 })
 orderRouter.put("/order/update/:order_id", (req, res) => {
     const order_details = {
-        id: req.params.order_id,
+        _id: req.params.order_id,
         status: req.body.status
     };
     orderHandler.updateOrder(order_details)
@@ -57,11 +58,11 @@ orderRouter.get("/order/buyer/:user_id", (req, res) => {
 
 orderRouter.post("/order/confirm", (req, res) => {
     const order_details = req.body
-    console.log("Order detls:", order_details)
+    console.log(order_details)
     return orderHandler.createOrder(order_details).then(result => {
         res.status(200).json(result);
     }).catch(err => {
-        console.log("Place Order: ", err)
+        console.log("Confirm Order Error: ", err)
         res.status(500).json({
             message: err.message
         })
