@@ -4,6 +4,7 @@ const orderRouter = express.Router();
 
 orderRouter.get("/order/restaurant/:restaurant_id", (req, res) => {
     const restaurant_id = req.params.restaurant_id
+    console.log(restaurant_id)
     orderHandler.getOrdersByRestaurant(restaurant_id).then(result => {
         res.status(200).json(result);
     }).catch(err => {

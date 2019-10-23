@@ -52,7 +52,7 @@ class SearchResults extends Component {
   }
 
   restaurantNameFormatter = (cell, row) => {
-    let detailpage_link = `/restaurant/detail/${row.id}`;
+    let detailpage_link = `/restaurant/detail/${row._id}`;
     return <Link to={detailpage_link}>{cell}</Link>;
   };
   componentDidMount() {

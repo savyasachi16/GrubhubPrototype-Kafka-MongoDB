@@ -21,7 +21,6 @@ const getOrdersByRestaurant = async ids => {
         current_orders,
         past_orders
     }
-
 }
 
 const getOrdersByBuyer = async ids => {
@@ -41,7 +40,6 @@ const getOrdersByBuyer = async ids => {
         current_orders,
         past_orders
     }
-
 }
 
 const updateOrder = async order_details => {

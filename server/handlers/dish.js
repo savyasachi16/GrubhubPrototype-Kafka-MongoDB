@@ -82,33 +82,20 @@ const deleteDish = async ids => {
     })
 }
 
-//const Op = Sequelize.Op;
-const Op = "searchTerm";
-
 const searchDishes = search_key => {
-    search_key = `%${search_key}%`;
-    return Dishes.findAll({
-        where: {
+    return Dishes.aggregate([{
+        $match: {
             name: {
-                [Op.like]: search_key
+                $regex: search_key,
+                $options: 'i'
             }
         }
-    }).then(searchDishes => {
+    }]).then(searchDishes => {
         return Promise.map(searchDishes, dish => {
-            return Dishes_Restaurant.findOne({
-                where: {
-                    dish_id: dish.id
-                },
-                include: [{
-                    model: Restaurants
-                }]
-            }).then(dish_restaurant => {
-                if (dish_restaurant) {
-                    return dish_restaurant.restaurant;
-                }
+            return Restaurants.findOne({
+                dishes: dish._id
             })
         }).then(restaurants => {
-
             return {
                 search_results: _.chain(restaurants).compact().uniqBy('id').value()
             };

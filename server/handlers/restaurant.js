@@ -90,12 +90,12 @@ const getRestaurantMenu = async restaurant_id => {
 const getRestaurantDetails = async restaurant_id => {
     let restaurant = await Restaurants.findOne({
         _id: restaurant_id
-    })
+    }).lean();
     if (!restaurant) {
         throw new Error("Restaurant not found in DB!");
     }
     let menu = await getRestaurantMenu(restaurant_id)
-    restaurant.dataValues.menu = menu;
+    restaurant.menu = menu;
     return {
         current_restaurant: restaurant
     }
@@ -120,19 +120,16 @@ const updateSection = async section => {
 }
 
 const deleteSection = async section => {
-    console.log("Section in deleteSection: ", section)
     if (!section.dishes || !section.dishes.length) {
         throw new Error("No dishes in section.")
     }
     let restaurant = await Restaurants.findOne({
         _id: section.restaurant_id
     })
-    console.log(restaurant)
     let objectIdArray = section.dishes.map(s => mongoose.Types.ObjectId(s));
     restaurant.dishes = _.difference(restaurant.dishes, objectIdArray)
 
     restaurant = await restaurant.save()
-    console.log(restaurant)
     let dish = await Dishes.deleteMany({
         _id: section.dishes
     })

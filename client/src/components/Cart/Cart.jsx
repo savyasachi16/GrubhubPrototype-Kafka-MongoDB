@@ -34,6 +34,7 @@ class Cart extends Component {
 
   componentDidMount() {
     const cart = this.props.cart;
+    console.log(cart)
     const total_amount =
       cart && cart.length
         ? _.chain(cart)
