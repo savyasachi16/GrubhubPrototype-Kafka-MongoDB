@@ -25,7 +25,7 @@ class SearchResults extends Component {
       search_results: [],
       restaurant_list_columns: [
         {
-          dataField: "id",
+          dataField: "_id",
           text: "ID",
           hidden: true
         },

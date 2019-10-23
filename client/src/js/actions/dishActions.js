@@ -16,7 +16,6 @@ const addDish = (payload, ownProps) => {
 }
 
 const updateDish = (payload, ownProps) => {
-    console.log(payload)
     return dispatch => {
         return axios.post(`http://localhost:3001/dish/update`, payload).then(response => {
             if (response.status === 200) {

@@ -22,7 +22,7 @@ class Orderdetails extends Component {
     super(props);
     this.state = {
       order: {
-        id: "",
+        _id: "",
         name: "",
         address: "",
         status: "",
@@ -38,11 +38,11 @@ class Orderdetails extends Component {
     this.props.getOrderDetails(payload);
   }
   componentWillReceiveProps(nextProps) {
-    const { id, status, amount, dishes } = nextProps.order;
+    const { _id, status, amount, dishes } = nextProps.order;
     const { name, address } = nextProps.order.buyer;
     this.setState({
       order: {
-        id,
+        _id,
         name,
         address,
         status,
@@ -73,7 +73,7 @@ class Orderdetails extends Component {
                   type="text"
                   className="form-control form-control-lg order_detail_input"
                   id="orderId"
-                  value={this.state.order.id}
+                  value={this.state.order._id}
                   readOnly
                 ></input>
               </div>

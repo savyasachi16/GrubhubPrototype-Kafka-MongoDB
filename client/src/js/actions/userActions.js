@@ -20,9 +20,9 @@ const loginUser = (payload, ownProps) => {
                     payload: userData
                 });
                 if (userData.account_type === "Vendor") {
-                    ownProps.history.push(`/${userData.id}/profile`);
+                    ownProps.history.push(`/${userData._id}/profile`);
                 } else {
-                    ownProps.history.push(`/${userData.id}/search`);
+                    ownProps.history.push(`/${userData._id}/search`);
                 }
             }
         }).catch(err => {
@@ -56,7 +56,7 @@ const registerUser = (payload, ownProps) => {
 
 const updateUser = payload => {
     return dispatch => {
-        return axios.put(`http://localhost:3001/userUpdate/${payload.id}`, payload)
+        return axios.put(`http://localhost:3001/userUpdate/${payload._id}`, payload)
             .then(response => {
                 if (response.status === 200) {
                     const userData = response.data.user;

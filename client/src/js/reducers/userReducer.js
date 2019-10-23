@@ -1,6 +1,6 @@
 import actionTypes from '../constants/index';
 const initialState = {
-    id: "",
+    _id: "",
     first_name: "",
     last_name: "",
     email: "",

@@ -11,7 +11,7 @@ class Restaurant extends Component {
     super(props);
     this.state = {
       current_restaurant: {
-        id: "",
+        _id: "",
         name: "",
         cuisine: "",
         address: "",
@@ -57,7 +57,7 @@ class Restaurant extends Component {
       const cart = dishes.map(dish => {
         if (this.state.cart[dish._id] && this.state.cart[dish._id] !== 0) {
           return {
-            id: dish._id,
+            _id: dish._id,
             name: dish.name,
             quantity: this.state.cart[dish._id],
             price: dish.price ? dish.price * this.state.cart[dish._id] : 0

@@ -15,8 +15,8 @@ class vendorMenu extends Component {
     };
   }
   componentDidMount() {
-    if (this.props.restaurant && this.props.restaurant.id) {
-      this.props.getMenu({ restaurant_id: this.props.restaurant.id });
+    if (this.props.restaurant && this.props.restaurant._id) {
+      this.props.getMenu({ restaurant_id: this.props.restaurant._id });
     }
   }
   componentWillReceiveProps(nextProps) {
@@ -24,7 +24,7 @@ class vendorMenu extends Component {
     if (nextProps.restaurant.menu && nextProps.restaurant.menu.length) {
       sections = nextProps.restaurant.menu.map(eachSection => ({
         name: eachSection.section,
-        id: eachSection.id,
+        _id: eachSection._id,
         dishes: _.map(eachSection.dishes, "_id"),
         //dishes: _.map(eachSection.dishes, "name"),
         updated_name: ""
@@ -38,12 +38,10 @@ class vendorMenu extends Component {
 
   handleChange = e => {
     e.preventDefault();
-    console.log(this.state.menu);
     let key = e.currentTarget.id;
     let value = e.currentTarget.value;
     let updatedSection = [...this.state.sections];
-    console.log("Updated Section: ", updatedSection);
-    _.find(updatedSection, { id: key }).updated_name = value;
+    _.find(updatedSection, { _id: key }).updated_name = value;
     this.setState({
       sections: updatedSection
     });
@@ -52,12 +50,12 @@ class vendorMenu extends Component {
   handleEdit = e => {
     e.preventDefault();
     const current_section = _.find(this.state.sections, {
-      id: e.currentTarget.value
+      _id: e.currentTarget.value
     });
-    current_section.restaurant_id = this.props.restaurant.id;
+    current_section.restaurant_id = this.props.restaurant._id;
     if (e.currentTarget.name === "edit") {
       if (current_section.updated_name) {
-        current_section.restaurant_id = this.props.restaurant.id;
+        current_section.restaurant_id = this.props.restaurant._id;
         this.props.editSection(current_section);
       }
     } else if (e.currentTarget.name === "delete") {
@@ -94,8 +92,8 @@ class vendorMenu extends Component {
                               type="text"
                               className="form-control"
                               onChange={this.handleChange}
-                              key={eachSection.id}
-                              id={eachSection.id}
+                              key={eachSection._id}
+                              id={eachSection._id}
                               placeholder="Update Title"
                               aria-describedby="button-addon4"
                             />
@@ -107,7 +105,7 @@ class vendorMenu extends Component {
                                 className="btn btn-outline-danger"
                                 type="button"
                                 name="edit"
-                                value={eachSection.id}
+                                value={eachSection._id}
                                 onClick={this.handleEdit}
                               >
                                 Edit
@@ -116,7 +114,7 @@ class vendorMenu extends Component {
                                 className="btn btn-outline-danger"
                                 type="button"
                                 name="delete"
-                                value={eachSection.id}
+                                value={eachSection._id}
                                 onClick={this.handleEdit}
                               >
                                 Delete

@@ -34,14 +34,14 @@ class Sidebar extends Component {
   componentDidMount() {
     if (this.props.user) {
       this.setState({
-        userId: this.props.user.id
+        userId: this.props.user._id
       });
     }
   }
   componentWillReceiveProps(nextProps) {
     if (!this.state.userId) {
       this.setState({
-        userId: nextProps.user.id
+        userId: nextProps.user._id
       });
     }
   }

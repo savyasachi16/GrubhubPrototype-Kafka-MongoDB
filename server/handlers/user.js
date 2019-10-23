@@ -17,16 +17,16 @@ const registerUser = async userDetails => {
     let restaurant;
     if (userDetails.account_type === 'Vendor') {
         restaurant = await restaurantHandler.createRestaurant({})
-        user.restaurant_id = restaurant.id
+        user.restaurant_id = restaurant._id
     }
 
     let updatedUser = await user.save()
     const token = jwt.sign({
-        id: updatedUser._id
+        _id: updatedUser._id
     }, jwtSecret.secret)
     if (updatedUser.account_type === "Vendor")
         return {
-            id: updatedUser._id,
+            _id: updatedUser._id,
             first_name: updatedUser.first_name,
             last_name: updatedUser.last_name,
             email: updatedUser.email,
@@ -36,7 +36,7 @@ const registerUser = async userDetails => {
         }
     else {
         return {
-            id: updatedUser._id,
+            _id: updatedUser._id,
             first_name: updatedUser.first_name,
             last_name: updatedUser.last_name,
             email: updatedUser.email,
@@ -52,11 +52,11 @@ const loginUser = async userCredentials => {
     })
     if (!user) return new Error("User not registered!")
     const token = jwt.sign({
-        id: user._id
+        _id: user._id
     }, jwtSecret.secret)
     if (user.account_type === 'Vendor') {
         return {
-            id: user._id,
+            _id: user._id,
             first_name: user.first_name,
             last_name: user.last_name,
             email: user.email,
@@ -69,7 +69,7 @@ const loginUser = async userCredentials => {
         }
     } else {
         return {
-            id: user._id,
+            _id: user._id,
             first_name: user.first_name,
             last_name: user.last_name,
             email: user.email,
@@ -105,44 +105,21 @@ const updateUser = async userDetails => {
         }
         let restaurant = await restaurantHandler.updateRestaurant(restaurantDetails)
         return {
-            user: {
-                id: updatedUser._id,
-                first_name: updatedUser.first_name,
-                last_name: updatedUser.last_name,
-                phone: updatedUser.phone,
-                address: updatedUser.address,
-                image: updatedUser.image,
-            },
+            user: updatedUser,
             restaurant
 
         }
     } else return {
-        user: {
-            id: updatedUser._id,
-            first_name: updatedUser.first_name,
-            last_name: updatedUser.last_name,
-            phone: updatedUser.phone,
-            address: updatedUser.address,
-            image: updatedUser.image,
-        }
+        user: updatedUser
     }
 }
 
-const getUser = async id => {
+const getUser = async user_id => {
     let user = await Users.findOne({
-        _id: id
+        _id: user_id
     })
     if (!user) throw new Error("User not found in DB!")
-    return {
-        id: user._id,
-        first_name: user.first_name,
-        last_name: user.last_name,
-        email: user.email,
-        account_type: user.account_type,
-        phone: user.phone,
-        address: user.address,
-        image: user.image
-    }
+    return user
 }
 
 const uploadUserImage = async file => {

@@ -1,6 +1,6 @@
 import actionTypes from "./../constants/index";
 const initialState = {
-    id: "",
+    _id: "",
     name: "",
     description: "",
     section: "",
@@ -22,7 +22,6 @@ const dishReducer = (state = initialState, action) => {
 
         case actionTypes.SET_DISH_IMAGE:
             newState = action.payload;
-            console.log("Reducer State and New State:", state, newState)
             return Object.assign({}, state, newState);
         default:
             break;

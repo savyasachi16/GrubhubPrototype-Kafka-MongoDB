@@ -76,7 +76,7 @@ const options = {
 passport.use('jwt', new JWTStrategy(options, async (jwt_payload, done) => {
     try {
         let user = await Users.findOne({
-            _id: jwt_payload.id
+            _id: jwt_payload._id
         })
         if (user) done(null, true)
         else done(null, false)

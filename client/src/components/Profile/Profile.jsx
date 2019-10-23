@@ -10,7 +10,7 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: "",
+      _id: "",
       first_name: "",
       last_name: "",
       email: "",
@@ -31,7 +31,7 @@ class Profile extends Component {
   }
   componentDidMount() {
     const {
-      id,
+      _id,
       first_name,
       last_name,
       email,
@@ -46,7 +46,7 @@ class Profile extends Component {
     }
     const restaurant = this.props.restaurant;
     this.setState({
-      id,
+      _id,
       first_name,
       last_name,
       email,
@@ -63,10 +63,10 @@ class Profile extends Component {
     });
   }
   componentWillReceiveProps(nextProps) {
-    const {id, first_name, last_name, email, phone, account_type, address, image, restaurant_id} = nextProps.user;
+    const {_id, first_name, last_name, email, phone, account_type, address, image, restaurant_id} = nextProps.user;
     const restaurant = nextProps.restaurant;
     this.setState({
-      id,
+      _id,
       first_name,
       last_name,
       email,

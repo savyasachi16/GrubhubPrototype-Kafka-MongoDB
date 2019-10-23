@@ -13,14 +13,7 @@ const createRestaurant = async restaurantDetails => {
         zipcode: restaurantDetails.zipcode
     })
     if (!restaurant) throw new Error("Restaurant creation error!")
-    return {
-        id: restaurant._id,
-        name: restaurant.name,
-        cuisine: restaurant.cuisine,
-        image: restaurant.image,
-        address: restaurant.address,
-        zipcode: restaurant.zipcode
-    }
+    return restaurant
 }
 
 const getRestaurant = async restaurant_id => {
@@ -30,14 +23,7 @@ const getRestaurant = async restaurant_id => {
     if (!restaurant) {
         throw new Error("No restaurant in DB!")
     }
-    return {
-        id: restaurant._id,
-        name: restaurant.name,
-        cuisine: restaurant.cuisine,
-        image: restaurant.image,
-        address: restaurant.address,
-        zipcode: restaurant.zipcode
-    }
+    return restaurant
 }
 
 const updateRestaurant = async restaurantDetails => {
@@ -54,14 +40,7 @@ const updateRestaurant = async restaurantDetails => {
     restaurant = await Restaurants.findOne({
         _id: updatedRestaurant._id
     })
-    return {
-        id: restaurant._id,
-        name: restaurant.name,
-        cuisine: restaurant.cuisine,
-        address: restaurant.address,
-        zipcode: restaurant.zipcode,
-        image: restaurant.image
-    }
+    return restaurant
 }
 
 const getRestaurantMenu = async restaurant_id => {
@@ -81,7 +60,7 @@ const getRestaurantMenu = async restaurant_id => {
     }
     const groupedDishes = _.chain(allDishes).map().groupBy('section').map((value, key) => ({
         section: key,
-        id: value[0].id,
+        _id: value[0]._id,
         dishes: value
     })).flatten().sortBy(each => each.section.toLowerCase()).value();
     return groupedDishes

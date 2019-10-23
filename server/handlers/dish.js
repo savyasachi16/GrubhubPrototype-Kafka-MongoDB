@@ -20,35 +20,19 @@ const addDish = async dish_details => {
         }
     })
     if (!restaurant) throw new Error("Error mapping dish to restaurant!")
-    return {
-        id: dish._id,
-        name: dish.name,
-        price: dish.price,
-        description: dish.description,
-        image: dish.image,
-        section: dish.section
-    }
-
+    return restaurant
 }
 const getDishDetails = async dish_id => {
     let dish = await Dishes.findOne({
         _id: dish_id
     })
     if (!dish) throw new Error("Dish not found in DB!");
-    return {
-        id: dish._id,
-        name: dish.name,
-        price: dish.price,
-        description: dish.description,
-        image: dish.image,
-        section: dish.section
-    }
-
+    return dish
 }
 
 const updateDish = async dish_details => {
     let dish = await Dishes.findOne({
-        _id: dish_details.id
+        _id: dish_details._id
     })
     if (!dish) throw new Error("Dish not found in DB!")
     dish.name = dish_details.name
@@ -58,14 +42,7 @@ const updateDish = async dish_details => {
     dish.image = dish_details.image
     let updatedDish = await dish.save()
     if (!updatedDish) throw new Error("Dish update failure!")
-    return {
-        id: dish._id,
-        name: dish.name,
-        price: dish.price,
-        description: dish.description,
-        image: dish.image,
-        section: dish.section
-    }
+    return updatedDish
 }
 
 const deleteDish = async ids => {
@@ -97,7 +74,7 @@ const searchDishes = search_key => {
             })
         }).then(restaurants => {
             return {
-                search_results: _.chain(restaurants).compact().uniqBy('id').value()
+                search_results: _.chain(restaurants).compact().uniqBy('_id').value()
             };
         })
     })
