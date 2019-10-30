@@ -14,7 +14,6 @@ const loginUser = (payload, ownProps) => {
                 cookie.set("token", userData.token, {
                     expires: 1
                 })
-                console.log(userData)
                 dispatch({
                     type: actionTypes.SET_USER,
                     payload: userData
