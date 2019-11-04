@@ -26,9 +26,7 @@ const handle_request = async (order_details, callback) => {
                 return user.save();
             });
             return Promise.all(restaurantOrderPromise, customerOrderPromise).then(() => {
-                callback(null, {
-                    updatedOrder
-                });
+                callback(null, updatedOrder);
             }).catch(err => {
                 console.log(err)
                 callback(err, null);

@@ -1,6 +1,6 @@
 import Orders from "../../models/order"
 
-import getOrderDetails from "./getOrderDetails"
+import * as getOrderDetails from "./getOrderDetails"
 
 const handle_request = async (order_details, callback) => {
     let order = await Orders.findOne({
@@ -8,12 +8,12 @@ const handle_request = async (order_details, callback) => {
     })
     order.status = order_details.status
     let updatedOrder = await order.save()
-    orderDetails = await getOrderDetails.handle_request(updatedOrder._id)
-    callback(null, {
+    orderDetails = await getOrderDetails.handle_request(updatedOrder._id, null)
+    callback(null,
         orderDetails
-    })
+    )
 }
 
-export default {
+export {
     handle_request
 };

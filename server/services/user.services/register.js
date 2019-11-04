@@ -2,7 +2,7 @@ import Users from "../../models/user"
 import jwtSecret from '../../config/jwtConfig'
 import jwt from 'jsonwebtoken';
 
-import createRestaurant from '../restaurant.services/create'
+import * as createRestaurant from '../restaurant.services/create'
 
 const handle_request = async (userDetails, callback) => {
     let user = await Users.findOne({
@@ -18,7 +18,7 @@ const handle_request = async (userDetails, callback) => {
     user.account_type = userDetails.account_type
     let restaurant;
     if (userDetails.account_type === 'Vendor') {
-        restaurant = await createRestaurant.handle_request({})
+        restaurant = await createRestaurant.handle_request({},null)
         user.restaurant_id = restaurant._id
     }
     let updatedUser = await user.save()
@@ -47,6 +47,6 @@ const handle_request = async (userDetails, callback) => {
     }
 }
 
-export {
+export  {
     handle_request
 };

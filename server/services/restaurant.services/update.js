@@ -20,11 +20,15 @@ const handle_request = async (restaurantDetails, callback) => {
     restaurant = await Restaurants.findOne({
         _id: updatedRestaurant._id
     })
-    callback(null, {
+    if (!callback) {
+        return restaurant
+
+    }
+    callback(null,
         restaurant
-    })
+    )
 }
 
-export default {
+export {
     handle_request
 };

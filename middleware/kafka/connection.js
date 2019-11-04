@@ -1,4 +1,4 @@
-var kafka = require('kafka-node');
+const kafka = require('kafka-node');
 
 function ConnectionProvider() {
     this.getConsumer = function (topic_name) {

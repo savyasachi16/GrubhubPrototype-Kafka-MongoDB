@@ -26,9 +26,7 @@ const handle_request = async (dish_details, callback) => {
             message: "Error mapping dish to restaurant!"
         }, null)
     }
-    callback(null, {
-        restaurant
-    })
+    callback(null, restaurant)
 }
 export {
     handle_request

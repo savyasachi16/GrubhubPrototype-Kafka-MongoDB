@@ -1,8 +1,8 @@
 import {
     uploader
-} from "../../config/cloudinary"
+} from "../config/cloudinary"
 
-const handle_request = async (file, callback) => {
+const handleUpload = async (file) => {
     let result = await uploader.upload(file, {
         transformation: [{
             width: 175,
@@ -11,11 +11,10 @@ const handle_request = async (file, callback) => {
         }]
     })
     const image = result.url;
-    callback(null, {
+    return ({
         image
     })
 }
-
 export {
-    handle_request
+    handleUpload
 };

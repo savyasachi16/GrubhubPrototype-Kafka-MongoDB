@@ -26,7 +26,6 @@ class vendorMenu extends Component {
         name: eachSection.section,
         _id: eachSection._id,
         dishes: _.map(eachSection.dishes, "_id"),
-        //dishes: _.map(eachSection.dishes, "name"),
         updated_name: ""
       }));
     }

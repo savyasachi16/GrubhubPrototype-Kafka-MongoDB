@@ -1,5 +1,6 @@
 import express from "express";
 
+const kafka = require('../kafka/client');
 const orderRouter = express.Router();
 
 orderRouter.get("/order/restaurant/:restaurant_id", (req, res) => {
@@ -8,17 +9,11 @@ orderRouter.get("/order/restaurant/:restaurant_id", (req, res) => {
     kafka.make_request("getOrdersByRestaurant", req.params.restaurant_id, (err, result) => {
         if (err) {
             console.log("Error ", err);
-            res.writeHead(400, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Error');
-        } else {
-            console.log("Success", result);
-            res.writeHead(200, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Fetched Orders');
+            res.status(500).json({
+                message: err.message
+            })
         }
+        res.status(200).json(result)
     });
 });
 
@@ -31,19 +26,14 @@ orderRouter.put("/order/update/:order_id", (req, res) => {
     kafka.make_request("updateOrder", order_details, (err, result) => {
         if (err) {
             console.log("Error ", err);
-            res.writeHead(400, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Error');
-        } else {
-            console.log("Success", result);
-            res.writeHead(200, {
-                'Content-type': 'text/plain'
-            });
-            res.end('User Logged in');
+            res.status(500).json({
+                message: err.message
+            })
         }
+        res.status(200).json(result)
     });
 });
+
 
 orderRouter.get("/order/:order_id", (req, res) => {
     console.log('Inside GET Order Details');
@@ -51,37 +41,25 @@ orderRouter.get("/order/:order_id", (req, res) => {
     kafka.make_request("getOrderDetails", req.params.order_id, (err, result) => {
         if (err) {
             console.log("Error ", err);
-            res.writeHead(400, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Error');
-        } else {
-            console.log("Success", result);
-            res.writeHead(200, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Fetched Order details');
+            res.status(500).json({
+                message: err.message
+            })
         }
+        res.status(200).json(result)
     });
 });
 
 orderRouter.get("/order/buyer/:user_id", (req, res) => {
     console.log('Inside GET Buyer Orders');
-
+    console.log("Here:", req.params.order_id)
     kafka.make_request("getOrdersByBuyer", req.params.order_id, (err, result) => {
         if (err) {
             console.log("Error ", err);
-            res.writeHead(400, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Error');
-        } else {
-            console.log("Success", result);
-            res.writeHead(200, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Fetched Orders for Buyer');
+            res.status(500).json({
+                message: err.message
+            })
         }
+        res.status(200).json(result)
     });
 });
 
@@ -91,17 +69,11 @@ orderRouter.post("/order/confirm", (req, res) => {
     kafka.make_request("confirmOrder", req.body, (err, result) => {
         if (err) {
             console.log("Error ", err);
-            res.writeHead(400, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Error');
-        } else {
-            console.log("Success", result);
-            res.writeHead(200, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Confirm Order');
+            res.status(500).json({
+                message: err.message
+            })
         }
+        res.status(200).json(result)
     });
 });
 

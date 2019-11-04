@@ -5,7 +5,6 @@ const Register = require('../services/user.services/register')
 const Login = require('../services/user.services/login')
 const GetUser = require('../services/user.services/get')
 const UpdateUser = require('../services/user.services/update')
-const UploadImage = require('../services/user.services/uploadImage')
 
 const GetRestaurant = require('../services/restaurant.services/get')
 const GetMenu = require('../services/restaurant.services/getMenu')
@@ -45,7 +44,7 @@ function handleTopicRequest(topic_name, fname) {
         console.log(JSON.stringify(message.value));
         var data = JSON.parse(message.value);
 
-        fname.handle_request(data.data, function (err, res) {
+        fname.handle_request(data.data, (err, res) => {
             console.log('after handle' + res);
             var payloads = [{
                 topic: data.replyTo,
@@ -55,7 +54,7 @@ function handleTopicRequest(topic_name, fname) {
                 }),
                 partition: 0
             }];
-            producer.send(payloads, function (err, data) {
+            producer.send(payloads, (err, data) => {
                 console.log(data);
             });
             return;
@@ -73,7 +72,6 @@ handleTopicRequest('registerUser', Register)
 handleTopicRequest('loginUser', Login)
 handleTopicRequest('getUser', GetUser)
 handleTopicRequest('updateUser', UpdateUser)
-handleTopicRequest('uploadImage', UploadImage)
 
 //Restaurant Topics
 handleTopicRequest('getRestaurant', GetRestaurant)

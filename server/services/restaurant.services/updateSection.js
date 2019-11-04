@@ -1,6 +1,6 @@
 import Dishes from "../../models/dish";
 import Promise from "bluebird";
-import getRestaurantMenu from './getMenu'
+import * as getRestaurantMenu from './getMenu'
 
 const handle_request = (section, callback) => {
     if (!section.dishes || !section.dishes.length) {
@@ -16,11 +16,12 @@ const handle_request = (section, callback) => {
                 section: section.updated_name
             })
         })
-    }).then(() => {
-        let restaurantMenu = getRestaurantMenu.handle_request(section.restaurant_id)
-        callback(null, {
+    }).then(async () => {
+        let restaurantMenu = await getRestaurantMenu.handle_request(section.restaurant_id, null)
+        console.log(restaurantMenu)
+        callback(null,
             restaurantMenu
-        })
+        )
     })
 }
 export {

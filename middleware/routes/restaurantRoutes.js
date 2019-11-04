@@ -1,5 +1,6 @@
 import express from 'express';
 
+const kafka = require('../kafka/client');
 const restaurantRouter = express.Router();
 
 restaurantRouter.get("/restaurant/:restaurant_id", (req, res) => {
@@ -8,17 +9,11 @@ restaurantRouter.get("/restaurant/:restaurant_id", (req, res) => {
     kafka.make_request("getRestaurant", req.params.restaurant_id, (err, result) => {
         if (err) {
             console.log("Error ", err);
-            res.writeHead(400, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Error');
-        } else {
-            console.log("Success", result);
-            res.writeHead(200, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Fetched Restaurant');
+            res.status(500).json({
+                message: err.message
+            })
         }
+        res.status(200).json(result)
     });
 });
 
@@ -28,37 +23,24 @@ restaurantRouter.get('/restaurant/menu/:restaurant_id', (req, res) => {
     kafka.make_request("getMenu", req.params.restaurant_id, (err, result) => {
         if (err) {
             console.log("Error ", err);
-            res.writeHead(400, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Error');
-        } else {
-            console.log("Success", result);
-            res.writeHead(200, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Fetched Menu');
+            res.status(500).json({
+                message: err.message
+            })
         }
+        res.status(200).json(result)
     });
 });
-
 restaurantRouter.get('/restaurant/details/:restaurant_id', (req, res) => {
     console.log('Inside GET Restaurant Details');
 
     kafka.make_request("getRestaurantDetails", req.params.restaurant_id, (err, result) => {
         if (err) {
             console.log("Error ", err);
-            res.writeHead(400, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Error');
-        } else {
-            console.log("Success", result);
-            res.writeHead(200, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Fetched Restaurant Details');
+            res.status(500).json({
+                message: err.message
+            })
         }
+        res.status(200).json(result)
     });
 });
 
@@ -68,19 +50,12 @@ restaurantRouter.put('/restaurant/menu/section', (req, res) => {
     kafka.make_request("updateSection", req.body, (err, result) => {
         if (err) {
             console.log("Error ", err);
-            res.writeHead(400, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Error');
-        } else {
-            console.log("Success", result);
-            res.writeHead(200, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Updated Section');
+            res.status(500).json({
+                message: err.message
+            })
         }
+        res.status(200).json(result)
     });
-
 });
 
 restaurantRouter.put('/restaurant/menu/section/delete', (req, res) => {
@@ -89,18 +64,11 @@ restaurantRouter.put('/restaurant/menu/section/delete', (req, res) => {
     kafka.make_request("deleteSection", req.body, (err, result) => {
         if (err) {
             console.log("Error ", err);
-            res.writeHead(400, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Error');
-        } else {
-            console.log("Success", result);
-            res.writeHead(200, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Deleted Section');
+            res.status(500).json({
+                message: err.message
+            })
         }
+        res.status(200).json(result)
     });
 });
-
 export default restaurantRouter;

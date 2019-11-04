@@ -24,12 +24,13 @@ const handle_request = async (restaurant_id, callback) => {
         _id: value[0]._id,
         dishes: value
     })).flatten().sortBy(each => each.section.toLowerCase()).value();
-
-    callback(null, {
+    console.log(groupedDishes)
+    if (!callback) return groupedDishes
+    callback(null,
         groupedDishes
-    })
+    )
 }
 
-export default {
+export {
     handle_request
 };

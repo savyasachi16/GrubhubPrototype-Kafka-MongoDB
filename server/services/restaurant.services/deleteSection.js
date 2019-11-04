@@ -2,7 +2,7 @@ import Restaurants from "../../models/restaurant";
 import Dishes from "../../models/dish";
 import _ from "lodash";
 import mongoose from "mongoose"
-import getRestaurantMenu from "./getMenu"
+import * as getRestaurantMenu from "./getMenu"
 
 const handle_request = async (section, callback) => {
     if (!section.dishes || !section.dishes.length) {
@@ -20,10 +20,10 @@ const handle_request = async (section, callback) => {
     let dish = await Dishes.deleteMany({
         _id: section.dishes
     })
-    let restaurantMenu = await getRestaurantMenu.handle_request(section.restaurant_id);
-    callback(null, {
+    let restaurantMenu = await getRestaurantMenu.handle_request(section.restaurant_id, null);
+    callback(null,
         restaurantMenu
-    })
+    )
 }
 
 export {

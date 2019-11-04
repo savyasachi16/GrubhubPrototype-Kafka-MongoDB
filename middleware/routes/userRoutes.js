@@ -8,69 +8,53 @@ import {
     cloudinaryConfig
 } from '../config/cloudinary'
 
+import {
+    handleUpload
+} from '../config/imageUploader'
+
+const kafka = require('../kafka/client');
 const userRouter = express.Router();
 
 userRouter.post('/login', passport.authenticate('login'), (req, res) => {
     console.log('Inside POST user login');
     console.log('Request Body: ', req.body);
-
-    kafka.make_request("loginUser", req.body, (err, result) => {
+    const userCredentials = req.body;
+    kafka.make_request("loginUser", userCredentials, (err, result) => {
         if (err) {
             console.log("Error ", err);
-            res.writeHead(400, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Error');
-        } else {
-            console.log("Success", result);
-            res.writeHead(200, {
-                'Content-type': 'text/plain'
-            });
-            res.end('User Logged in');
+            res.status(500).json({
+                message: err.message
+            })
         }
+        res.status(200).json(result)
     });
 });
 
 userRouter.post('/register', passport.authenticate('register'), (req, res) => {
     console.log('Inside POST user register');
     console.log('Request Body: ', req.body);
-
     kafka.make_request("registerUser", req.body, (err, result) => {
         if (err) {
             console.log("Error ", err);
-            res.writeHead(400, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Error');
-        } else {
-            console.log("Success", result);
-            res.writeHead(200, {
-                'Content-type': 'text/plain'
-            });
-            res.end('User Registered');
+            res.status(500).json({
+                message: err.message
+            })
         }
+        res.status(200).json(result)
     });
 });
 
 userRouter.get("/user/:user_id", (req, res) => {
     console.log('Inside GET user');
-
     kafka.make_request("getUser", req.params.user_id, (err, result) => {
         if (err) {
             console.log("Error ", err);
-            res.writeHead(400, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Error');
-        } else {
-            console.log("Success", result);
-            res.writeHead(200, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Fetched user');
+            res.status(500).json({
+                message: err.message
+            })
         }
+        res.status(200).json(result)
     });
-
 });
 
 userRouter.put("/userUpdate/:user_id", passport.authenticate("jwt"), (req, res) => {
@@ -83,19 +67,12 @@ userRouter.put("/userUpdate/:user_id", passport.authenticate("jwt"), (req, res) 
     kafka.make_request("updateUser", userDetails, (err, result) => {
         if (err) {
             console.log("Error ", err);
-            res.writeHead(400, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Error');
-        } else {
-            console.log("Success", result);
-            res.writeHead(200, {
-                'Content-type': 'text/plain'
-            });
-            res.end('User updated');
+            res.status(500).json({
+                message: err.message
+            })
         }
+        res.status(200).json(result)
     });
-
 });
 
 userRouter.post("/upload/image", multerUploads, cloudinaryConfig, (req, res) => {
@@ -109,22 +86,10 @@ userRouter.post("/upload/image", multerUploads, cloudinaryConfig, (req, res) => 
             message: 'File not uploaded!'
         });
     }
-    kafka.make_request("uploadImage", file, (err, result) => {
-        if (err) {
-            console.log("Error ", err);
-            res.writeHead(400, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Error');
-        } else {
-            console.log("Success", result);
-            res.writeHead(200, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Image uploaded');
-        }
+    handleUpload(file).then(result => {
+        res.status(200).json(result);
+    }).catch(err => {
+        res.status(500).json(err);
     });
-
 });
-
 export default userRouter;

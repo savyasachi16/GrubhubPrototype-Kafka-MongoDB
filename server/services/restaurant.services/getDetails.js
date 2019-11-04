@@ -1,5 +1,5 @@
 import Restaurants from "../../models/restaurant";
-import getRestaurantMenu from "./getMenu"
+import * as getRestaurantMenu from "./getMenu"
 
 const handle_request = async (restaurant_id, callback) => {
     let restaurant = await Restaurants.findOne({
@@ -10,7 +10,7 @@ const handle_request = async (restaurant_id, callback) => {
             message: "Restaurant not found in DB!"
         }, null)
     }
-    let menu = await getRestaurantMenu.handle_request(restaurant_id)
+    let menu = await getRestaurantMenu.handle_request(restaurant_id, null)
     restaurant.menu = menu;
     callback(null, {
         current_restaurant: restaurant

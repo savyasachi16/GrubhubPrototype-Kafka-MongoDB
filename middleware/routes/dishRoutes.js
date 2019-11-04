@@ -1,5 +1,6 @@
 import express from 'express';
 
+const kafka = require('../kafka/client');
 const dishRouter = express.Router();
 
 dishRouter.post("/dish/add", (req, res) => {
@@ -8,17 +9,11 @@ dishRouter.post("/dish/add", (req, res) => {
     kafka.make_request("addDish", req.body, (err, result) => {
         if (err) {
             console.log("Error ", err);
-            res.writeHead(400, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Error');
-        } else {
-            console.log("Success", result);
-            res.writeHead(200, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Added Dish');
+            res.status(500).json({
+                message: err.message
+            })
         }
+        res.status(200).json(result)
     });
 });
 
@@ -28,17 +23,11 @@ dishRouter.get("/dish/:dish_id", (req, res) => {
     kafka.make_request("getDishDetails", req.params.dish_id, (err, result) => {
         if (err) {
             console.log("Error ", err);
-            res.writeHead(400, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Error');
-        } else {
-            console.log("Success", result);
-            res.writeHead(200, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Fetched Dish Details');
+            res.status(500).json({
+                message: err.message
+            })
         }
+        res.status(200).json(result)
     });
 });
 
@@ -48,17 +37,11 @@ dishRouter.post("/dish/update", (req, res) => {
     kafka.make_request("updateDish", req.body, (err, result) => {
         if (err) {
             console.log("Error ", err);
-            res.writeHead(400, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Error');
-        } else {
-            console.log("Success", result);
-            res.writeHead(200, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Updated Dish Details');
+            res.status(500).json({
+                message: err.message
+            })
         }
+        res.status(200).json(result)
     });
 });
 
@@ -68,17 +51,11 @@ dishRouter.post("/dish/delete/", (req, res) => {
     kafka.make_request("deleteDish", req.body, (err, result) => {
         if (err) {
             console.log("Error ", err);
-            res.writeHead(400, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Error');
-        } else {
-            console.log("Success", result);
-            res.writeHead(200, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Deleted Dish');
+            res.status(500).json({
+                message: err.message
+            })
         }
+        res.status(200).json(result)
     });
 });
 
@@ -88,18 +65,11 @@ dishRouter.get("/buyer/search", (req, res) => {
     kafka.make_request("search", req.query.key, (err, result) => {
         if (err) {
             console.log("Error ", err);
-            res.writeHead(400, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Error');
-        } else {
-            console.log("Success", result);
-            res.writeHead(200, {
-                'Content-type': 'text/plain'
-            });
-            res.end('Fetched Search Results');
+            res.status(500).json({
+                message: err.message
+            })
         }
+        res.status(200).json(result)
     });
 });
-
 export default dishRouter;

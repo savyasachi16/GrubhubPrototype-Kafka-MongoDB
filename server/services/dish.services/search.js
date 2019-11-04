@@ -17,7 +17,7 @@ const handle_request = (search_key, callback) => {
                 dishes: dish._id
             })
         }).then(restaurants => {
-            results = _.chain(restaurants).compact().uniqBy('_id').value()
+            let results = _.chain(restaurants).compact().uniqBy('_id').value()
             callback(null, {
                 search_results: results
             });

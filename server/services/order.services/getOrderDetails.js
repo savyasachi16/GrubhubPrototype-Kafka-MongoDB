@@ -15,6 +15,18 @@ const handle_request = (order_id, callback) => {
             return Users.findOne({
                 orders: order_id
             }).then(user => {
+                if (!callback) {
+                    return {
+                        _id: order._id,
+                        buyer: {
+                            name: user.first_name + " " + user.last_name,
+                            address: user.address
+                        },
+                        dishes,
+                        status: order.status,
+                        amount: order.amount
+                    }
+                }
                 callback(null, {
                     _id: order._id,
                     buyer: {
@@ -30,6 +42,6 @@ const handle_request = (order_id, callback) => {
 };
 
 
-export default {
+export {
     handle_request
 };

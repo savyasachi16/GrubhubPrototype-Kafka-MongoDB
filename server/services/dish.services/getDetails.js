@@ -9,9 +9,7 @@ const handle_request = async (dish_id, callback) => {
             message: "Dish not found in DB!"
         }, null)
     }
-    callback(null, {
-        dish
-    })
+    callback(null, dish)
 }
 export {
     handle_request

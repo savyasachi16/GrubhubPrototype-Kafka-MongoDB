@@ -9,9 +9,11 @@ const handle_request = async (restaurant_id, callback) => {
             message: "No restaurant in DB!"
         }, null)
     }
-    callback(null, {
+    if (!callback) return restaurant
+
+    callback(null,
         restaurant
-    })
+    )
 }
 
 export {

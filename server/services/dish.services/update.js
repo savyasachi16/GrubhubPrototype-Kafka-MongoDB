@@ -22,9 +22,7 @@ const handle_request = async (dish_details, callback) => {
         }, null)
     }
 
-    callback(null, {
-        updatedDish
-    })
+    callback(null, updatedDish)
 }
 export {
     handle_request

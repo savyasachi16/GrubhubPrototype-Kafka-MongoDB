@@ -1,4 +1,7 @@
 import Users from "../../models/user"
+import jwt from 'jsonwebtoken';
+import jwtSecret from '../../config/jwtConfig'
+
 
 const handle_request = async (userCredentials, callback) => {
     let user = await Users.findOne({

@@ -13,11 +13,9 @@ const handle_request = async (restaurantDetails, callback) => {
             message: "Restaurant creation error!"
         }, null)
     }
-    callback(null, {
-        restaurant
-    })
+    if (!callback) return restaurant
 }
 
-export default {
+export {
     handle_request
 };

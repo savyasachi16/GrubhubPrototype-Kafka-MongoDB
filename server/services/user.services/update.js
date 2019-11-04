@@ -1,5 +1,5 @@
 import Users from "../../models/user"
-import updateRestaurant from '../restaurant.services/update'
+import * as updateRestaurant from '../restaurant.services/update'
 
 const handle_request = async (userDetails, callback) => {
     let user = await Users.findOne({
@@ -26,7 +26,7 @@ const handle_request = async (userDetails, callback) => {
             address: userDetails.restaurant_address,
             zipcode: userDetails.restaurant_zipcode,
         }
-        let restaurant = await updateRestaurant.handle_request(restaurantDetails)
+        let restaurant = await updateRestaurant.handle_request(restaurantDetails, null)
         callback(null, {
             user: updatedUser,
             restaurant
