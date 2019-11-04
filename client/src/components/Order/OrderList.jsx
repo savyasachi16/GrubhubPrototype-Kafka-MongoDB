@@ -128,7 +128,9 @@ class Order extends Component {
   };
 
   render() {
-    console.log("Previous Orders: ", this.state.past_orders);
+    console.log("Restuarant ID: ", this.props.restaurant._id);
+    console.log("Order ID: ", this.props.match.params._id);
+
     return (
       <div>
         {this.props.user.account_type === "Vendor" ? (

@@ -1,52 +1,95 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import cors from 'cors';
-import passport from 'passport';
-import userRoutes from '../routes/user';
-import restaurantRoutes from '../routes/restaurant';
-import dishRoutes from '../routes/dish'
-import orderRoutes from '../routes/order'
-import Promise from "bluebird"
+import connection from '../kafka/connection'
 import mongoose from 'mongoose'
-const app = express();
+//topics files
+const Register = require('../services/user.services/register')
+const Login = require('../services/user.services/login')
+const GetUser = require('../services/user.services/get')
+const UpdateUser = require('../services/user.services/update')
 
+const GetRestaurant = require('../services/restaurant.services/get')
+const GetMenu = require('../services/restaurant.services/getMenu')
+const GetRestaurantDetails = require('../services/restaurant.services/getDetails')
+const UpdateSection = require('../services/restaurant.services/updateSection')
+const DeleteSection = require('../services/restaurant.services/deleteSection')
+
+const AddDish = require('../services/dish.services/add')
+const DeleteDish = require('../services/dish.services/delete')
+const GetDishDetails = require('../services/dish.services/getDetails')
+const UpdateDish = require('../services/dish.services/update')
+const Search = require('../services/dish.services/search')
+
+const GetOrdersByRestaurant = require('../services/order.services/getOrdersByRestaurant')
+const UpdateOrder = require('../services/order.services/updateOrder')
+const GetOrderDetails = require('../services/order.services/getOrderDetails')
+const GetOrdersByBuyer = require('../services/order.services/getOrdersByBuyer')
+const ConfirmOrder = require('../services/order.services/createOrder')
+
+//MongoDB Connection
 mongoose.connect('mongodb+srv://root:root1234@grubhubcluster-7frcc.mongodb.net/test?retryWrites=true&w=majority', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    //poolSize: 4
+    poolSize: 2
+}, (err) => {
+    if (err) throw err;
+    console.log("Connected to MongoDB")
 });
 
-//load configurations for passport
-require('../config/passport');
+function handleTopicRequest(topic_name, fname) {
+    var consumer = connection.getConsumer(topic_name);
 
-app.use(passport.initialize());
-app.use(cors({
-    origin: 'http://localhost:3000',
-    credentials: true
-}));
-app.use(cors());
-app.use(bodyParser.json());
+    var producer = connection.getProducer();
+    console.log('server is running ');
+    consumer.on('message', function (message) {
+        console.log('message received for ' + topic_name + " ", fname);
+        console.log(JSON.stringify(message.value));
+        var data = JSON.parse(message.value);
 
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
-// app.use((req, res, next) => {
-//     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-//     res.setHeader('Access-Control-Allow-Credentials', 'true');
-//     res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT,DELETE');
-//     res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers');
-//     res.setHeader('Cache-Control', 'no-cache');
-//     next();
-// });
+        fname.handle_request(data.data, (err, res) => {
+            console.log('after handle' + res);
+            var payloads = [{
+                topic: data.replyTo,
+                messages: JSON.stringify({
+                    correlationId: data.correlationId,
+                    data: res
+                }),
+                partition: 0
+            }];
+            producer.send(payloads, (err, data) => {
+                console.log(data);
+            });
+            return;
+        });
 
-app.use('/', userRoutes);
-app.use('/', restaurantRoutes);
-app.use('/', dishRoutes)
-app.use('/', orderRoutes)
+    });
+}
 
-app.listen(3001);
-console.log("Grubhub Server listening on port 3001");
+// Add your TOPICs here
+//first argument is topic name
+//second argument is a function that will handle this topic request
 
+//User Topics
+handleTopicRequest('registerUser', Register)
+handleTopicRequest('loginUser', Login)
+handleTopicRequest('getUser', GetUser)
+handleTopicRequest('updateUser', UpdateUser)
 
-module.exports = app;
-//export default app;
+//Restaurant Topics
+handleTopicRequest('getRestaurant', GetRestaurant)
+handleTopicRequest('getMenu', GetMenu)
+handleTopicRequest('getRestaurantDetails', GetRestaurantDetails)
+handleTopicRequest('updateSection', UpdateSection)
+handleTopicRequest('deleteSection', DeleteSection)
+
+//Dish Topics
+handleTopicRequest('addDish', AddDish)
+handleTopicRequest('getDishDetails', GetDishDetails)
+handleTopicRequest('updateDish', UpdateDish)
+handleTopicRequest('deleteDish', DeleteDish)
+handleTopicRequest('search', Search)
+
+//Order Topics
+handleTopicRequest('getOrdersByRestaurant', GetOrdersByRestaurant)
+handleTopicRequest('updateOrder', UpdateOrder)
+handleTopicRequest('getOrderDetails', GetOrderDetails)
+handleTopicRequest('getOrdersByBuyer', GetOrdersByBuyer)
+handleTopicRequest('confirmOrder', ConfirmOrder)
