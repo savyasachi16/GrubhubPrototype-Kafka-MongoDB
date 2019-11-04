@@ -1,0 +1,21 @@
+{
+  "name": "grubhub-server",
+  "version": "1.3.0",
+  "description": "Server for Grubhub built on Kafka-Mongo",
+  "main": "app.js",
+  "scripts": {
+    "test": "mocha",
+    "start": "nodemon -r esm ./src/app.js",
+    "debug": "nodemon -r esm --inspect-brk --inspect=0.0.0.0:9229 ./src/app.js"
+  },
+  "author": "Savyasachi Jagadeeshan",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.7.1",
+    "cloudinary": "^1.16.0",
+    "esm": "^3.2.25",
+    "jsonwebtoken": "^8.5.1",
+    "kafka-node": "^3.0.1",
+    "mongoose": "^5.7.7"
+  }
+}
