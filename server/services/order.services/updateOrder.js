@@ -8,7 +8,7 @@ const handle_request = async (order_details, callback) => {
     })
     order.status = order_details.status
     let updatedOrder = await order.save()
-    orderDetails = await getOrderDetails.handle_request(updatedOrder._id, null)
+    let orderDetails = await getOrderDetails.handle_request(updatedOrder._id, null)
     callback(null,
         orderDetails
     )
