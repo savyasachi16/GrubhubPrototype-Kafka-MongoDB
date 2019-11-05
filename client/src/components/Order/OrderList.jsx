@@ -3,21 +3,10 @@ import { connect } from "react-redux";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import BootstrapTable from "react-bootstrap-table-next";
-import paginationFactory, {
-  PaginationProvider,
-  PaginationTotalStandalone,
-  PaginationListStandalone
-} from "react-bootstrap-table2-paginator";
 import { vendorActions, userActions } from "../../js/actions/index";
 import { Link } from "react-router-dom";
 import Sidebar from "../Sidebar/Sidebar";
 import Navigationbar from "../Navbar/Navbar";
-import PageListRenderer from "../PageListRenderer";
-
-const paginationOption = {
-  custom: true
-};
-
 class Order extends Component {
   constructor(props) {
     super(props);
@@ -139,15 +128,9 @@ class Order extends Component {
   };
 
   render() {
-    console.log("Previous Orders: ", this.state.past_orders);
-    const options = {
-      sizePerPage: 1,
-      pageListRenderer: props => PageListRenderer({ ...props }),
-      custom: true,
-      totalSize: this.state.past_orders.length
-    };
+    console.log("Restuarant ID: ", this.props.restaurant._id);
+    console.log("Order ID: ", this.props.match.params._id);
 
-    const pagination = paginationFactory(options);
     return (
       <div>
         {this.props.user.account_type === "Vendor" ? (
@@ -160,71 +143,51 @@ class Order extends Component {
             <h3>Current Orders</h3>
           </div>
           {this.props.user.account_type === "Vendor" ? (
-            <div className="container shadow">
-            <PaginationProvider pagination={pagination}>
-              {({ paginationProps, paginationTableProps }) => (
-                <div>
-                  <PaginationTotalStandalone {...paginationProps} />
-                  <BootstrapTable
-                  keyField="_id"
-                  data={this.state.current_orders}
-                  columns={this.state.current_order_columns}
-                  bordered={true}
-                  totalSize= {this.state.current_orders.length}
-                  hover
-                  condensed
-                  striped
-                  cellEdit={cellEditFactory({
-                    mode: "click",
-                    blurToSave: true,
-                    afterSaveCell: (oldValue, newValue, row) => {
-                      this.afterSaveCell(oldValue, newValue, row);
-                    }
-                  })}
-                  {...paginationTableProps}
-                  />
-                  <PaginationListStandalone {...paginationProps} />
-                </div>
-              )}
-            </PaginationProvider> 
+            <div>
+              <BootstrapTable
+                keyField="_id"
+                data={this.state.current_orders}
+                columns={this.state.current_order_columns}
+                bordered={true}
+                hover
+                condensed
+                striped
+                cellEdit={cellEditFactory({
+                  mode: "click",
+                  blurToSave: true,
+                  afterSaveCell: (oldValue, newValue, row) => {
+                    this.afterSaveCell(oldValue, newValue, row);
+                  }
+                })}
+              />
             </div>
           ) : (
-          <div className="container shadow">
-                <BootstrapTable
-                  keyField="_id"
-                  data={this.state.current_orders}
-                  columns={this.state.current_order_columns}
-                  bordered={true}
-                  hover
-                  condensed
-                  striped                
-                />
-          </div>
+            <div>
+              <BootstrapTable
+                keyField="_id"
+                data={this.state.current_orders}
+                columns={this.state.current_order_columns}
+                bordered={true}
+                hover
+                condensed
+                striped
+              />
+            </div>
           )}
 
           <div>
             <h3>Previous Orders</h3>
           </div>
-
-          <div className="container shadow">
-          <PaginationProvider pagination={pagination}>
-            {({ paginationProps, paginationTableProps }) => (
-              <div>
-                <PaginationTotalStandalone {...paginationProps} />
-                <BootstrapTable
-                  keyField="_id"
-                  data={this.state.past_orders}
-                  columns={this.state.past_orders_columns}
-                  bordered={true}
-                  hover
-                  condensed
-                  striped
-                  {...paginationTableProps}
-                />
-                <PaginationListStandalone {...paginationProps} />
-              </div>
-            )}
-          </PaginationProvider> 
+          <div>
+            <BootstrapTable
+              keyField="_id"
+              data={this.state.past_orders}
+              columns={this.state.past_orders_columns}
+              bordered={true}
+              hover
+              condensed
+              striped
+            />
           </div>
         </div>
       </div>
