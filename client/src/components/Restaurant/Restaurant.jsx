@@ -35,7 +35,7 @@ class Restaurant extends Component {
     }
   }
   handleQuantity = e => {
-    if (e.target.value < 0) {
+    if (e.target.value < 0 || !e.target.value) {
       e.target.value = 0;
     } else if (e.target.value > 10) {
       e.target.value = 10;

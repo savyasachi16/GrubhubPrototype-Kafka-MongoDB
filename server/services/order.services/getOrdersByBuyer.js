@@ -15,7 +15,7 @@ const handle_request = async (user_id, callback) => {
             $in: user.orders
         }
     })
-    let current_orders, past_orders
+    let current_orders=[], past_orders=[]
     current_orders = allOrders.filter(order => ["NEW", "PREPARING", "READY"].includes(order.status))
     past_orders = allOrders.filter(order => ["DELIVERED", "CANCELED"].includes(order.status))
     callback(null, {
