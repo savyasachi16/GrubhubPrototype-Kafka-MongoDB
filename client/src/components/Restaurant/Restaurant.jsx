@@ -5,6 +5,7 @@ import { Container, Row, Card, Form, Col } from "react-bootstrap";
 import _ from "lodash";
 import Navigbar from "../Navbar/Navbar";
 import "./style.css";
+import { ToastContainer, toast } from "react-toastify";
 
 class Restaurant extends Component {
   constructor(props) {
@@ -63,12 +64,30 @@ class Restaurant extends Component {
             price: dish.price ? dish.price * this.state.cart[dish._id] : 0
           };
           //NEW
-        } else return {};
+        } else if (parseInt(this.state.cart[dish._id]) === 0) {
+          return {
+            _id: dish._id,
+            name: dish.name,
+            quantity: this.state.cart[dish._id],
+            price: dish.price ? dish.price * this.state.cart[dish._id] : 0
+          };
+        }
       });
-      console.log(cart);
-      this.props.addToCart({
-        cart: _.compact(cart)
-      });
+      if (_.compact(cart) && _.compact(cart).length) {
+        console.log(
+          _.chain(cart)
+            .compact()
+            .filter(dish => dish.price !== 0)
+            .value()
+        );
+        this.props.addToCart({
+          cart: _.chain(cart)
+            .compact()
+            .filter("price")
+            .value()
+        });
+        toast.success("Added to cart!");
+      }
     }
   };
   render() {
@@ -156,6 +175,7 @@ class Restaurant extends Component {
             Add Selected Dishes to Cart
           </button>
         </div>
+        <ToastContainer autoClose={2000} />
       </div>
     );
   }

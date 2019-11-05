@@ -24,10 +24,12 @@ mongoose.connect('mongodb+srv://root:root1234@grubhubcluster-7frcc.mongodb.net/t
 require('./config/passport');
 
 app.use(passport.initialize());
+app.use(passport.session());
 app.use(cors({
     origin: 'http://localhost:3000',
     credentials: true
 }));
+
 app.use(cors());
 app.use(bodyParser.json());
 
