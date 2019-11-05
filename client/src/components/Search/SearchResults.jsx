@@ -2,10 +2,21 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import _ from "lodash";
-import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import filterFactory, { selectFilter } from "react-bootstrap-table2-filter";
 import BootstrapTable from "react-bootstrap-table-next";
+import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
+import paginationFactory, {
+  PaginationProvider,
+  PaginationTotalStandalone,
+  PaginationListStandalone
+} from "react-bootstrap-table2-paginator";
+import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
 import Nabvigbar from "../Navbar/Navbar";
+import PageListRenderer from "../PageListRenderer";
+
+const paginationOption = {
+  custom: true
+};
 
 class SearchResults extends Component {
   constructor(props) {
@@ -65,21 +76,40 @@ class SearchResults extends Component {
   }
 
   render() {
+    const options = {
+      sizePerPage: 1,
+      pageListRenderer: props => PageListRenderer({ ...props }),
+      custom: true,
+      totalSize: this.props.search_results.length
+    };
+
+    const pagination = paginationFactory(options);
     return (
       <div>
         <Nabvigbar></Nabvigbar>
         {this.state.search_results && this.state.search_results.length ? (
           <div className="container shadow">
-            <BootstrapTable
-              keyField="id"
-              data={this.state.search_results}
-              columns={this.state.restaurant_list_columns}
-              filter={filterFactory()}
-              bordered={true}
-              hover
-              condensed
-              striped
-            />
+
+            <PaginationProvider pagination={pagination}>
+              {({ paginationProps, paginationTableProps }) => (
+                <div>
+                  <PaginationTotalStandalone {...paginationProps} />
+                  <BootstrapTable
+                    keyField="id"
+                    data={this.state.search_results}
+                    columns={this.state.restaurant_list_columns}
+                    filter={filterFactory()}
+                    bordered={true}
+                    hover
+                    condensed
+                    striped
+                    {...paginationTableProps}
+                  />
+                  <PaginationListStandalone {...paginationProps} />
+                </div>
+              )}
+          </PaginationProvider> 
+          
           </div>
         ) : (
           <div className="container shadow mx-auto">
