@@ -51,8 +51,8 @@ orderRouter.get("/order/:order_id", (req, res) => {
 
 orderRouter.get("/order/buyer/:user_id", (req, res) => {
     console.log('Inside GET Buyer Orders');
-    console.log("Here:", req.params.order_id)
-    kafka.make_request("getOrdersByBuyer", req.params.order_id, (err, result) => {
+    console.log("Here:", req.params.user_id)
+    kafka.make_request("getOrdersByBuyer", req.params.user_id, (err, result) => {
         if (err) {
             console.log("Error ", err);
             res.status(500).json({
@@ -77,4 +77,17 @@ orderRouter.post("/order/confirm", (req, res) => {
     });
 });
 
+orderRouter.post("/message/push", (req, res) => {
+    console.log('Inside POST push message');
+    console.log("Message Details:", req.body)
+    kafka.make_request("pushMessage", req.body.message_details, (err, result) => {
+        if (err) {
+            console.log("Error ", err);
+            res.status(500).json({
+                message: err.message
+            })
+        }
+        res.status(200).json(result)
+    });
+});
 export default orderRouter;

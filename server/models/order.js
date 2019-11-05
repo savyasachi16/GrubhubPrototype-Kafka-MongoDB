@@ -11,7 +11,9 @@ const orderSchema = new Schema({
         quantity: Number
     }],
     amount: Number,
-    status: String
+    status: String,
+    buyer_messages: [String],
+    vendor_messages: [String]
 })
 
 const Orders = new mongoose.model("Orders", orderSchema)

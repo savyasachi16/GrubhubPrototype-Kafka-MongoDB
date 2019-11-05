@@ -23,6 +23,7 @@ const UpdateOrder = require('../services/order.services/updateOrder')
 const GetOrderDetails = require('../services/order.services/getOrderDetails')
 const GetOrdersByBuyer = require('../services/order.services/getOrdersByBuyer')
 const ConfirmOrder = require('../services/order.services/createOrder')
+const PushMessage = require('../services/order.services/updateMessages')
 
 //MongoDB Connection
 mongoose.connect('mongodb+srv://root:root1234@grubhubcluster-7frcc.mongodb.net/test?retryWrites=true&w=majority', {
@@ -93,3 +94,4 @@ handleTopicRequest('updateOrder', UpdateOrder)
 handleTopicRequest('getOrderDetails', GetOrderDetails)
 handleTopicRequest('getOrdersByBuyer', GetOrdersByBuyer)
 handleTopicRequest('confirmOrder', ConfirmOrder)
+handleTopicRequest('pushMessage', PushMessage)

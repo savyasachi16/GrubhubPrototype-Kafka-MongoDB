@@ -56,7 +56,7 @@ passport.use("login", new localStrategy({
         if (!user) {
             return done(null, false)
         } else {
-            let result = bcrypt.compare(password, user.password)
+            let result = await bcrypt.compare(password, user.password)
             if (!result) {
                 console.log("Password does not match!");
                 return done(null, false)

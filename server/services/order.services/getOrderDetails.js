@@ -24,7 +24,9 @@ const handle_request = (order_id, callback) => {
                         },
                         dishes,
                         status: order.status,
-                        amount: order.amount
+                        amount: order.amount,
+                        buyer_messages: order.buyer_messages,
+                        vendor_messages: order.vendor_messages
                     }
                 }
                 callback(null, {
@@ -35,7 +37,9 @@ const handle_request = (order_id, callback) => {
                     },
                     dishes,
                     status: order.status,
-                    amount: order.amount
+                    amount: order.amount,
+                    buyer_messages: order.buyer_messages,
+                    vendor_messages: order.vendor_messages
                 })
             })
         })

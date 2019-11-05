@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { vendorActions } from "../../js/actions";
+import { vendorActions, messageActions } from "../../js/actions";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import BootstrapTable from "react-bootstrap-table-next";
 import Sidebar from "../Sidebar/Sidebar";
 import Navigationbar from "../Navbar/Navbar";
+import { Accordion, Card, Button } from "react-bootstrap";
 import "./style.css";
 const columns = [
   {
@@ -27,8 +28,11 @@ class Orderdetails extends Component {
         address: "",
         status: "",
         amount: "",
-        dishes: []
-      }
+        dishes: [],
+        buyer_messages: [],
+        vendor_messages: []
+      },
+      message_body: ""
     };
   }
   componentDidMount() {
@@ -38,8 +42,16 @@ class Orderdetails extends Component {
     this.props.getOrderDetails(payload);
   }
   componentWillReceiveProps(nextProps) {
-    const { _id, status, amount, dishes } = nextProps.order;
+    const {
+      _id,
+      status,
+      amount,
+      dishes,
+      buyer_messages,
+      vendor_messages
+    } = nextProps.order;
     const { name, address } = nextProps.order.buyer;
+    console.log('here')
     this.setState({
       order: {
         _id,
@@ -47,10 +59,27 @@ class Orderdetails extends Component {
         address,
         status,
         amount,
-        dishes
-      }
+        dishes,
+        buyer_messages,
+        vendor_messages
+      },
+      message_body: ""
     });
   }
+  handleChange = e => {
+    this.setState({
+      [e.target.id]: e.target.value
+    });
+  };
+  handlePushMessage = e => {
+    e.preventDefault();
+    const payload =  {
+        account_type: this.props.user.account_type,
+        message_body: this.state.message_body,
+        _id: this.state.order._id
+      }
+    this.props.pushMessage(payload);
+  };
   render() {
     return (
       <div>
@@ -59,7 +88,7 @@ class Orderdetails extends Component {
         ) : (
           <Navigationbar />
         )}
-        <div className="container shadow p-4 col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <div className="container shadow p-4 col-sm-9 col-md-7 col-lg-7 mx-auto">
           <form>
             <div className="form-group row">
               <label
@@ -146,10 +175,7 @@ class Orderdetails extends Component {
               </div>
             </div>
             <div className="form-group row">
-              <label
-                htmlFor="dishes"
-                className="col-sm-2 col-form-label col-form-label-lg"
-              >
+              <label className="col-sm-2 col-form-label col-form-label-lg">
                 Dishes
               </label>
             </div>
@@ -164,6 +190,81 @@ class Orderdetails extends Component {
                 striped
               />
             </div>
+            <div className="form-group row">
+              <label className="col-sm-2 col-form-label col-form-label-lg">
+                Messages
+              </label>
+            </div>
+            <div className="form-group column">
+              Vendor Messages
+              <Accordion>
+                {this.state.order.vendor_messages &&
+                this.state.order.vendor_messages.length
+                  ? this.state.order.vendor_messages.map((value, index) => {
+                      return (
+                        <Card>
+                          <Card.Header>
+                            <Accordion.Toggle
+                              as={Button}
+                              variant="link"
+                              eventKey={index}
+                            >
+                              Message {index + 1}
+                            </Accordion.Toggle>
+                          </Card.Header>
+                          <Accordion.Collapse eventKey={index}>
+                            <Card.Body>{value}</Card.Body>
+                          </Accordion.Collapse>
+                        </Card>
+                      );
+                    })
+                  : null}
+              </Accordion>
+            </div>
+            <div className="form-group column">
+              Buyer Messages
+              <Accordion>
+                {this.state.order.buyer_messages &&
+                this.state.order.buyer_messages.length
+                  ? this.state.order.buyer_messages.map((value, index) => {
+                      return (
+                        <Card>
+                          <Card.Header>
+                            <Accordion.Toggle
+                              as={Button}
+                              variant="link"
+                              eventKey={index}
+                            >
+                              Message {index + 1}
+                            </Accordion.Toggle>
+                          </Card.Header>
+                          <Accordion.Collapse eventKey={index}>
+                            <Card.Body>{value}</Card.Body>
+                          </Accordion.Collapse>
+                        </Card>
+                      );
+                    })
+                  : null}
+              </Accordion>
+            </div>
+            <div className="form-row">
+              <div className="form-group col-md-12">
+                <label htmlFor="address">Send Message</label>
+                <textarea
+                  className="form-control"
+                  id="message_body"
+                  value={this.state.message_body}
+                  onChange={this.handleChange}
+                />
+              </div>
+              <button
+                type="submit"
+                className="btn btn-primary m-3"
+                onClick={this.handlePushMessage}
+              >
+                Send
+              </button>
+            </div>
           </form>
         </div>
       </div>
@@ -176,7 +277,8 @@ const mapStateToProps = state => ({
   user: state.user
 });
 const mapDispatchToProps = dispatch => ({
-  getOrderDetails: payload => dispatch(vendorActions.getOrderDetails(payload))
+  getOrderDetails: payload => dispatch(vendorActions.getOrderDetails(payload)),
+  pushMessage: payload => dispatch(messageActions.pushMessage(payload))
 });
 export default connect(
   mapStateToProps,
