@@ -16,6 +16,6 @@
     "esm": "^3.2.25",
     "jsonwebtoken": "^8.5.1",
     "kafka-node": "^3.0.1",
-    "mongoose": "^5.7.7"
+    "mongoose": "^5.13.15"
   }
 }
