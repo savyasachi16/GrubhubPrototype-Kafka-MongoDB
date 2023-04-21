@@ -5,7 +5,7 @@
   "dependencies": {
     "axios": "^0.21.2",
     "bootstrap": "^4.3.1",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "js-cookie": "^2.2.1",
     "popper.js": "^1.15.0",
     "react": "^16.9.0",
