@@ -9,7 +9,7 @@
     "js-cookie": "^2.2.1",
     "popper.js": "^1.15.0",
     "react": "^16.9.0",
-    "react-bootstrap": "^1.0.0-beta.12",
+    "react-bootstrap": "^1.6.6",
     "react-bootstrap-table-next": "^3.2.1",
     "react-bootstrap-table2-editor": "^1.4.0",
     "react-bootstrap-table2-filter": "^1.2.0",
