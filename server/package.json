@@ -11,11 +11,11 @@
   "author": "Savyasachi Jagadeeshan",
   "license": "ISC",
   "dependencies": {
-    "bluebird": "^3.7.1",
-    "cloudinary": "^1.16.0",
+    "bluebird": "^3.7.2",
+    "cloudinary": "^2.10.0",
     "esm": "^3.2.25",
-    "jsonwebtoken": "^9.0.0",
+    "jsonwebtoken": "^9.0.3",
     "kafka-node": "^5.0.0",
-    "mongoose": "^5.13.20"
+    "mongoose": "^9.6.2"
   }
 }
