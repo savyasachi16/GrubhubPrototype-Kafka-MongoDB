@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LoginUser from "./Login/LoginUser";
 import LoginVendor from "./Login/LoginVendor";
 import LandingPage from "./LandingPage/LandingPage";
@@ -20,31 +20,31 @@ class Main extends Component {
       //This is where all my routing happens. Main gets called in App.jsx
       <div>
         <BrowserRouter>
-          <Route path="/" exact component={LandingPage} />
-          <Route path="/login-user" exact component={LoginUser} />
-          <Route path="/login-vendor" exact component={LoginVendor} />
-          <Route path="/create-user" exact component={CreateUser} />
-          <Route path="/create-vendor" exact component={CreateVendor} />
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login-user" element={<LoginUser />} />
+            <Route path="/login-vendor" element={<LoginVendor />} />
+            <Route path="/create-user" element={<CreateUser />} />
+            <Route path="/create-vendor" element={<CreateVendor />} />
 
-          <Route path="/:_id/profile" exact component={Profile} />
-          <Route exact path="/:_id/cart" component={Cart} />
-          <Route exact path="/:_id/order" component={OrderList} />
-          <Route path="/:_id/menu" exact component={vendorMenu} />
-          <Route path="/:_id/search" exact component={Search} />
-          <Route path="/results" exact component={SearchResults} />
+            <Route path="/:_id/profile" element={<Profile />} />
+            <Route path="/:_id/cart" element={<Cart />} />
+            <Route path="/:_id/order" element={<OrderList />} />
+            <Route path="/:_id/menu" element={<vendorMenu />} />
+            <Route path="/:_id/search" element={<Search />} />
+            <Route path="/results" element={<SearchResults />} />
 
-          <Route path="/dish" exact component={Dish} />
-          <Route path="/dish/detail/:dish_id" exact component={Dish} />
-          <Route
-            path="/order/detail/:order_id"
-            exact
-            component={OrderDetails}
-          />
-          <Route
-            path="/restaurant/detail/:restaurant_id"
-            exact
-            component={Restaurant}
-          />
+            <Route path="/dish" element={<Dish />} />
+            <Route path="/dish/detail/:dish_id" element={<Dish />} />
+            <Route
+              path="/order/detail/:order_id"
+              element={<OrderDetails />}
+            />
+            <Route
+              path="/restaurant/detail/:restaurant_id"
+              element={<Restaurant />}
+            />
+          </Routes>
         </BrowserRouter>
       </div>
     );

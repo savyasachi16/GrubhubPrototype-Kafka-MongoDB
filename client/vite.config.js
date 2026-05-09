@@ -7,6 +7,11 @@ export default defineConfig({
     react(),
     envCompatible(),
   ],
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './src/setupTests.js',
+  },
   server: {
     port: 3000,
     open: true,

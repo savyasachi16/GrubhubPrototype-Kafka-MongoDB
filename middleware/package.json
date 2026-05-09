@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "mocha",
+    "test": "vitest run",
     "start": "nodemon ./index.js",
     "debug": "nodemon --inspect-brk --inspect=0.0.0.0:9229 ./index.js"
   },
