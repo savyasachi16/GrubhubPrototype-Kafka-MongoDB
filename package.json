@@ -9,9 +9,13 @@
   "scripts": {
     "start:client": "npm start --workspace=grubhub-kafka-client",
     "start:middleware": "npm start --workspace=grubhub-kafka-middleware",
-    "start:server": "npm start --workspace=grubhub-kafka-server"
+    "start:server": "npm start --workspace=grubhub-kafka-server",
+    "prepare": "husky"
   },
   "devDependencies": {
-    "ajv": "^8.20.0"
+    "@commitlint/cli": "^21.0.0",
+    "@commitlint/config-conventional": "^21.0.0",
+    "ajv": "^8.20.0",
+    "husky": "^9.1.7"
   }
 }
