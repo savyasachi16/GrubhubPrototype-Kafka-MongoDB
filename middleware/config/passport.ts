@@ -1,24 +1,22 @@
 import bcrypt from 'bcrypt';
 import jwtSecret from './jwtConfig.js';
 import Users from '../models/user.js';
-
-import passport from 'passport';,
-    localStrategy = import 'passport-local';.Strategy,
-    JWTStrategy = import 'passport-jwt';.Strategy,
-    ExtractJWT = import 'passport-jwt';.ExtractJwt;
+import passport from 'passport';
+import { Strategy as LocalStrategy } from 'passport-local';
+import { Strategy as JWTStrategy, ExtractJwt as ExtractJWT } from 'passport-jwt';
 
 const SALT_ROUND = 7;
 
-passport.serializeUser((user, done) => {
+passport.serializeUser((user: any, done) => {
     done(null, user);
 });
 
-passport.deserializeUser((user, done) => {
+passport.deserializeUser((user: any, done) => {
     done(null, user);
 });
 
 
-passport.use("register", new localStrategy({
+passport.use("register", new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password'
 
@@ -44,16 +42,15 @@ passport.use("register", new localStrategy({
     }
 }))
 
-passport.use("login", new localStrategy({
+passport.use("login", new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password',
-    session: false
 }, async (username, password, done) => {
     try {
         let user = await Users.findOne({
             email: username
         })
-        if (!user) {
+        if (!user || !user.password) {
             return done(null, false)
         } else {
             let result = await bcrypt.compare(password, user.password)

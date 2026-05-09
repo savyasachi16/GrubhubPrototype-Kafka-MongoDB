@@ -1,8 +1,6 @@
-import {
-    uploader
-} from "../config/cloudinary"
+import { uploader } from "./cloudinary.js"
 
-const handleUpload = async (file) => {
+const handleUpload = async (file: string) => {
     let result = await uploader.upload(file, {
         transformation: [{
             width: 175,

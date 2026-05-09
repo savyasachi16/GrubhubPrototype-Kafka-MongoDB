@@ -1,31 +1,32 @@
 import kafka from 'kafka-node';
 
-function ConnectionProvider() {
-    this.getConsumer = (topic_name) => {
+class ConnectionProvider {
+    client: any;
+    kafkaConsumerConnection: any;
+    kafkaProducerConnection: any;
 
-        this.client = new kafka.Client("localhost:2181");
+    getConsumer(topic_name: string) {
+        this.client = new kafka.KafkaClient({ kafkaHost: "localhost:9092" });
         this.kafkaConsumerConnection = new kafka.Consumer(this.client, [{
             topic: topic_name,
             partition: 0
-        }]);
+        }], { autoCommit: true });
         this.client.on('ready', () => {
             console.log('Consumer ready!')
         })
         return this.kafkaConsumerConnection;
     };
 
-    //Code will be executed when we start Producer
-    this.getProducer = () => {
-
+    getProducer() {
         if (!this.kafkaProducerConnection) {
-            this.client = new kafka.Client("localhost:2181");
+            this.client = new kafka.KafkaClient({ kafkaHost: "localhost:9092" });
             var HighLevelProducer = kafka.HighLevelProducer;
             this.kafkaProducerConnection = new HighLevelProducer(this.client);
-            //this.kafkaConnection = new kafka.Producer(this.client);
             console.log('Producer ready');
         }
         return this.kafkaProducerConnection;
     };
 }
-const KafkaConnection = new ConnectionProvider;
+
+const KafkaConnection = new ConnectionProvider();
 export default KafkaConnection;
