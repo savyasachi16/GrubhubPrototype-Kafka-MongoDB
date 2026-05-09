@@ -1,5 +1,5 @@
-import Restaurants from "../../models/restaurant";
-import * as getRestaurantMenu from "./getMenu"
+import Restaurants from "../../models/restaurant.js";
+import * as getRestaurantMenu from "./getMenu.js"
 
 const handle_request = async (restaurant_id, callback) => {
     let restaurant = await Restaurants.findOne({

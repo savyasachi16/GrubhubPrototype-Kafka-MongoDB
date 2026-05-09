@@ -1,5 +1,5 @@
-import Orders from "../../models/order"
-import Restaurants from "../../models/restaurant";
+import Orders from "../../models/order.js"
+import Restaurants from "../../models/restaurant.js";
 
 const handle_request = async (restaurant_id, callback) => {
     let restaurant = await Restaurants.findOne({

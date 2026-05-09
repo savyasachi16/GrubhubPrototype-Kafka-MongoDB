@@ -1,4 +1,4 @@
-import Dishes from "../../models/dish"
+import Dishes from "../../models/dish.js"
 import _ from "lodash";
 
 const handle_request = async (dish_details, callback) => {

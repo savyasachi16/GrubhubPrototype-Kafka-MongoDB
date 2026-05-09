@@ -1,4 +1,4 @@
-import Restaurants from "../../models/restaurant";
+import Restaurants from "../../models/restaurant.js";
 import _ from "lodash";
 
 

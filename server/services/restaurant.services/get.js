@@ -1,4 +1,4 @@
-import Restaurants from "../../models/restaurant";
+import Restaurants from "../../models/restaurant.js";
 
 const handle_request = async (restaurant_id, callback) => {
     let restaurant = await Restaurants.findOne({

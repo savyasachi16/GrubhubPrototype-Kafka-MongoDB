@@ -1,5 +1,5 @@
-import Restaurants from "../../models/restaurant";
-import Dishes from "../../models/dish"
+import Restaurants from "../../models/restaurant.js";
+import Dishes from "../../models/dish.js"
 
 const handle_request = async (dish_details, callback) => {
     let dish = await Dishes.create({

@@ -1,4 +1,4 @@
-import Restaurants from "../../models/restaurant";
+import Restaurants from "../../models/restaurant.js";
 
 const handle_request = async (restaurantDetails, callback) => {
     let restaurant = await Restaurants.create({

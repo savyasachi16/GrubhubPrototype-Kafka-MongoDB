@@ -1,6 +1,6 @@
 import express from 'express';
 
-const kafka = require('../kafka/client');
+import kafka from '../kafka/client.js';
 const dishRouter = express.Router();
 
 dishRouter.post("/dish/add", (req, res) => {

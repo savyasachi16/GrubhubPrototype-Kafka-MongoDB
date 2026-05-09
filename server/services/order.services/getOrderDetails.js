@@ -1,5 +1,5 @@
-import Orders from "../../models/order"
-import Users from "../../models/user";
+import Orders from "../../models/order.js"
+import Users from "../../models/user.js";
 
 const handle_request = (order_id, callback) => {
     return Orders.findById(order_id)

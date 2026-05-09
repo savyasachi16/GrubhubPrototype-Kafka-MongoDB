@@ -1,11 +1,11 @@
 import bcrypt from 'bcrypt';
-import jwtSecret from './jwtConfig';
-import Users from '../models/user';
+import jwtSecret from './jwtConfig.js';
+import Users from '../models/user.js';
 
-const passport = require('passport'),
-    localStrategy = require('passport-local').Strategy,
-    JWTStrategy = require('passport-jwt').Strategy,
-    ExtractJWT = require('passport-jwt').ExtractJwt;
+import passport from 'passport';,
+    localStrategy = import 'passport-local';.Strategy,
+    JWTStrategy = import 'passport-jwt';.Strategy,
+    ExtractJWT = import 'passport-jwt';.ExtractJwt;
 
 const SALT_ROUND = 7;
 

@@ -1,4 +1,4 @@
-const kafka = require('kafka-node');
+import kafka from 'kafka-node';
 
 function ConnectionProvider() {
     this.getConsumer = function (topic_name) {
@@ -38,4 +38,4 @@ function ConnectionProvider() {
         return this.kafkaProducerConnection;
     };
 }
-exports = module.exports = new ConnectionProvider;
+exports = export default new ConnectionProvider;

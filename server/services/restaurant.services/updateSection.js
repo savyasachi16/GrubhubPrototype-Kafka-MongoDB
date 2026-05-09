@@ -1,6 +1,6 @@
-import Dishes from "../../models/dish";
+import Dishes from "../../models/dish.js";
 import Promise from "bluebird";
-import * as getRestaurantMenu from './getMenu'
+import * as getRestaurantMenu from './getMenu.js'
 
 const handle_request = (section, callback) => {
     if (!section.dishes || !section.dishes.length) {

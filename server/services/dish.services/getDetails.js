@@ -1,4 +1,4 @@
-import Dishes from "../../models/dish"
+import Dishes from "../../models/dish.js"
 
 const handle_request = async (dish_id, callback) => {
     let dish = await Dishes.findOne({

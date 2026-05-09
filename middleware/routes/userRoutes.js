@@ -12,7 +12,7 @@ import {
     handleUpload
 } from '../config/imageUploader'
 
-const kafka = require('../kafka/client');
+import kafka from '../kafka/client.js';
 const userRouter = express.Router();
 
 userRouter.post('/login', passport.authenticate('login'), (req, res) => {

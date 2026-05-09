@@ -1,4 +1,4 @@
-import Users from "../../models/user"
+import Users from "../../models/user.js"
 
 const handle_request = async (user_id, callback) => {
     let user = await Users.findOne({

@@ -1,5 +1,5 @@
-var chai = require('chai'),
-    chaiHttp = require('chai-http');
+var chai = import 'chai';,
+    chaiHttp = import 'chai-http';
 
 chai.use(chaiHttp);
 

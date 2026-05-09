@@ -1,8 +1,8 @@
-import Users from "../../models/user"
-import jwtSecret from '../../config/jwtConfig'
+import Users from "../../models/user.js"
+import jwtSecret from '../../config/jwtConfig.js'
 import jwt from 'jsonwebtoken';
 
-import * as createRestaurant from '../restaurant.services/create'
+import * as createRestaurant from '../restaurant.services/create.js'
 
 const handle_request = async (userDetails, callback) => {
     let user = await Users.findOne({

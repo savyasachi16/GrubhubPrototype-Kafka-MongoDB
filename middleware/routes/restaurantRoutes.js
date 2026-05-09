@@ -1,6 +1,6 @@
 import express from 'express';
 
-const kafka = require('../kafka/client');
+import kafka from '../kafka/client.js';
 const restaurantRouter = express.Router();
 
 restaurantRouter.get("/restaurant/:restaurant_id", (req, res) => {

@@ -1,6 +1,6 @@
-import Orders from "../../models/order"
+import Orders from "../../models/order.js"
 
-import * as getOrderDetails from "./getOrderDetails"
+import * as getOrderDetails from "./getOrderDetails.js"
 
 const handle_request = async (order_details, callback) => {
     let order = await Orders.findOne({

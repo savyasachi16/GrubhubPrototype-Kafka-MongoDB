@@ -1,4 +1,4 @@
-var rpc = new(require('./kafkarpc'))();
+var rpc = new(import './kafkarpc.js';)();
 
 //make request to kafka
 function make_request(queue_name, msg_payload, callback) {
@@ -15,4 +15,4 @@ function make_request(queue_name, msg_payload, callback) {
     });
 }
 
-exports.make_request = make_request;
+export const make_request = make_request;

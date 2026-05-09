@@ -1,6 +1,6 @@
-import Users from "../../models/user"
+import Users from "../../models/user.js"
 import jwt from 'jsonwebtoken';
-import jwtSecret from '../../config/jwtConfig'
+import jwtSecret from '../../config/jwtConfig.js'
 
 
 const handle_request = async (userCredentials, callback) => {

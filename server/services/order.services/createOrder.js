@@ -1,6 +1,6 @@
-import Orders from "../../models/order"
-import Restaurants from "../../models/restaurant";
-import Users from "../../models/user";
+import Orders from "../../models/order.js"
+import Restaurants from "../../models/restaurant.js";
+import Users from "../../models/user.js";
 import Promise from "bluebird"
 
 const handle_request = async (order_details, callback) => {

@@ -1,0 +1,17 @@
+{
+  "name": "grubhub-kafka-mongodb",
+  "private": true,
+  "workspaces": [
+    "client",
+    "middleware",
+    "server"
+  ],
+  "scripts": {
+    "start:client": "npm start --workspace=grubhub-kafka-client",
+    "start:middleware": "npm start --workspace=grubhub-kafka-middleware",
+    "start:server": "npm start --workspace=grubhub-kafka-server"
+  },
+  "devDependencies": {
+    "ajv": "^8.20.0"
+  }
+}

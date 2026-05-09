@@ -4,7 +4,7 @@ import {
     compose
 } from "redux";
 import rootReducer from "../reducers/index";
-import thunk from "redux-thunk";
+import { thunk } from "redux-thunk";
 import axios from "axios";
 import cookie from "js-cookie";
 import * as storage from 'redux-storage';

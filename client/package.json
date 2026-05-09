@@ -1,5 +1,5 @@
 {
-  "name": "client",
+  "name": "grubhub-kafka-client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -18,7 +18,7 @@
     "react-js-pagination": "^3.0.2",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.15.0",
-    "react-scripts": "^0.0.0",
+    "react-scripts": "^5.0.1",
     "react-toastify": "^11.1.0",
     "redux": "^5.0.1",
     "redux-storage": "^4.1.2",

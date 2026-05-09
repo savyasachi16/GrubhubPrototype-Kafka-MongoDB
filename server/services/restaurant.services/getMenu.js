@@ -1,5 +1,5 @@
-import Restaurants from "../../models/restaurant";
-import Dishes from "../../models/dish";
+import Restaurants from "../../models/restaurant.js";
+import Dishes from "../../models/dish.js";
 import _ from "lodash";
 
 const handle_request = async (restaurant_id, callback) => {

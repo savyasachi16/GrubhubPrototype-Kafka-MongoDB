@@ -1,8 +1,8 @@
-import Restaurants from "../../models/restaurant";
-import Dishes from "../../models/dish";
+import Restaurants from "../../models/restaurant.js";
+import Dishes from "../../models/dish.js";
 import _ from "lodash";
 import mongoose from "mongoose"
-import * as getRestaurantMenu from "./getMenu"
+import * as getRestaurantMenu from "./getMenu.js"
 
 const handle_request = async (section, callback) => {
     if (!section.dishes || !section.dishes.length) {

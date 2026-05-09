@@ -1,5 +1,5 @@
-import Users from "../../models/user"
-import * as updateRestaurant from '../restaurant.services/update'
+import Users from "../../models/user.js"
+import * as updateRestaurant from '../restaurant.services/update.js'
 
 const handle_request = async (userDetails, callback) => {
     let user = await Users.findOne({

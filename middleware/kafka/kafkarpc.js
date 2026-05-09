@@ -1,10 +1,10 @@
-var crypto = require('crypto');
-var conn = require('./connection');
+var crypto = import 'crypto';
+var conn = import './connection.js';
 
 var TIMEOUT = 80000; //time to wait for response in ms
 var self;
 
-exports = module.exports = KafkaRPC;
+exports = export default KafkaRPC;
 
 function KafkaRPC() {
     self = this;

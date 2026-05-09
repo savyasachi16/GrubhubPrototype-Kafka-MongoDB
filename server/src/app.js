@@ -1,29 +1,29 @@
-import connection from '../kafka/connection'
+import connection from '../kafka/connection.js'
 import mongoose from 'mongoose'
 //topics files
-const Register = require('../services/user.services/register')
-const Login = require('../services/user.services/login')
-const GetUser = require('../services/user.services/get')
-const UpdateUser = require('../services/user.services/update')
+import Register from '../services/user.services/register.js';
+import Login from '../services/user.services/login.js';
+import GetUser from '../services/user.services/get.js';
+import UpdateUser from '../services/user.services/update.js';
 
-const GetRestaurant = require('../services/restaurant.services/get')
-const GetMenu = require('../services/restaurant.services/getMenu')
-const GetRestaurantDetails = require('../services/restaurant.services/getDetails')
-const UpdateSection = require('../services/restaurant.services/updateSection')
-const DeleteSection = require('../services/restaurant.services/deleteSection')
+import GetRestaurant from '../services/restaurant.services/get.js';
+import GetMenu from '../services/restaurant.services/getMenu.js';
+import GetRestaurantDetails from '../services/restaurant.services/getDetails.js';
+import UpdateSection from '../services/restaurant.services/updateSection.js';
+import DeleteSection from '../services/restaurant.services/deleteSection.js';
 
-const AddDish = require('../services/dish.services/add')
-const DeleteDish = require('../services/dish.services/delete')
-const GetDishDetails = require('../services/dish.services/getDetails')
-const UpdateDish = require('../services/dish.services/update')
-const Search = require('../services/dish.services/search')
+import AddDish from '../services/dish.services/add.js';
+import DeleteDish from '../services/dish.services/delete.js';
+import GetDishDetails from '../services/dish.services/getDetails.js';
+import UpdateDish from '../services/dish.services/update.js';
+import Search from '../services/dish.services/search.js';
 
-const GetOrdersByRestaurant = require('../services/order.services/getOrdersByRestaurant')
-const UpdateOrder = require('../services/order.services/updateOrder')
-const GetOrderDetails = require('../services/order.services/getOrderDetails')
-const GetOrdersByBuyer = require('../services/order.services/getOrdersByBuyer')
-const ConfirmOrder = require('../services/order.services/createOrder')
-const PushMessage = require('../services/order.services/updateMessages')
+import GetOrdersByRestaurant from '../services/order.services/getOrdersByRestaurant.js';
+import UpdateOrder from '../services/order.services/updateOrder.js';
+import GetOrderDetails from '../services/order.services/getOrderDetails.js';
+import GetOrdersByBuyer from '../services/order.services/getOrdersByBuyer.js';
+import ConfirmOrder from '../services/order.services/createOrder.js';
+import PushMessage from '../services/order.services/updateMessages.js';
 
 //MongoDB Connection
 mongoose.connect('mongodb+srv://root:root1234@grubhubcluster-7frcc.mongodb.net/test?retryWrites=true&w=majority', {
