@@ -1,70 +1,43 @@
-# Grubhub Prototype with Kafka and MongoDB
+# Grubhub-Kafka-MongoDB
 
-This a prototype of Grubhub.com built using MongoDB, Kafka Messaging Queues, React.js, Express.js and Node.js.
-The prototype is built as a lab requirement for Enterprise Distributed Systems (CMPE - 273) class at San Jose State University, under professor Simon Shim.
+A distributed restaurant platform prototype leveraging Apache Kafka for message brokering and MongoDB for scalable storage.
+
+## Stack
+
+<a href="https://react.dev"><img src="https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=000" alt="React" /></a>
+<a href="https://vite.dev"><img src="https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white" alt="Vite" /></a>
+<a href="https://kafka.apache.org"><img src="https://img.shields.io/badge/Apache_Kafka-231F20?style=flat&logo=apachekafka&logoColor=white" alt="Kafka" /></a>
+<a href="https://www.mongodb.com"><img src="https://img.shields.io/badge/MongoDB-47A248?style=flat&logo=mongodb&logoColor=white" alt="MongoDB" /></a>
+<a href="https://www.docker.com"><img src="https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white" alt="Docker" /></a>
+
+## Architecture
+
+- **Client**: Modern React frontend with Vite.
+- **Middleware**: Kafka Producer & Express API.
+- **Server**: Kafka Consumer & MongoDB Handler.
+- **Infrastructure**: Containerized Kafka, Zookeeper, and MongoDB.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-
 ### Prerequisites
 
-You will need Node.js installed on your machine.
+- Node.js (v20+)
+- Docker & Docker Compose
 
-To install Node.js on Mac:
-```
-brew install nodejs
-```
+### Installation
 
-To install Node.js on Linux:
-```
-brew install nodejs
-```
+1. Clone the repository.
+2. Spin up the infrastructure:
+   ```bash
+   docker-compose up -d
+   ```
+3. Install dependencies:
+   ```bash
+   npm install --legacy-peer-deps
+   ```
 
-### Installing
+### Running the System
 
-Clone the contents of the Git repository to your local:
-```
-git clone https://github.com/savyasachi16/Grubhub-Prototype.git
-```
-
-Go into the client directory and run the following command:
-```
-npm install
-```
-Go into the middlerware directory and run the following command:
-```
-npm install
-```
-Go into the server directory and run the following command:
-```
-npm install
-```
-
-First, initialize Zookeper and Kafka by going into the Kafka directory and running the following commands:
-```
-bin/zookeeper-server-start.sh config/zookeeper.properties
-```
-```
-bin/kafka-server-start.sh config/server.properties
-```
-
-To run the client, go into the client directory and run the following command:
-```
-npm start
-```
-To run the middleware, go into the middleware directory and run the following command:
-```
-npm start
-```
-To run the server, go into the server directory and run the following command:
-```
-npm start
-```
-
-To use the application, visit the following url from your browser:
-http://localhost:3001/
-
-## License
-
-This project is licensed under the MIT License.
+- **Start Middleware**: `npm run start:middleware`
+- **Start Server**: `npm run start:server`
+- **Start Client**: `npm run start:client`
